@@ -11,7 +11,6 @@ export const AgileManifestoAuthorNamesAsList = (
       {props.content.map((author, idx) => (
         <li key={`nLI${idx}`}>{`${author}`}</li>
       ))}
-      <li></li>
     </ul>
   );
 };

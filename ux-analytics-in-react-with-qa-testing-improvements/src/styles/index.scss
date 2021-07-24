@@ -30,16 +30,48 @@ code {
 }
 
 .small-latin-chars {
-  font-size: x-small;
+  font-size: xx-small;
   writing-mode: horizontal-tb;
-  text-orientation: upright;
-  order: -1;
+  text-orientation: sideways;
+  overflow: auto;
 }
 
 .top-to-bottom-chars {
-  text-orientation: upright;
-  writing-mode: vertical-lr;
   &.manifesto {
-    flex-direction: column;
+    flex-direction: row;
+    min-height: 30vh;
+    flex-wrap: wrap;
+    .small-latin-chars {
+      overflow: hidden;
+      writing-mode: horizontal-tb;
+      text-orientation: sideways;
+    }
+    ul {
+      overflow: visible;
+    }
+    h1,
+    p {
+      margin: 0;
+    }
+    > * {
+      text-orientation: upright;
+      writing-mode: vertical-lr;
+      flex: 1;
+    }
+    > :nth-child(1) {
+      flex: 3 3 30%;
+    }
+    > :nth-child(2) {
+      flex: 3 3 30%;
+    }
+    > :nth-child(3) {
+      flex: 3 3 30%;
+    }
+    > :nth-child(4) {
+      flex: 6 2 50%;
+    }
+    > :nth-child(5) {
+      flex: 1 1 5%;
+    }
   }
 }

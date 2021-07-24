@@ -17,7 +17,6 @@ export const AgileManifestoValueProclamationsAsList = (
           <span>{valueProclamation.lowerValuePart}</span>
         </li>
       ))}
-      <li></li>
     </ul>
   );
 };

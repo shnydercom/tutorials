@@ -5,11 +5,12 @@
     flex-direction: column;
     padding: 58px;
     max-height: 15vh;
-    overflow: hidden;
+    overflow: auto;
     margin: 0;
   }
   & li {
     list-style-type: none;
+    padding: 8px;
   }
 }
 
