@@ -1,0 +1,26 @@
+.manifesto {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 58px;
+    max-height: 15vh;
+    overflow: hidden;
+    margin: 0;
+  }
+  & li {
+    list-style-type: none;
+  }
+}
+
+.manifesto.dense {
+  ul {
+    overflow: auto;
+    max-height: unset;
+  }
+  li {
+    list-style-type: none;
+    display: inline-block;
+    padding: 8px;
+  }
+}

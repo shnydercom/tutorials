@@ -1,9 +1,27 @@
+@import "./colors.scss";
 .App {
   text-align: center;
+  background-color: #8c97ad;
+  color: white;
+  > :nth-child(2) {
+    background-color: $bgturqoise;
+  }
+  > :nth-child(3) {
+    background-color: $bggreen;
+  }
+  > :nth-child(4) {
+    background-color: $bgyellow;
+  }
+  > :nth-child(5) {
+    background-color: $bgred;
+  }
+  > :nth-child(6) {
+    background-color: $bgblue;
+  }
 }
 
 .App-logo {
-  height: 10vmin;
+  height: 32px;
   pointer-events: none;
 }
 
@@ -17,10 +35,10 @@
   background-color: #282c34;
   min-height: 10vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: medium;
   color: white;
 }
 

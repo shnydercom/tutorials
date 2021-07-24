@@ -1,0 +1,21 @@
+.cards-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  @media screen and (max-width: 768px) {
+      height: unset;
+  }
+}
+
+.transparent-card {
+  background: $bg1;
+  padding: 16px;
+  margin: 8px;
+  border-radius: 8px;
+  min-width: 100px;
+}
+
+.elevated-text {
+  font-size: x-large;
+}
