@@ -3,6 +3,8 @@
 @import "./list.scss";
 @import "./display.scss";
 @import "./transparent-cards.scss";
+@import "./semantic-elements.scss";
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -36,7 +38,10 @@ code {
   overflow: auto;
 }
 
-.top-to-bottom-chars {
+/**
+  * part that displays characters top to bottom, e.g. for Chinese characters
+**/
+.ttb {
   &.manifesto {
     flex-direction: row;
     min-height: 30vh;
