@@ -16,16 +16,17 @@ function App() {
     <div className="App">
       <CRAAppHeader />
       <AgileManifestoDisplay content={EN} />
-      <DividerHR onVisibilityChanged={onHRVisible} />
+      <DividerHR onVisibilityChanged={onHRVisible} elementId="end-of-english" />
       <AgileManifestoDisplay content={ZH} isDense={true} className="ttb" />
-      <DividerHR onVisibilityChanged={onHRVisible} />
+      <DividerHR onVisibilityChanged={onHRVisible} elementId="end-of-chinese" />
       <AgileManifestoDisplay content={ES} />
-      <DividerHR onVisibilityChanged={onHRVisible} />
+      <DividerHR onVisibilityChanged={onHRVisible} elementId="end-of-spanish" />
       <AgileManifestoDisplay content={FR} />
-      <DividerHR onVisibilityChanged={onHRVisible} />
+      <DividerHR onVisibilityChanged={onHRVisible} elementId="end-of-french" />
       <AgileManifestoDisplay content={DE} isDense={true} />
-      <DividerHR onVisibilityChanged={onHRVisible} />
+      <DividerHR onVisibilityChanged={onHRVisible} elementId="end-of-german" />
       <button
+        data-qa-id="the-end-button"
         onClick={(e) =>
           logDOMevent("on_click", e.currentTarget.value, e.currentTarget)
         }
