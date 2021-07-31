@@ -1,5 +1,5 @@
 import { UXEvent, UX_SOURCE_UNKNOWN, UXEventTypes } from "./UXEventInterfaces";
-const LOG_URL_DEFAULT: string = "/api/log";
+export const LOG_URL_DEFAULT: string = "/api/log";
 
 /**
  * logs a client-event to the server
