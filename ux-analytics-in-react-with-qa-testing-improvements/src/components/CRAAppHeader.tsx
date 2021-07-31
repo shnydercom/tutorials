@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import logo from "./../logo.svg";
 export const CRAAppHeader = () => {
   return (
@@ -15,6 +16,22 @@ export const CRAAppHeader = () => {
       >
         Learn React
       </a>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/userpage">For the Users</Link>
+          </li>
+          <li>
+            <Link to="/analytics">For Data Nerds</Link>
+          </li>
+          <li>
+            <Link to="/mixed">For the Product Team</Link>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 };
