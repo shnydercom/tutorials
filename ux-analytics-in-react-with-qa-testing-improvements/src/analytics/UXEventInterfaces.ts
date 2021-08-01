@@ -8,6 +8,7 @@ export interface UXEvent {
 
 export interface PastUXEvent extends UXEvent {
 	timeStamp: Date;
+	sessionID: string;
 }
 
 export const UX_SOURCE_UNKNOWN = "source_unknown";

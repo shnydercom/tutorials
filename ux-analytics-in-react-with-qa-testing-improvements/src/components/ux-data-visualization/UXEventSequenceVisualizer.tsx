@@ -1,5 +1,5 @@
 import { PastUXEvent } from "../../analytics/UXEventInterfaces";
-import HorizontalEventTimeline from "./Example";
+import { HorizontalEventTimeline } from "./HorizontalEventTimeline";
 
 export interface UXEventSequenceVisualizerProps {
   pastUXEvents: PastUXEvent[];
@@ -8,6 +8,5 @@ export interface UXEventSequenceVisualizerProps {
 export const UXEventSequenceVisualizer = (
   props: UXEventSequenceVisualizerProps
 ) => {
-    
-  return <HorizontalEventTimeline height={500} width={500} />;
+  return <HorizontalEventTimeline pastUXEvents={props.pastUXEvents} />;
 };
