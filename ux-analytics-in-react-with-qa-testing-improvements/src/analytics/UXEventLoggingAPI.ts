@@ -1,4 +1,4 @@
-import { UXEvent, UX_SOURCE_UNKNOWN, UXEventTypes } from "./UXEventInterfaces";
+import { UXEvent, UX_SOURCE_UNKNOWN, UXEventType } from "./UXEventInterfaces";
 export const LOG_URL_DEFAULT: string = "/api/log";
 
 /**
@@ -21,7 +21,7 @@ export function logBeacon<T>(data: T, logUrl?: string) {
  * @param logUrl the API endpoint on the server where the UXEvent is sent to, defaults to `/api/log`
  */
 export function logDOMevent(
-  eventType: UXEventTypes,
+  eventType: UXEventType,
   eventValue: string,
   eTarget?: Element,
   logUrl?: string

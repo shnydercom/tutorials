@@ -4,7 +4,7 @@ import { AGILE_MANIFESTO_ZH as ZH } from "./../data/agileManifestoZH";
 import { AGILE_MANIFESTO_ES as ES } from "./../data/agileManifestoES";
 import { AGILE_MANIFESTO_FR as FR } from "./../data/agileManifestoFR";
 import { AGILE_MANIFESTO_DE as DE } from "./../data/agileManifestoDE";
-import { logDOMevent } from "./../analytics/UXEventLogging";
+import { logDOMevent } from "../analytics/UXEventLoggingAPI";
 import { DividerHR } from "./../components/semantic-html/DividerHR";
 
 function UserPage() {

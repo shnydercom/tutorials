@@ -1,5 +1,5 @@
 var sqlite3 = require("sqlite3").verbose();
-var db = new sqlite3.Database(":memory:");
+var db = new sqlite3.Database("./yourUXdatabase.sql"); // you can pass ":memory:" if you don't want to save to disk or "./yourUXdatabase.sql"
 
 // this is the table name where the UX events are stored. You can change it, the below code will pick this up
 const UX_EVENTS_TABLE_NAME = "uxevents";
@@ -21,7 +21,9 @@ const UX_EVENTS_COLUMN_MAP = {
 
 function setupUXEventsTable() {
   db.run(
-    `CREATE TABLE ${UX_EVENTS_TABLE_NAME} (${Object.keys(UX_EVENTS_COLUMN_MAP)
+    `CREATE TABLE IF NOT EXISTS ${UX_EVENTS_TABLE_NAME} (${Object.keys(
+      UX_EVENTS_COLUMN_MAP
+    )
       .map((cKey) => {
         return `${cKey} ${UX_EVENTS_COLUMN_MAP[cKey]}`;
       })
@@ -42,9 +44,9 @@ function saveUXEvent(uxEvent) {
 }
 
 function filterAllByColumn(column, filterValue) {
-  if (!column || !filterValue)
-    return Promise.reject("column or filterValue need to be specified");
-  const query = `SELECT * FROM ${UX_EVENTS_TABLE_NAME} WHERE ${column} = '${filterValue}'`;
+  let query = `SELECT * FROM ${UX_EVENTS_TABLE_NAME}`;
+  if (column && filterValue)
+    query = `SELECT * FROM ${UX_EVENTS_TABLE_NAME} WHERE ${column} = '${filterValue}'`;
   return new Promise(function (resolve, reject) {
     db.all(query, function (err, rows) {
       if (err) {

@@ -37,10 +37,6 @@ module.exports = function (app) {
    * */
   app.get("/api/log", function (req, res) {
     const column = Object.keys(req.query)[0];
-    if(!column) {
-      res.status(400).send("you did not specify search parameters in URL query parameters");
-      return;
-    }
     const filterValue = req.query[column];
     sqliteDBaccess.filterAllByColumn(column, filterValue).then(
       (queryResult) => {
