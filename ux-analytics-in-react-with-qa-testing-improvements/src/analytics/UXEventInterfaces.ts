@@ -7,7 +7,7 @@ export interface UXEvent {
 }
 
 export interface PastUXEvent extends UXEvent {
-	timeStamp: Date;
+	timeStamp: number;
 	sessionID: string;
 }
 
