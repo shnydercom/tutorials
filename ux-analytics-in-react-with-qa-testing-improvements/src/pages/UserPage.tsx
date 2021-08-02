@@ -29,7 +29,7 @@ function UserPage() {
           logDOMevent("on_click", e.currentTarget.value, e.currentTarget)
         }
       >
-        This clickable element marks the end.
+        <strong>This clickable element marks the end.</strong>
       </button>
     </div>
   );
