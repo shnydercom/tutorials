@@ -6,6 +6,8 @@ import { BarStackHorizontal } from "@visx/shape";
 import { SeriesPoint } from "@visx/shape/lib/types";
 import { defaultStyles, Tooltip, withTooltip } from "@visx/tooltip";
 import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
+import { ScaleLinear, ScaleBand } from "d3-scale";
+import { useEffect, useState } from "react";
 import {
   PastUXEvent,
   UXEventType,
@@ -42,10 +44,16 @@ interface TooltipData {
 
 interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent {}
 
+interface ChartScales {
+  timeScale: ScaleLinear<number, number, never>;
+  sIDScale: ScaleBand<string>;
+  relativeTimeMax: number;
+}
+
 export const DEFAULT_STYLING: HorizontalEventTimelineStyling = {
   width: 500,
   height: 500,
-  backgroundColor: "#eaedff",
+  backgroundColor: "#fff",
   borderRadius: 16,
   axisColor: "black",
   margin: {
@@ -58,8 +66,9 @@ export const DEFAULT_STYLING: HorizontalEventTimelineStyling = {
 
 const SCALE_BASE = 1 / 1000;
 
-const COLOR_EVENT = "#6c5efb";
-
+const formatDate = (date: Date) => {
+  return date.toISOString();
+};
 const formatSessionID = (pastUXEvent: PastUXEvent) => {
   return pastUXEvent.sessionID.slice(0, 3);
 };
@@ -80,7 +89,9 @@ function modifySeriesBy(
   });
 }
 
-function createRelativeScalesFromEventSeries(eventSeries: PastUXEvent[]) {
+function createRelativeScalesFromEventSeries(
+  eventSeries: PastUXEvent[]
+): ChartScales {
   const relativeTimeMax = Math.max(
     ...eventSeries.map((pUXe) => pUXe.relativeTime)
   );
@@ -99,7 +110,7 @@ function createRelativeScalesFromEventSeries(eventSeries: PastUXEvent[]) {
   };
 }
 
-const eventTypeColors = [COLOR_EVENT, "#ff0000"];
+const eventTypeColors = ["#4d6aa0", "#c10a0a"];
 
 const colorScale = scaleOrdinal<UXEventType, string>({
   domain: UXEventTypeKeys,
@@ -108,8 +119,8 @@ const colorScale = scaleOrdinal<UXEventType, string>({
 
 function createLinearGradients(color: string, colorName: UXEventType) {
   return (
-    <linearGradient id={colorName}>
-      <stop offset="0%" stopColor={color} stopOpacity="50%" />
+    <linearGradient id={colorName} key={colorName}>
+      <stop offset="0%" stopColor={color} stopOpacity="30%" />
       <stop offset="100%" stopColor={color} stopOpacity="1%" />
       <stop offset="100%" stopColor={color} style={{ stopOpacity: 0 }} />
     </linearGradient>
@@ -135,17 +146,21 @@ export const HorizontalEventTimeline = withTooltip<
     const _styling = styling ? styling : DEFAULT_STYLING;
     const xMax = _styling.width - _styling.margin.left - _styling.margin.right;
     const yMax = _styling.height - _styling.margin.top - _styling.margin.bottom;
-
     const eventWidth = xMax / 100;
 
-    // create a deep copy of the data to relativize the timeStamps
-    const data = JSON.parse(JSON.stringify(pastUXEvents));
+    const [data, setPastUXEventsKeyed] = useState<PastUXEventKeyed[]>([]);
+    const [scales, setScales] = useState<ChartScales | undefined>(undefined);
+    useEffect(() => {
+      // create a deep copy of the data to relativize the timeStamps
+      const pastUXEventsKeyed = JSON.parse(JSON.stringify(pastUXEvents));
+      const _scales = createRelativeScalesFromEventSeries(pastUXEventsKeyed);
+      modifySeriesBy(pastUXEventsKeyed, 0, SCALE_BASE, UXEventTypeKeys);
+      _scales.timeScale.rangeRound([0, xMax]);
+      _scales.sIDScale.rangeRound([yMax, 0]);
+      setScales(_scales);
+      setPastUXEventsKeyed(pastUXEventsKeyed);
+    }, [pastUXEvents]);
 
-    const scales = createRelativeScalesFromEventSeries(data);
-    modifySeriesBy(data, 0, SCALE_BASE, UXEventTypeKeys);
-
-    scales.timeScale.rangeRound([0, xMax]);
-    scales.sIDScale.rangeRound([yMax, 0]);
     return (
       <div>
         <svg
@@ -155,7 +170,9 @@ export const HorizontalEventTimeline = withTooltip<
           height={_styling.height}
         >
           <defs>
-            {eventTypeColors.map((color, idx) => createLinearGradients(color, UXEventTypeKeys[idx]))}
+            {eventTypeColors.map((color, idx) =>
+              createLinearGradients(color, UXEventTypeKeys[idx])
+            )}
           </defs>
           <rect
             width={_styling.width}
@@ -163,72 +180,82 @@ export const HorizontalEventTimeline = withTooltip<
             fill={_styling.backgroundColor}
             rx={14}
           />
-          <Group top={_styling.margin.top} left={_styling.margin.left}>
-            <BarStackHorizontal<PastUXEventKeyed, UXEventType>
-              data={data}
-              keys={UXEventTypeKeys}
-              height={yMax}
-              y={formatSessionID}
-              x={chartKey}
-              xScale={scales.timeScale}
-              yScale={scales.sIDScale}
-              color={colorScale}
-            >
-              {(barStacks) =>
-                barStacks.map((barStack) =>
-                  barStack.bars.map((bar) => (
-                    <rect
-                      key={`barstack-horizontal-${barStack.index}-${bar.index}`}
-                      x={bar.width}
-                      y={bar.y}
-                      width={eventWidth}
-                      height={bar.height}
-                      fill={`url('#${data[bar.index].eventType}')` /*bar.color*/}
-                      onMouseLeave={() => {
-                        tooltipTimeout = window.setTimeout(() => {
-                          hideTooltip();
-                        }, 300);
-                      }}
-                      onMouseMove={() => {
-                        if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                        const top = bar.y + _styling.margin.top;
-                        const left = bar.x + bar.width + _styling.margin.left;
-                        showTooltip({
-                          tooltipData: bar,
-                          tooltipTop: top,
-                          tooltipLeft: left,
-                        });
-                      }}
-                    />
-                  ))
-                )
-              }
-            </BarStackHorizontal>
-            <AxisLeft
-              hideAxisLine
-              hideTicks
-              scale={scales.sIDScale}
-              stroke={_styling.axisColor}
-              tickStroke={_styling.axisColor}
-              tickLabelProps={() => ({
-                fill: _styling.axisColor,
-                fontSize: 11,
-                textAnchor: "end",
-                dy: "0.33em",
-              })}
-            />
-            <AxisBottom
-              top={yMax}
-              scale={scales.timeScale}
-              stroke={_styling.axisColor}
-              tickStroke={_styling.axisColor}
-              tickLabelProps={() => ({
-                fill: _styling.axisColor,
-                fontSize: 11,
-                textAnchor: "middle",
-              })}
-            />
-          </Group>
+          {scales && (
+            <Group top={_styling.margin.top} left={_styling.margin.left}>
+              <BarStackHorizontal<PastUXEventKeyed, UXEventType>
+                data={data}
+                keys={UXEventTypeKeys}
+                height={yMax}
+                y={formatSessionID}
+                x={chartKey}
+                xScale={scales.timeScale}
+                yScale={scales.sIDScale}
+                color={colorScale}
+              >
+                {(barStacks) =>
+                  barStacks.map((barStack) =>
+                    barStack.bars.map((bar) => {
+                      const elEvType = data[bar.index].eventType;
+                      if (elEvType !== bar.key) return null;
+                      return (
+                        <rect
+                          key={`barstack-horizontal-${barStack.index}-${bar.index}`}
+                          x={bar.width}
+                          y={bar.y}
+                          width={eventWidth}
+                          height={bar.height}
+                          fill={`url('#${elEvType}')` /*bar.color*/}
+                          onMouseLeave={() => {
+                            tooltipTimeout = window.setTimeout(() => {
+                              hideTooltip();
+                            }, 300);
+                          }}
+                          onMouseMove={() => {
+                            if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                            const top = bar.y + _styling.margin.top;
+                            const left =
+                              bar.x +
+                              bar.width +
+                              _styling.margin.left +
+                              eventWidth;
+                            showTooltip({
+                              tooltipData: bar,
+                              tooltipTop: top,
+                              tooltipLeft: left,
+                            });
+                          }}
+                        />
+                      );
+                    })
+                  )
+                }
+              </BarStackHorizontal>
+              <AxisLeft
+                hideAxisLine
+                hideTicks
+                scale={scales.sIDScale}
+                stroke={_styling.axisColor}
+                tickStroke={_styling.axisColor}
+                tickLabelProps={() => ({
+                  fill: _styling.axisColor,
+                  fontSize: 11,
+                  textAnchor: "end",
+                  dy: "0.33em",
+                })}
+              />
+              <AxisBottom
+                top={yMax}
+                scale={scales.timeScale}
+                stroke={_styling.axisColor}
+                tickStroke={_styling.axisColor}
+                tickLabelProps={() => ({
+                  fill: _styling.axisColor,
+                  fontSize: 11,
+                  textAnchor: "middle",
+                })}
+              />
+            </Group>
+          )}
         </svg>
         <div
           style={{
@@ -249,14 +276,25 @@ export const HorizontalEventTimeline = withTooltip<
         {tooltipOpen && tooltipData && (
           <Tooltip top={tooltipTop} left={tooltipLeft} style={defaultStyles}>
             <div style={{ color: colorScale(tooltipData.key) }}>
-              <strong>{tooltipData.key}</strong>
+              <strong>Event Type: {tooltipData.key}</strong>
             </div>
-            {/*
-            <div>{tooltipData.bar.data[tooltipData.key]}℉</div>
+            <div>Element ID: {tooltipData.bar.data.sourceID}</div>
+            {tooltipData.bar.data.eventValue && (
+              <div>Event Value: {tooltipData.bar.data.eventValue}</div>
+            )}
+            <div>Session ID: {tooltipData.bar.data.sessionID}</div>
             <div>
-              <small>{formatDate(getDate(tooltipData.bar.data))}</small>
+              <small>
+                Time after 1st event:{" "}
+                {(tooltipData.bar.data.relativeTime * SCALE_BASE).toFixed(3)}s
+              </small>
             </div>
-            */}
+            <div>
+              <small>
+                Date and Time of event:{" "}
+                {formatDate(new Date(tooltipData.bar.data.timeStamp))}
+              </small>
+            </div>
           </Tooltip>
         )}
       </div>
