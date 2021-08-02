@@ -17,6 +17,9 @@ const UX_EVENTS_COLUMN_MAP = {
   sessionID: "TEXT",
 };
 
+// this query calculates the time relative to the first event of the session
+const SQL_GET_RELATIVE_AND_MIN_TIME = `SELECT sourceID, eventType, eventValue, timeStamp, "${UX_EVENTS_TABLE_NAME}".sessionID, firstEventTimeStamp, timestamp - firstEventTimeStamp as relativeTime from "${UX_EVENTS_TABLE_NAME}" INNER JOIN (SELECT Distinct sessionID, min(timestamp) as firstEventTimeStamp from "${UX_EVENTS_TABLE_NAME}" group by sessionID) as tableMin ON tableMin.sessionID = "${UX_EVENTS_TABLE_NAME}".sessionID`;
+
 // all functions below take the above configuration to create statements, no modifications should be needed
 
 function setupUXEventsTable() {
@@ -44,9 +47,9 @@ function saveUXEvent(uxEvent) {
 }
 
 function filterAllByColumn(column, filterValue) {
-  let query = `SELECT * FROM ${UX_EVENTS_TABLE_NAME}`;
+  let query = `SELECT * FROM (${SQL_GET_RELATIVE_AND_MIN_TIME})`;
   if (column && filterValue)
-    query = `SELECT * FROM ${UX_EVENTS_TABLE_NAME} WHERE ${column} = '${filterValue}'`;
+    query = `SELECT * FROM (${SQL_GET_RELATIVE_AND_MIN_TIME}) WHERE ${column} = '${filterValue}'`;
   return new Promise(function (resolve, reject) {
     db.all(query, function (err, rows) {
       if (err) {

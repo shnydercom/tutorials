@@ -8,6 +8,8 @@ import { defaultStyles, Tooltip, withTooltip } from "@visx/tooltip";
 import { WithTooltipProvidedProps } from "@visx/tooltip/lib/enhancers/withTooltip";
 import {
   PastUXEvent,
+  UXEventType,
+  UXEventTypeKeys,
 } from "../../analytics/UXEventInterfaces";
 
 type ChartKey = "relativeTime";
@@ -28,8 +30,8 @@ interface HorizontalEventTimelineStyling {
 }
 
 interface TooltipData {
-  bar: SeriesPoint<PastUXEvent>;
-  key: ChartKey;
+  bar: SeriesPoint<PastUXEventKeyed>;
+  key: UXEventType;
   index: number;
   height: number;
   width: number;
@@ -38,9 +40,7 @@ interface TooltipData {
   color: string;
 }
 
-interface PastUXEventRelative extends PastUXEvent {
-  relativeTime: number;
-}
+interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent {}
 
 export const DEFAULT_STYLING: HorizontalEventTimelineStyling = {
   width: 500,
@@ -56,28 +56,34 @@ export const DEFAULT_STYLING: HorizontalEventTimelineStyling = {
   },
 };
 
-const SCALE_BASE = 1/1000;
+const SCALE_BASE = 1 / 1000;
+
+const COLOR_EVENT = "#6c5efb";
 
 const formatSessionID = (pastUXEvent: PastUXEvent) => {
   return pastUXEvent.sessionID.slice(0, 3);
 };
 
-function relativizeTimeBy(eventSeries: PastUXEvent[], timeOffset: number){
+function modifySeriesBy(
+  eventSeries: PastUXEvent[],
+  timeOffset: number,
+  timeScaleFactor: number,
+  explicitEventTypes: UXEventType[]
+) {
   eventSeries.forEach((pUXe) => {
-    console.log(timeOffset);
-    (pUXe as PastUXEventRelative).relativeTime = (pUXe.timeStamp - timeOffset) * SCALE_BASE;
+    explicitEventTypes.forEach((evType) => {
+      if (pUXe.eventType === evType) {
+        (pUXe as PastUXEventKeyed)[evType] =
+          (pUXe.relativeTime + timeOffset) * timeScaleFactor;
+      }
+    });
   });
 }
 
 function createRelativeScalesFromEventSeries(eventSeries: PastUXEvent[]) {
-  const absoluteTimeMin = Math.min(
-    ...eventSeries.map((pUXe) => pUXe.timeStamp)
+  const relativeTimeMax = Math.max(
+    ...eventSeries.map((pUXe) => pUXe.relativeTime)
   );
-  const absoluteTimeMax = Math.max(
-    ...eventSeries.map((pUXe) => pUXe.timeStamp)
-  );
-
-  const relativeTimeMax = absoluteTimeMax - absoluteTimeMin;
   const timeScale = scaleLinear<number>({
     domain: [0, relativeTimeMax * SCALE_BASE],
     nice: true,
@@ -89,15 +95,26 @@ function createRelativeScalesFromEventSeries(eventSeries: PastUXEvent[]) {
   return {
     timeScale,
     sIDScale,
-    absoluteTimeMin,
-    absoluteTimeMax,
     relativeTimeMax,
   };
 }
-const colorScale = scaleOrdinal<ChartKey, string>({
-  domain: [chartKey],
-  range: ["#6c5efb"],
+
+const eventTypeColors = [COLOR_EVENT, "#ff0000"];
+
+const colorScale = scaleOrdinal<UXEventType, string>({
+  domain: UXEventTypeKeys,
+  range: eventTypeColors,
 });
+
+function createLinearGradients(color: string, colorName: UXEventType) {
+  return (
+    <linearGradient id={colorName}>
+      <stop offset="0%" stopColor={color} stopOpacity="50%" />
+      <stop offset="100%" stopColor={color} stopOpacity="1%" />
+      <stop offset="100%" stopColor={color} style={{ stopOpacity: 0 }} />
+    </linearGradient>
+  );
+}
 
 let tooltipTimeout: number;
 
@@ -119,17 +136,27 @@ export const HorizontalEventTimeline = withTooltip<
     const xMax = _styling.width - _styling.margin.left - _styling.margin.right;
     const yMax = _styling.height - _styling.margin.top - _styling.margin.bottom;
 
+    const eventWidth = xMax / 100;
+
     // create a deep copy of the data to relativize the timeStamps
     const data = JSON.parse(JSON.stringify(pastUXEvents));
 
     const scales = createRelativeScalesFromEventSeries(data);
-    relativizeTimeBy(data, scales.absoluteTimeMin);
+    modifySeriesBy(data, 0, SCALE_BASE, UXEventTypeKeys);
 
     scales.timeScale.rangeRound([0, xMax]);
     scales.sIDScale.rangeRound([yMax, 0]);
     return (
       <div>
-        <svg width={_styling.width} height={_styling.height}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          width={_styling.width}
+          height={_styling.height}
+        >
+          <defs>
+            {eventTypeColors.map((color, idx) => createLinearGradients(color, UXEventTypeKeys[idx]))}
+          </defs>
           <rect
             width={_styling.width}
             height={_styling.height}
@@ -137,12 +164,12 @@ export const HorizontalEventTimeline = withTooltip<
             rx={14}
           />
           <Group top={_styling.margin.top} left={_styling.margin.left}>
-            <BarStackHorizontal<PastUXEvent, ChartKey>
+            <BarStackHorizontal<PastUXEventKeyed, UXEventType>
               data={data}
-              keys={[chartKey]}
+              keys={UXEventTypeKeys}
               height={yMax}
               y={formatSessionID}
-              x="relativeTime"
+              x={chartKey}
               xScale={scales.timeScale}
               yScale={scales.sIDScale}
               color={colorScale}
@@ -152,11 +179,11 @@ export const HorizontalEventTimeline = withTooltip<
                   barStack.bars.map((bar) => (
                     <rect
                       key={`barstack-horizontal-${barStack.index}-${bar.index}`}
-                      x={bar.x}
+                      x={bar.width}
                       y={bar.y}
-                      width={bar.width}
+                      width={eventWidth}
                       height={bar.height}
-                      fill={bar.color}
+                      fill={`url('#${data[bar.index].eventType}')` /*bar.color*/}
                       onMouseLeave={() => {
                         tooltipTimeout = window.setTimeout(() => {
                           hideTooltip();

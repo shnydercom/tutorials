@@ -9,6 +9,8 @@ export interface UXEvent {
 export interface PastUXEvent extends UXEvent {
 	timeStamp: number;
 	sessionID: string;
+	relativeTime: number;
+	firstEventTimeStamp: number;
 }
 
 export const UX_SOURCE_UNKNOWN = "source_unknown";
