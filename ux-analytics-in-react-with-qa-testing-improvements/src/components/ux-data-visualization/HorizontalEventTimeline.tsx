@@ -42,7 +42,7 @@ interface TooltipData {
   color: string;
 }
 
-interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent {}
+interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent { }
 
 interface ChartScales {
   timeScale: ScaleLinear<number, number, never>;
@@ -110,7 +110,7 @@ function createRelativeScalesFromEventSeries(
   };
 }
 
-const eventTypeColors = ["#4d6aa0", "#c10a0a", "#5ba04d"];
+const eventTypeColors = ["rgb(4 58 123)", "rgb(228 2 2)", "rgb(7 227 255)"];
 
 const colorScale = scaleOrdinal<UXEventType, string>({
   domain: UXEventTypeKeys,
@@ -260,7 +260,7 @@ export const HorizontalEventTimeline = withTooltip<
         <div
           style={{
             position: "absolute",
-            top: _styling.margin.top / 2 - 10,
+            top: _styling.margin.top / 2 + 10,
             width: "100%",
             display: "flex",
             justifyContent: "center",
@@ -272,6 +272,17 @@ export const HorizontalEventTimeline = withTooltip<
             direction="row"
             labelMargin="0 15px 0 0"
           />
+        </div>
+        <div style={{
+          position: "absolute",
+          bottom: _styling.margin.top / 2 + 20,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "14px",
+        }}
+        >
+          <strong>{"Session Time"}</strong>
         </div>
         {tooltipOpen && tooltipData && (
           <Tooltip top={tooltipTop} left={tooltipLeft} style={defaultStyles}>
