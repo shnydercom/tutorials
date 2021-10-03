@@ -1,4 +1,4 @@
-export type UXEventType = "is_visible_changed_to" | "on_click";
+export type UXEventType = "session_start" | "is_visible_changed_to" | "on_click";
 
 export interface UXEvent {
 	sourceID: string;
@@ -15,4 +15,19 @@ export interface PastUXEvent extends UXEvent {
 
 export const UX_SOURCE_UNKNOWN = "source_unknown";
 
-export const UXEventTypeKeys: UXEventType[] = ["is_visible_changed_to", "on_click"]
+/**
+ * UXEventType is a union type of string literals. This is useful for making switch-case statements exhaustive:
+ * https://www.typescriptlang.org/docs/handbook/2/narrowing.html#exhaustiveness-checking
+ * 
+ * below however, we want to get an exhaustive list of all string literals in the union type. By building a helper
+ * object with the key set to "s in UXEventType", we effectively create an enum-like structure with all the
+ * string literals of UXEventType. When you create or change UXEventType, this helps to keep the 
+ * array in UXEventTypeKeys up-to-date by throwing a typing error
+ */
+const UXEventTypeHelperObj: { [s in UXEventType]: UXEventType } = {
+	"session_start": "session_start",
+	"is_visible_changed_to": "is_visible_changed_to",
+	"on_click": "on_click"
+}
+
+export const UXEventTypeKeys: UXEventType[] = Object.keys(UXEventTypeHelperObj) as UXEventType[]

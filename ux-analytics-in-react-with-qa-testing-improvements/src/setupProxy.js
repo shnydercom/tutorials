@@ -21,6 +21,39 @@ module.exports = function (app) {
       store: memoryStore,
     })
   );
+
+  /**
+   * this is how express middlewares work:
+   * they take in the request and the response object, 
+   * and when the middleware-code is done, they call the next() function
+   * 
+   * express-session doesn't save when the session was created, which is why we'll use
+   * the following code to determine if it's new, and save it as a UX event. Inspired by:
+   * https://stackoverflow.com/a/59493148/1149845
+   * */
+  app.use((req, res, next) => {
+    if (typeof req.session.isNew === "undefined") {
+      req.session.isNew = true;
+      req.session.save(next);
+    } else if (req.session.isNew) {
+      req.session.isNew = false;
+      req.session.save(next);
+      // saving our UX event:
+      const uxEvent = {
+        sourceID: "app_general",
+        eventType: "session_start",
+        eventValue: "new_visit" 
+        // if you implement a more permanent session store and user logins, 
+        // you could use "eventValue" for re-visits of the same user
+      };
+      const timeStamp = Date.now();
+      const sessionID = req.sessionID;
+      sqliteDBaccess.saveUXEvent({ ...uxEvent, timeStamp, sessionID });
+    } else {
+      next();
+    }
+  });
+
   /**
    * sets up the endpoint that handles the `sendBeacon`-call from the client
    * */

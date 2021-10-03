@@ -110,7 +110,7 @@ function createRelativeScalesFromEventSeries(
   };
 }
 
-const eventTypeColors = ["#4d6aa0", "#c10a0a"];
+const eventTypeColors = ["#4d6aa0", "#c10a0a", "#5ba04d"];
 
 const colorScale = scaleOrdinal<UXEventType, string>({
   domain: UXEventTypeKeys,
