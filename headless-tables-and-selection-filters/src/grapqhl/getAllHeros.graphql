@@ -1,0 +1,25 @@
+query getAllHeros {
+  hero {
+    id,
+    __typename,
+    name,
+    friendsConnection {
+      __typename,
+      totalCount,
+      edges {
+        __typename,
+        cursor,
+        node {
+          id,
+          __typename,
+          name
+        }
+      },
+      pageInfo {
+        __typename,
+        startCursor,
+        endCursor
+      }
+    }
+  }
+}
