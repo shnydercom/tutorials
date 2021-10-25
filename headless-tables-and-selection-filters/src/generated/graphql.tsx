@@ -260,9 +260,9 @@ export type SubscriptionReviewAddedArgs = {
   episode?: Maybe<Episode>;
 };
 
-export type GetAllHerosQueryVariables = Exact<{ [key: string]: never }>;
+export type GetJediHeroQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAllHerosQuery = {
+export type GetJediHeroQuery = {
   __typename?: "Query";
   hero?:
     | {
@@ -329,9 +329,9 @@ export type GetAllHerosQuery = {
     | undefined;
 };
 
-export const GetAllHerosDocument = gql`
-  query getAllHeros {
-    hero {
+export const GetJediHeroDocument = gql`
+  query getJediHero {
+    hero(episode: JEDI) {
       id
       __typename
       name
@@ -358,49 +358,49 @@ export const GetAllHerosDocument = gql`
 `;
 
 /**
- * __useGetAllHerosQuery__
+ * __useGetJediHeroQuery__
  *
- * To run a query within a React component, call `useGetAllHerosQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetAllHerosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetJediHeroQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetJediHeroQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetAllHerosQuery({
+ * const { data, loading, error } = useGetJediHeroQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetAllHerosQuery(
+export function useGetJediHeroQuery(
   baseOptions?: Apollo.QueryHookOptions<
-    GetAllHerosQuery,
-    GetAllHerosQueryVariables
+    GetJediHeroQuery,
+    GetJediHeroQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetAllHerosQuery, GetAllHerosQueryVariables>(
-    GetAllHerosDocument,
+  return Apollo.useQuery<GetJediHeroQuery, GetJediHeroQueryVariables>(
+    GetJediHeroDocument,
     options
   );
 }
-export function useGetAllHerosLazyQuery(
+export function useGetJediHeroLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    GetAllHerosQuery,
-    GetAllHerosQueryVariables
+    GetJediHeroQuery,
+    GetJediHeroQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetAllHerosQuery, GetAllHerosQueryVariables>(
-    GetAllHerosDocument,
+  return Apollo.useLazyQuery<GetJediHeroQuery, GetJediHeroQueryVariables>(
+    GetJediHeroDocument,
     options
   );
 }
-export type GetAllHerosQueryHookResult = ReturnType<typeof useGetAllHerosQuery>;
-export type GetAllHerosLazyQueryHookResult = ReturnType<
-  typeof useGetAllHerosLazyQuery
+export type GetJediHeroQueryHookResult = ReturnType<typeof useGetJediHeroQuery>;
+export type GetJediHeroLazyQueryHookResult = ReturnType<
+  typeof useGetJediHeroLazyQuery
 >;
-export type GetAllHerosQueryResult = Apollo.QueryResult<
-  GetAllHerosQuery,
-  GetAllHerosQueryVariables
+export type GetJediHeroQueryResult = Apollo.QueryResult<
+  GetJediHeroQuery,
+  GetJediHeroQueryVariables
 >;

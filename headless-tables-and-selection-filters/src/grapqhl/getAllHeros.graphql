@@ -1,5 +1,5 @@
-query getAllHeros {
-  hero {
+query getJediHero {
+  hero(episode: JEDI) {
     id,
     __typename,
     name,
