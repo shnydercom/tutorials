@@ -9,6 +9,5 @@ export function flattenRelayEdge<TEdge extends RelayEdge, TFlat extends object>(
       ...edge.node,
     } as TFlat;
   }
-  return {
-  } as TFlat;
+  return {} as TFlat;
 }

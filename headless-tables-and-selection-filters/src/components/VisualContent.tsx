@@ -1,18 +1,19 @@
 import React from "react";
 import { GetJediHeroQuery, useGetJediHeroQuery } from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
+import { defaultTablePartFactories } from "./table/flavour/default/DefaultTablePartFactories";
 import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
-import { TableFlavours, TableViewer } from "./table/TableViewer";
+import { TableViewer } from "./table/TableViewer";
 
 export const VisualContent = () => {
   const jediHeroResult = useGetJediHeroQuery();
   // preparing the TableViewerOptions
   const jediTableOptionsMemo = React.useMemo(
     () => ({
-      flavour: "MUI" as TableFlavours,
       rowArrayAccessor: (query: GetJediHeroQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rowTransformation: flattenRelayEdge,
+      tablePartFactories: defaultTablePartFactories,
     }),
     []
   );

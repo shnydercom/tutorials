@@ -22,3 +22,6 @@ https://www.merrickchristensen.com/articles/headless-user-interface-components/
 
 # great library to see the factory-pattern in action
 https://github.com/projectstorm/react-diagrams/blob/master/packages/react-diagrams-defaults/src/node/DefaultNodeFactory.tsx
+
+# Abstract factory of storm-react-diagrams
+https://github.com/projectstorm/react-diagrams/blob/master/packages/react-canvas-core/src/core/AbstractReactFactory.tsx

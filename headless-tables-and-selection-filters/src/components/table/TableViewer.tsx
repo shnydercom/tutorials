@@ -3,17 +3,18 @@ import { DynamicMuiTable } from "./flavour/mui/MuiTable";
 import { dataObjectToColumn } from "./functionality/dataObjectToColumn";
 
 //initialize the known Columns
-import "./knownTableColumnsScript";
+import { initKnownTableColumns } from "./config/initknownTableColumns";
+import { TableViewerOptions } from "./config/interfaces";
+import { SimpleTableLayout } from "./layout/SimpleTableLayout";
 
-export type TableFlavours = "MUI" | "ant";
+//setup config
+initKnownTableColumns(true);
 
-export interface TableViewerOptions<TQueryData, TArrayElem, TRow> {
-  flavour: TableFlavours;
-  rowArrayAccessor: (value: TQueryData) => Array<TArrayElem>;
-  rowTransformation: (input: TArrayElem) => TRow;
-}
-
-export interface TableViewerProps<TQueryData, TArrayElem, TRow> {
+export interface TableViewerProps<
+  TQueryData,
+  TArrayElem,
+  TRow
+> {
   queryData: TQueryData;
   options: TableViewerOptions<TQueryData, TArrayElem, TRow>;
 }
@@ -23,14 +24,18 @@ export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
 ) => JSX.Element = ({ queryData, options }) => {
   // assign the dynamic data handling
   const data = React.useMemo(
-    () => options.rowArrayAccessor(queryData).map(options.rowTransformation),
+    () =>
+      options
+        .rowArrayAccessor(queryData)
+        .map(options.rowTransformation),
     []
   );
   // assign the declarative part
-  const columns = React.useMemo(() => dataObjectToColumn(data[0]), []);
+  const columns = React.useMemo(() => [...dataObjectToColumn(data[0])], []);
   return (
     <div>
       <DynamicMuiTable columns={columns} data={data} />
+      <SimpleTableLayout columns={columns} data={data} factories={options.tablePartFactories}/>
     </div>
   );
 };
