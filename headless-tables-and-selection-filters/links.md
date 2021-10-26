@@ -25,3 +25,7 @@ https://github.com/projectstorm/react-diagrams/blob/master/packages/react-diagra
 
 # Abstract factory of storm-react-diagrams
 https://github.com/projectstorm/react-diagrams/blob/master/packages/react-canvas-core/src/core/AbstractReactFactory.tsx
+
+# setting up types when using other hooks of react-table
+https://github.com/tannerlinsley/react-table/issues/1591
+https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-table/Readme.md

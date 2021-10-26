@@ -1,29 +1,33 @@
 import React from "react";
-import { Column, useTable } from "react-table";
+import { Column, useSortBy, useTable } from "react-table";
 import { AvailableTableFactories } from "../config/interfaces";
 
-export type SimpleTableLayoutProps<TDataObj extends object> = {
+export type SortingTableLayoutProps<TDataObj extends object> = {
   columns: ReadonlyArray<Column<TDataObj>>;
   data: readonly TDataObj[];
   factories: AvailableTableFactories;
 };
 
-export const SimpleTableLayout: <TDataObj extends object>(
-  props: SimpleTableLayoutProps<TDataObj>
+export const SortingTableLayout: <TDataObj extends object>(
+  props: SortingTableLayoutProps<TDataObj>
 ) => JSX.Element = <TDataObj extends object>(
-  props: SimpleTableLayoutProps<TDataObj>
+  props: SortingTableLayoutProps<TDataObj>
 ) => {
   const { columns, data, factories } = props;
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TDataObj>({
-    columns,
-    data,
-  });
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TDataObj>(
+    {
+      columns,
+      data,
+    },
+    useSortBy
+  );
   const Outmost = factories.outmostContainer.generateReactWidget;
   const TableRoot = factories.table.generateReactWidget;
   const TableHead = factories.head.generateReactWidget;
   const TableRow = factories.row.generateReactWidget;
   const TableCell = factories.cell.generateReactWidget;
   const TableBody = factories.body.generateReactWidget;
+  const Test = () => () => <div>bla</div>;
   return (
     <Outmost>
       <TableRoot>
@@ -31,7 +35,10 @@ export const SimpleTableLayout: <TDataObj extends object>(
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <TableCell {...column.getHeaderProps()}>
+                <TableCell
+                  dataObj={column}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                >
                   {column.render("Header")}
                 </TableCell>
               ))}
@@ -45,7 +52,7 @@ export const SimpleTableLayout: <TDataObj extends object>(
               <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
+                    <TableCell {...cell.getCellProps()} dataObj={cell}>
                       {cell.render("Cell")}
                     </TableCell>
                   );
