@@ -1,9 +1,4 @@
-import { DefaultCellContainerFactory } from "../flavour/default/cell/DefaultCellContainer";
 import { defaultTablePartFactories } from "../flavour/default/DefaultTablePartFactories";
-import { DefaultHeadContainerFactory } from "../flavour/default/head/DefaultHeadContainer";
-import { DefaultOutmostContainerFactory } from "../flavour/default/outmost/DefaultOutmostContainer";
-import { DefaultRowContainerFactory } from "../flavour/default/row/DefaultRowContainer";
-import { DefaultTableContainerFactory } from "../flavour/default/table/DefaultTableContainer";
 import { TableViewerOptions } from "./interfaces";
 
 export function createDefaultTableViewerOptions<

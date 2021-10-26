@@ -27,7 +27,6 @@ export const SortingTableLayout: <TDataObj extends object>(
   const TableRow = factories.row.generateReactWidget;
   const TableCell = factories.cell.generateReactWidget;
   const TableBody = factories.body.generateReactWidget;
-  const Test = () => () => <div>bla</div>;
   return (
     <Outmost>
       <TableRoot>

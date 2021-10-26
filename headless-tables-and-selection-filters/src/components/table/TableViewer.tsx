@@ -1,5 +1,4 @@
 import React from "react";
-import { DynamicMuiTable } from "./flavour/mui/MuiTable";
 import { dataObjectToColumn } from "./functionality/dataObjectToColumn";
 
 //initialize the known Columns
@@ -23,10 +22,10 @@ export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
   // assign the dynamic data handling
   const data = React.useMemo(
     () => options.rowArrayAccessor(queryData).map(options.rowTransformation),
-    []
+    [options, queryData]
   );
   // assign the declarative part
-  const columns = React.useMemo(() => [...dataObjectToColumn(data[0])], []);
+  const columns = React.useMemo(() => [...dataObjectToColumn(data[0])], [data]);
   return (
     <table>
       <tbody>

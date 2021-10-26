@@ -1,9 +1,9 @@
 import React from "react";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
-import TableContainer from "@mui/material/TableContainer";
+import MuiTable from "@mui/material/Table";
 
 export const MuiTableContainer = (propsWOChildren: React.PropsWithChildren<{}>) => {
-  return <TableContainer {...propsWOChildren}></TableContainer>;
+  return <MuiTable {...propsWOChildren}></MuiTable>;
 };
 
 export class MuiTableContainerFactory extends AbstractTablePartFactory {

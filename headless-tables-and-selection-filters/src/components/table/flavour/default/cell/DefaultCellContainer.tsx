@@ -1,5 +1,4 @@
 import React from "react";
-import { TableSortByToggleProps, UseSortByColumnProps } from "react-table";
 import { isColumn } from "../../../functionality/typeGuards";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
 
