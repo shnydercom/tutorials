@@ -1,5 +1,6 @@
 import React from "react";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
+import { FactoryFnForBody } from "../../flavourFactoryFunctionTypes";
 
 export const DefaultBodyContainer: (props: {
   children?: React.ReactNode;
@@ -8,11 +9,12 @@ export const DefaultBodyContainer: (props: {
 };
 
 export class DefaultBodyContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TrtAPIObj>(
-    props?: React.PropsWithChildren<TProps> & {
-      rtAPIObj?: TrtAPIObj;
-    }
-  ): JSX.Element {
-    return <DefaultBodyContainer {...props} />;
+  generateWidget: FactoryFnForBody<any> = ({
+    getTableBodyProps,
+    rows,
+    children,
+  }) => {
+    const newProps = { ...getTableBodyProps(), children };
+    return <DefaultBodyContainer {...newProps} />;
   }
 }

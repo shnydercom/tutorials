@@ -14,40 +14,41 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
   props: SimpleTableLayoutProps<TSourceDataElem>
 ) => {
   const { columns, data, factories } = props;
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TSourceDataElem>({
-    columns,
-    data,
-  });
-  const Outmost = factories.outmostContainer.generateReactWidget;
-  const TableRoot = factories.table.generateReactWidget;
-  const TableHead = factories.head.generateReactWidget;
-  const TableRow = factories.row.generateReactWidget;
-  const TableCell = factories.cell.generateReactWidget;
-  const TableBody = factories.body.generateReactWidget;
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable<TSourceDataElem>({
+      columns,
+      data,
+    });
+  const Outmost = factories.outmostContainer.generateWidget;
+  const TableRoot = factories.table.generateWidget;
+  const TableHead = factories.head.generateWidget;
+  const TableHeaderRow = factories.headerRow.generateWidget;
+  const TableHeaderCell = factories.headerCell.generateWidget;
+  const TableRow = factories.row.generateWidget;
+  const TableCell = factories.cell.generateWidget;
+  const TableBody = factories.body.generateWidget;
   return (
     <Outmost>
-      <TableRoot>
-        <TableHead {...getTableProps()}>
+      <TableRoot getTableProps={getTableProps}>
+        <TableHead headerGroups={headerGroups}>
           {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <TableCell {...column.getHeaderProps()}>
-                  {column.render("Header")}
-                </TableCell>
+            <TableHeaderRow headerGroup={headerGroup}>
+              {headerGroup.headers.map((columnHG) => (
+                <TableHeaderCell headerGroup={columnHG}>
+                  {columnHG.render("Header")}
+                </TableHeaderCell>
               ))}
-            </TableRow>
+            </TableHeaderRow>
           ))}
         </TableHead>
-        <TableBody>
+        <TableBody getTableBodyProps={getTableBodyProps} rows={rows}>
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow {...row.getRowProps()}>
+              <TableRow row={row}>
                 {row.cells.map((cell) => {
                   return (
-                    <TableCell {...cell.getCellProps()}>
-                      {cell.render("Cell")}
-                    </TableCell>
+                    <TableCell cell={cell}>{cell.render("Cell")}</TableCell>
                   );
                 })}
               </TableRow>
