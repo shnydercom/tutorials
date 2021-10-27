@@ -29,7 +29,7 @@ export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
   return (
     <table>
       <tbody>
-        <tr>
+        {/*<tr>
           <td>
             <h4>default style</h4>
           </td>
@@ -52,7 +52,7 @@ export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
               factories={muiTablePartFactories}
             />
           </td>
-        </tr>
+        </tr>*/}
         <tr>
           <td>
             <SortingTableLayout

@@ -2,15 +2,15 @@ import React from "react";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
 import MuiTableHead from "@mui/material/TableHead";
 
-export const MuiHeadContainer = (propsWOChildren: React.PropsWithChildren<{}>) => {
-  return <MuiTableHead {...propsWOChildren}></MuiTableHead>;
+export const MuiHeadContainer = (props: React.PropsWithChildren<{}>) => {
+  return <MuiTableHead {...props}></MuiTableHead>;
 };
 export class MuiHeadContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TPropsWOChildren, TDataObj>(
-    propsWOChildren?: React.PropsWithChildren<TPropsWOChildren> & {
+  generateReactWidget<TProps, TDataObj>(
+    props?: React.PropsWithChildren<TProps> & {
       dataObj?: TDataObj;
     }
   ): JSX.Element {
-    return <MuiHeadContainer {...propsWOChildren} />;
+    return <MuiHeadContainer {...props} />;
   }
 }

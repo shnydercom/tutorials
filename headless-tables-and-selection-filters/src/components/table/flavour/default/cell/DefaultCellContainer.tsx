@@ -3,36 +3,36 @@ import { isColumn } from "../../../functionality/typeGuards";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
 
 export const DefaultCellContainer = (
-  propsWOChildren: React.PropsWithChildren<{}>
+  props: React.PropsWithChildren<{}>
 ) => {
-  return <td {...propsWOChildren}></td>;
+  return <td {...props}></td>;
 };
 
 export const DefaultSortingCellContainer = (
-  propsWOChildren: React.PropsWithChildren<{}>,
+  props: React.PropsWithChildren<{}>,
   isSorted: boolean,
   isSortedDesc: boolean
 ) => {
   return (
-    <td {...propsWOChildren}>
-      {propsWOChildren.children}
+    <td {...props}>
+      {props.children}
       <span>{isSorted ? (isSortedDesc ? " 🔽" : " 🔼") : ""}</span>
     </td>
   );
 };
 export class DefaultCellContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TPropsWOChildren, TDataObj>(
-    propsWOChildren?: React.PropsWithChildren<TPropsWOChildren> & {
+  generateReactWidget<TProps, TDataObj>(
+    props?: React.PropsWithChildren<TProps> & {
       dataObj?: TDataObj;
     }
   ): JSX.Element {
-    const handDown = { ...propsWOChildren };
+    const handDown = { ...props };
     if (handDown.dataObj) delete handDown.dataObj;
-    if (isColumn(propsWOChildren?.dataObj)) {
+    if (isColumn(props?.dataObj)) {
       return DefaultSortingCellContainer(
         { ...handDown },
-        (propsWOChildren?.dataObj as any).isSorted, //TODO: fix any
-        (propsWOChildren?.dataObj as any).isSortedDesc
+        (props?.dataObj as any).isSorted, //TODO: fix any
+        (props?.dataObj as any).isSortedDesc
       );
     }
     return <DefaultCellContainer {...handDown} />;

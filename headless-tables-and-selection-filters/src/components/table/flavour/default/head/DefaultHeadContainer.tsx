@@ -1,15 +1,15 @@
 import React from "react";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
 
-export const DefaultHeadContainer = (propsWOChildren: React.PropsWithChildren<{}>) => {
-  return <thead {...propsWOChildren}></thead>;
+export const DefaultHeadContainer = (props: React.PropsWithChildren<{}>) => {
+  return <thead {...props}></thead>;
 };
 export class DefaultHeadContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TPropsWOChildren , TDataObj >(
-    propsWOChildren?: React.PropsWithChildren<TPropsWOChildren> & {
+  generateReactWidget<TProps , TDataObj >(
+    props?: React.PropsWithChildren<TProps> & {
       dataObj?: TDataObj;
     }
   ): JSX.Element {
-    return <DefaultHeadContainer {...propsWOChildren} />;
+    return <DefaultHeadContainer {...props} />;
   }
 }

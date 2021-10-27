@@ -3,45 +3,52 @@ import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
 import MuiTableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { isColumn } from "../../../functionality/typeGuards";
+import { Column, UseSortByColumnProps } from "react-table";
 
-export const MuiCellContainer = (
-  propsWOChildren: React.PropsWithChildren<{}>
-) => {
-  return <MuiTableCell {...propsWOChildren}></MuiTableCell>;
+export const MuiCellContainer = (props: React.PropsWithChildren<{}>) => {
+  return <MuiTableCell {...props}></MuiTableCell>;
 };
 
-export const MuiSortingCellContainer = (
-  propsWOChildren: React.PropsWithChildren<{}>,
-  isSorted: boolean,
-  isSortedDesc: boolean
-) => {
+export const MuiSortingCellContainer: React.FC<
+  React.PropsWithChildren<{
+    isSorted: boolean;
+    isSortedDesc: boolean;
+  }>
+> = ({ isSorted, isSortedDesc, ...handDown }) => {
   return (
-    <MuiTableCell {...propsWOChildren}>
+    <MuiTableCell {...handDown}>
       <TableSortLabel
         active={isSorted}
         direction={isSortedDesc ? "desc" : "asc"}
       >
-        {propsWOChildren.children}
+        {handDown.children}
       </TableSortLabel>
     </MuiTableCell>
   );
 };
 
 export class MuiCellContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TPropsWOChildren, TDataObj>(
-    propsWOChildren?: React.PropsWithChildren<TPropsWOChildren> & {
-      dataObj?: TDataObj;
-    }
+  generateReactWidget<
+    TProps,
+    TDataObj extends UseSortByColumnProps<{}> | Column
+  >(
+    props: React.PropsWithChildren<
+      TProps & {
+        dataObj: TDataObj;
+      }
+    >
   ): JSX.Element {
-    const handDown = { ...propsWOChildren };
-    if (handDown.dataObj) delete handDown.dataObj;
-    if (isColumn(propsWOChildren?.dataObj)) {
-      return MuiSortingCellContainer(
-        { ...handDown },
-        (propsWOChildren?.dataObj as any).isSorted, //TODO: fix any
-        (propsWOChildren?.dataObj as any).isSortedDesc
-      );
+    const { dataObj, ...handDown } = props;
+    if (isColumn(props?.dataObj)) {
+      const { isSorted, isSortedDesc } = dataObj as any;
+      const newProps = {
+        ...handDown,
+        isSorted,
+        isSortedDesc,
+      };
+      return <MuiSortingCellContainer {...newProps} />;
     }
+    debugger;
     return <MuiCellContainer {...handDown} />;
   }
 }
