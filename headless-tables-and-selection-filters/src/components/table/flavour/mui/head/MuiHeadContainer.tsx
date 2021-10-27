@@ -6,9 +6,9 @@ export const MuiHeadContainer = (props: React.PropsWithChildren<{}>) => {
   return <MuiTableHead {...props}></MuiTableHead>;
 };
 export class MuiHeadContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TDataObj>(
+  generateReactWidget<TProps, TrtAPIObj>(
     props?: React.PropsWithChildren<TProps> & {
-      dataObj?: TDataObj;
+      rtAPIObj?: TrtAPIObj;
     }
   ): JSX.Element {
     return <MuiHeadContainer {...props} />;

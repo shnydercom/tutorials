@@ -7,9 +7,9 @@ export const MuiOutmostContainer = (props: React.PropsWithChildren<{}>) => {
 };
 
 export class MuiOutmostContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TDataObj>(
+  generateReactWidget<TProps, TrtAPIObj>(
     props?: React.PropsWithChildren<TProps> & {
-      dataObj?: TDataObj;
+      rtAPIObj?: TrtAPIObj;
     }
   ): JSX.Element {
     return <MuiOutmostContainer {...props}/>;

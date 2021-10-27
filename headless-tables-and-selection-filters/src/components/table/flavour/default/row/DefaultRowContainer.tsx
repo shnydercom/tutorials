@@ -6,9 +6,9 @@ export const DefaultRowContainer = (props: React.PropsWithChildren<{}>) => {
 };
 
 export class DefaultRowContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps , TDataObj >(
+  generateReactWidget<TProps , TrtAPIObj >(
     props?: React.PropsWithChildren<TProps> & {
-      dataObj?: TDataObj;
+      rtAPIObj?: TrtAPIObj;
     }
   ): JSX.Element {
     return <DefaultRowContainer {...props} />;

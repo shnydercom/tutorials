@@ -1,4 +1,5 @@
 import React from "react";
+import { Column, UseSortByColumnProps } from "react-table";
 import { isColumn } from "../../../functionality/typeGuards";
 import { AbstractTablePartFactory } from "../../AbstractTablePartFactory";
 
@@ -21,18 +22,18 @@ export const DefaultSortingCellContainer = (
   );
 };
 export class DefaultCellContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TDataObj>(
-    props?: React.PropsWithChildren<TProps> & {
-      dataObj?: TDataObj;
+  generateReactWidget<TProps, TrtAPIObj>(
+    props: React.PropsWithChildren<TProps> & {
+      rtAPIObj?: TrtAPIObj;
     }
   ): JSX.Element {
     const handDown = { ...props };
-    if (handDown.dataObj) delete handDown.dataObj;
-    if (isColumn(props?.dataObj)) {
+    if (handDown.rtAPIObj) delete handDown.rtAPIObj;
+    if (isColumn(props?.rtAPIObj)) {
       return DefaultSortingCellContainer(
         { ...handDown },
-        (props?.dataObj as any).isSorted, //TODO: fix any
-        (props?.dataObj as any).isSortedDesc
+        (props?.rtAPIObj as any).isSorted, //TODO: fix any
+        (props?.rtAPIObj as any).isSortedDesc
       );
     }
     return <DefaultCellContainer {...handDown} />;

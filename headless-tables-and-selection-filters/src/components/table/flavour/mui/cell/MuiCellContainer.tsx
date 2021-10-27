@@ -4,17 +4,20 @@ import MuiTableCell from "@mui/material/TableCell";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { isColumn } from "../../../functionality/typeGuards";
 import { Column, UseSortByColumnProps } from "react-table";
+import { JsxElement } from "typescript";
 
 export const MuiCellContainer = (props: React.PropsWithChildren<{}>) => {
   return <MuiTableCell {...props}></MuiTableCell>;
 };
 
-export const MuiSortingCellContainer: React.FC<
-  React.PropsWithChildren<{
-    isSorted: boolean;
-    isSortedDesc: boolean;
-  }>
-> = ({ isSorted, isSortedDesc, ...handDown }) => {
+export const MuiSortingCellContainer = ({
+  isSorted,
+  isSortedDesc,
+  ...handDown
+}: React.PropsWithChildren<{
+  isSorted: boolean;
+  isSortedDesc: boolean;
+}>): JSX.Element => {
   return (
     <MuiTableCell {...handDown}>
       <TableSortLabel
@@ -28,27 +31,21 @@ export const MuiSortingCellContainer: React.FC<
 };
 
 export class MuiCellContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<
-    TProps,
-    TDataObj extends UseSortByColumnProps<{}> | Column
-  >(
-    props: React.PropsWithChildren<
-      TProps & {
-        dataObj: TDataObj;
-      }
-    >
+  generateReactWidget<TProps, TrtAPIObj>(
+    props: React.PropsWithChildren<TProps> & {
+      rtAPIObj?: TrtAPIObj;
+    }
   ): JSX.Element {
-    const { dataObj, ...handDown } = props;
-    if (isColumn(props?.dataObj)) {
-      const { isSorted, isSortedDesc } = dataObj as any;
+    const { rtAPIObj, ...handDown } = props;
+    if (isColumn(props?.rtAPIObj)) {
+      const { isSorted, isSortedDesc } = rtAPIObj as any;
       const newProps = {
         ...handDown,
         isSorted,
         isSortedDesc,
       };
-      return <MuiSortingCellContainer {...newProps} />;
+      return <MuiSortingCellContainer {...newProps}/>;
     }
-    debugger;
-    return <MuiCellContainer {...handDown} />;
+    return <MuiCellContainer {...props} />;
   }
 }

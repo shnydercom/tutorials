@@ -1,5 +1,5 @@
 import React from "react";
-import { dataObjectToColumn } from "./functionality/dataObjectToColumn";
+import { rtAPIObjToColumn } from "./functionality/rtAPIObjToColumn";
 
 //initialize the known Columns
 import { initKnownTableColumns } from "./config/initknownTableColumns";
@@ -25,11 +25,11 @@ export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
     [options, queryData]
   );
   // assign the declarative part
-  const columns = React.useMemo(() => [...dataObjectToColumn(data[0])], [data]);
+  const columns = React.useMemo(() => [...rtAPIObjToColumn(data[0])], [data]);
   return (
     <table>
       <tbody>
-        {/*<tr>
+        <tr>
           <td>
             <h4>default style</h4>
           </td>
@@ -52,7 +52,7 @@ export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
               factories={muiTablePartFactories}
             />
           </td>
-        </tr>*/}
+        </tr>
         <tr>
           <td>
             <SortingTableLayout

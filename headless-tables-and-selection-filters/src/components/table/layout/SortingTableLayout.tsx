@@ -2,19 +2,19 @@ import React from "react";
 import { Column, useSortBy, useTable } from "react-table";
 import { AvailableTableFactories } from "../config/interfaces";
 
-export type SortingTableLayoutProps<TDataObj extends object> = {
-  columns: ReadonlyArray<Column<TDataObj>>;
-  data: readonly TDataObj[];
+export type SortingTableLayoutProps<TSourceDataElem extends object> = {
+  columns: ReadonlyArray<Column<TSourceDataElem>>;
+  data: readonly TSourceDataElem[];
   factories: AvailableTableFactories;
 };
 
-export const SortingTableLayout: <TDataObj extends object>(
-  props: SortingTableLayoutProps<TDataObj>
-) => JSX.Element = <TDataObj extends object>(
-  props: SortingTableLayoutProps<TDataObj>
+export const SortingTableLayout: <TSourceDataElem extends object>(
+  props: SortingTableLayoutProps<TSourceDataElem>
+) => JSX.Element = <TSourceDataElem extends object>(
+  props: SortingTableLayoutProps<TSourceDataElem>
 ) => {
   const { columns, data, factories } = props;
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TDataObj>(
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TSourceDataElem>(
     {
       columns,
       data,
@@ -35,7 +35,7 @@ export const SortingTableLayout: <TDataObj extends object>(
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <TableCell
-                  dataObj={column}
+                  rtAPIObj={column}
                   {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   {column.render("Header")}
@@ -51,7 +51,7 @@ export const SortingTableLayout: <TDataObj extends object>(
               <TableRow {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <TableCell {...cell.getCellProps()} dataObj={cell}>
+                    <TableCell {...cell.getCellProps()} rtAPIObj={cell}>
                       {cell.render("Cell")}
                     </TableCell>
                   );

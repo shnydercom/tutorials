@@ -7,9 +7,9 @@ export const MuiTableContainer = (props: React.PropsWithChildren<{}>) => {
 };
 
 export class MuiTableContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TDataObj>(
+  generateReactWidget<TProps, TrtAPIObj>(
     props?: React.PropsWithChildren<TProps> & {
-      dataObj?: TDataObj;
+      rtAPIObj?: TrtAPIObj;
     }
   ): JSX.Element {
     return <MuiTableContainer {...props} />;

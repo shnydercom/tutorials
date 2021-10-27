@@ -2,19 +2,19 @@ import React from "react";
 import { Column, useTable } from "react-table";
 import { AvailableTableFactories } from "../config/interfaces";
 
-export type SimpleTableLayoutProps<TDataObj extends object> = {
-  columns: ReadonlyArray<Column<TDataObj>>;
-  data: readonly TDataObj[];
+export type SimpleTableLayoutProps<TSourceDataElem extends object> = {
+  columns: ReadonlyArray<Column<TSourceDataElem>>;
+  data: readonly TSourceDataElem[];
   factories: AvailableTableFactories;
 };
 
-export const SimpleTableLayout: <TDataObj extends object>(
-  props: SimpleTableLayoutProps<TDataObj>
-) => JSX.Element = <TDataObj extends object>(
-  props: SimpleTableLayoutProps<TDataObj>
+export const SimpleTableLayout: <TSourceDataElem extends object>(
+  props: SimpleTableLayoutProps<TSourceDataElem>
+) => JSX.Element = <TSourceDataElem extends object>(
+  props: SimpleTableLayoutProps<TSourceDataElem>
 ) => {
   const { columns, data, factories } = props;
-  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TDataObj>({
+  const { getTableProps, headerGroups, rows, prepareRow } = useTable<TSourceDataElem>({
     columns,
     data,
   });

@@ -6,9 +6,9 @@ export const DefaultOutmostContainer: (props: React.PropsWithChildren<{}>) => JS
 };
 
 export class DefaultOutmostContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TDataObj>(
+  generateReactWidget<TProps, TrtAPIObj>(
     props?: React.PropsWithChildren<TProps> & {
-      dataObj?: TDataObj;
+      rtAPIObj?: TrtAPIObj;
     }
   ): JSX.Element {
     return <DefaultOutmostContainer {...props} />;

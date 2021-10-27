@@ -6,9 +6,9 @@ export const MuiBodyContainer: (props: React.PropsWithChildren<{}>) => JSX.Eleme
 };
 
 export class MuiBodyContainerFactory extends AbstractTablePartFactory {
-  generateReactWidget<TProps, TDataObj>(
+  generateReactWidget<TProps, TrtAPIObj>(
     props?: React.PropsWithChildren<TProps> & {
-        dataObj?: TDataObj;
+        rtAPIObj?: TrtAPIObj;
       }
     ): JSX.Element {
     return <MuiBodyContainer {...props} />;
