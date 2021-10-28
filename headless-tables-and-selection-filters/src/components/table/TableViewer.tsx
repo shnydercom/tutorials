@@ -1,4 +1,5 @@
 import React from "react";
+import { createDefaultTableViewerOptions } from "./config/defaultOptions";
 
 //initialize the known Columns
 import { initKnownTableColumns } from "./config/initknownTableColumns";
@@ -15,7 +16,7 @@ export interface TableViewerProps<
   TSourceDataElem extends object
 > {
   rawData: TTableRawData;
-  options: TableViewerOptions<
+  options?: TableViewerOptions<
     TTableRawData,
     TTableRawArrayElem,
     TSourceDataElem
@@ -33,7 +34,7 @@ export const TableViewer: <
   TSourceDataElem extends object = {}
 >(
   props: TableViewerProps<TTableRawData, TTableRawArrayElem, TSourceDataElem>
-) => JSX.Element = ({ rawData, options }) => {
+) => JSX.Element = ({ rawData, options = createDefaultTableViewerOptions() }) => {
   // assign the dynamic data handling
   const sourceData = React.useMemo(
     () =>
