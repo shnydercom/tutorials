@@ -44,7 +44,7 @@ export const TableViewer: <
   );
   // assign the declarative part
   const columns = React.useMemo(
-    () => [...options.sourceDataElemToColumnsMapper(sourceData[0])],
+    () => [...options.sourceDataToColumnsMapper(sourceData)],
     [options, sourceData]
   );
   switch (options.layout) {

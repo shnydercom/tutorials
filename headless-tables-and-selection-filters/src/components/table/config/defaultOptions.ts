@@ -16,7 +16,7 @@ export function createDefaultTableViewerOptions<
     rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
     tablePartFactories: defaultTablePartFactories,
     layout: "simple",
-    sourceDataElemToColumnsMapper: rawTableDataElemToColumn,
+    sourceDataToColumnsMapper: rawTableDataElemToColumn,
   };
   return rv;
 }

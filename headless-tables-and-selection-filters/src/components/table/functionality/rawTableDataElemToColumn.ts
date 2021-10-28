@@ -2,16 +2,19 @@ import { Column } from "react-table";
 import { fieldColumnNameMap } from "./fieldToColumnName";
 
 export function rawTableDataElemToColumn<TTableRawArrayElem extends object>(
-  exampleRow: TTableRawArrayElem
+  sourceData: TTableRawArrayElem[]
 ): Column<TTableRawArrayElem>[] {
   const rv: Column<TTableRawArrayElem>[] = [];
-  fieldColumnNameMap.forEach((columnName, field) => {
-    if (Object.prototype.hasOwnProperty.call(exampleRow, field)) {
-      rv.push({
-        Header: columnName,
-        accessor: field as keyof TTableRawArrayElem
-      });
-    }
-  });
+  if (sourceData && sourceData.length > 0) {
+    const exampleSourceRow = sourceData[0];
+    fieldColumnNameMap.forEach((columnName, field) => {
+      if (Object.prototype.hasOwnProperty.call(exampleSourceRow, field)) {
+        rv.push({
+          Header: columnName,
+          accessor: field as keyof TTableRawArrayElem,
+        });
+      }
+    });
+  }
   return rv;
 }

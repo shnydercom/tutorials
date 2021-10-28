@@ -18,7 +18,7 @@ export const VisualContent = () => {
       rawDataToSourceTransformator: flattenRelayEdge,
       tablePartFactories: defaultTablePartFactories,
       layout: "sorting" as AvailableTableLayouts,
-      sourceDataElemToColumnsMapper: rawTableDataElemToColumn,
+      sourceDataToColumnsMapper: rawTableDataElemToColumn,
     }),
     []
   );

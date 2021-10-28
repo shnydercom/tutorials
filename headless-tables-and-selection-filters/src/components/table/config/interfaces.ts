@@ -9,8 +9,8 @@ export type AvailableTableFactories =
 
 export type AvailableTableLayouts = "simple" | "sorting";
 
-export interface SourceDataElemToColumnsMapper<TSourceDataElem extends object> {
-  (exampleRow: TSourceDataElem): Column<TSourceDataElem>[];
+export interface SourceDataToColumnsMapper<TSourceDataElem extends object> {
+  (sourceData: TSourceDataElem[] | never[]): Column<TSourceDataElem>[];
 }
 
 export interface TableViewerOptions<
@@ -22,7 +22,7 @@ export interface TableViewerOptions<
   rawDataToSourceTransformator: (input: TTableRawArrayElem | null | undefined) => TSourceDataElem;
   tablePartFactories: AvailableTableFactories;
   layout: AvailableTableLayouts;
-  sourceDataElemToColumnsMapper: SourceDataElemToColumnsMapper<TSourceDataElem>;
+  sourceDataToColumnsMapper: SourceDataToColumnsMapper<TSourceDataElem>;
 }
 
 export interface TablePartFactories<
