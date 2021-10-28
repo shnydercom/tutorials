@@ -1,19 +1,24 @@
 import React from "react";
 import { GetJediHeroQuery, useGetJediHeroQuery } from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
+import { AvailableTableLayouts } from "./table/config/interfaces";
 import { defaultTablePartFactories } from "./table/flavour/default/DefaultTablePartFactories";
 import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
+import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
 import { TableViewer } from "./table/TableViewer";
 
 export const VisualContent = () => {
   const jediHeroResult = useGetJediHeroQuery();
+
   // preparing the TableViewerOptions
   const jediTableOptionsMemo = React.useMemo(
     () => ({
       rowArrayAccessor: (query: GetJediHeroQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
-      rowTransformation: flattenRelayEdge,
+      rawDataToSourceTransformator: flattenRelayEdge,
       tablePartFactories: defaultTablePartFactories,
+      layout: "sorting" as AvailableTableLayouts,
+      sourceDataElemToColumnsMapper: rawTableDataElemToColumn,
     }),
     []
   );
@@ -34,7 +39,7 @@ export const VisualContent = () => {
     <div>
       <JSONViewer objectToDisplay={jediHeroResult.data} />
       <TableViewer
-        queryData={jediHeroResult.data}
+        rawData={jediHeroResult.data}
         options={jediTableOptionsMemo}
       />
     </div>

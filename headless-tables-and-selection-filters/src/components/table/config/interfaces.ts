@@ -1,3 +1,4 @@
+import { Column } from "react-table";
 import { AbstractTablePartFactory } from "../flavour/AbstractTablePartFactory";
 import { DefaultTablePartFactoriesType } from "../flavour/default/DefaultTablePartFactories";
 import { MuiTablePartFactoriesType } from "../flavour/mui/MuiTablePartFactories";
@@ -6,10 +7,22 @@ export type AvailableTableFactories =
   | DefaultTablePartFactoriesType
   | MuiTablePartFactoriesType;
 
-export interface TableViewerOptions<TQueryData, TArrayElem, TRow> {
-  rowArrayAccessor: (value: TQueryData) => Array<TArrayElem>;
-  rowTransformation: (input: TArrayElem) => TRow;
+export type AvailableTableLayouts = "simple" | "sorting";
+
+export interface SourceDataElemToColumnsMapper<TSourceDataElem extends object> {
+  (exampleRow: TSourceDataElem): Column<TSourceDataElem>[];
+}
+
+export interface TableViewerOptions<
+  TTableRawData extends object,
+  TTableRawArrayElem extends object,
+  TSourceDataElem extends object
+> {
+  rowArrayAccessor: (value: TTableRawData) => Array<TTableRawArrayElem | null | undefined>;
+  rawDataToSourceTransformator: (input: TTableRawArrayElem | null | undefined) => TSourceDataElem;
   tablePartFactories: AvailableTableFactories;
+  layout: AvailableTableLayouts;
+  sourceDataElemToColumnsMapper: SourceDataElemToColumnsMapper<TSourceDataElem>;
 }
 
 export interface TablePartFactories<

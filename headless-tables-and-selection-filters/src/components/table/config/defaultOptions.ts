@@ -1,30 +1,33 @@
 import { defaultTablePartFactories } from "../flavour/default/DefaultTablePartFactories";
+import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToColumn";
 import { TableViewerOptions } from "./interfaces";
 
 export function createDefaultTableViewerOptions<
-  TQueryData,
-  TArrayElem,
-  TRow
+  TTableRawData extends object,
+  TTableRawArrayElem extends object,
+  TSourceDataElem extends object
 >() {
   const rv: TableViewerOptions<
-    TQueryData,
-    TArrayElem,
-    TRow
+    TTableRawData,
+    TTableRawArrayElem,
+    TSourceDataElem
   > = {
     rowArrayAccessor: defaultRowAccessor,
-    rowTransformation: defaultRowTransformation,
+    rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
     tablePartFactories: defaultTablePartFactories,
+    layout: "simple",
+    sourceDataElemToColumnsMapper: rawTableDataElemToColumn,
   };
   return rv;
 }
 
-export function defaultRowAccessor<TQueryData, TArrayElem>(
-  value: TQueryData
+export function defaultRowAccessor<TTableRawData, TArrayElem>(
+  value: TTableRawData
 ): Array<TArrayElem> {
   return recursiveArrayFinder(value);
 }
 
-export function defaultRowTransformation<TArrayElem, TRow>(
+export function defaultRawDataToSourceTransformator<TArrayElem, TRow>(
   input: TArrayElem
 ): TRow {
   return input as unknown as TRow;

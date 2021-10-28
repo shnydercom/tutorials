@@ -1,75 +1,68 @@
 import React from "react";
-import { rtAPIObjToColumn } from "./functionality/rtAPIObjToColumn";
 
 //initialize the known Columns
 import { initKnownTableColumns } from "./config/initknownTableColumns";
 import { TableViewerOptions } from "./config/interfaces";
 import { SimpleTableLayout } from "./layout/SimpleTableLayout";
-import { muiTablePartFactories } from "./flavour/mui/MuiTablePartFactories";
 import { SortingTableLayout } from "./layout/SortingTableLayout";
 
 //setup config
 initKnownTableColumns(true);
 
-export interface TableViewerProps<TQueryData, TArrayElem, TRow> {
-  queryData: TQueryData;
-  options: TableViewerOptions<TQueryData, TArrayElem, TRow>;
+export interface TableViewerProps<
+  TTableRawData extends object,
+  TTableRawArrayElem extends object,
+  TSourceDataElem extends object
+> {
+  rawData: TTableRawData;
+  options: TableViewerOptions<
+    TTableRawData,
+    TTableRawArrayElem,
+    TSourceDataElem
+  >;
 }
 
-export const TableViewer: <TQueryData, TArrayElem, TRow extends object = {}>(
-  props: TableViewerProps<TQueryData, TArrayElem, TRow>
-) => JSX.Element = ({ queryData, options }) => {
+/**
+ * component to display arbitrary tables from source data
+ * @param props TableViewerOptions 
+ * @returns 
+ */
+export const TableViewer: <
+  TTableRawData extends object,
+  TTableRawArrayElem extends object,
+  TSourceDataElem extends object = {}
+>(
+  props: TableViewerProps<TTableRawData, TTableRawArrayElem, TSourceDataElem>
+) => JSX.Element = ({ rawData, options }) => {
   // assign the dynamic data handling
-  const data = React.useMemo(
-    () => options.rowArrayAccessor(queryData).map(options.rowTransformation),
-    [options, queryData]
+  const sourceData = React.useMemo(
+    () =>
+      options
+        .rowArrayAccessor(rawData)
+        .map(options.rawDataToSourceTransformator),
+    [options, rawData]
   );
   // assign the declarative part
-  const columns = React.useMemo(() => [...rtAPIObjToColumn(data[0])], [data]);
-  return (
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <h4>default style</h4>
-          </td>
-          <td>
-            <h4>MUI style</h4>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <SimpleTableLayout
-              columns={columns}
-              data={data}
-              factories={options.tablePartFactories}
-            />
-          </td>
-          <td>
-            <SimpleTableLayout
-              columns={columns}
-              data={data}
-              factories={muiTablePartFactories}
-            />
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <SortingTableLayout
-              columns={columns}
-              data={data}
-              factories={options.tablePartFactories}
-            />
-          </td>
-          <td>
-            <SortingTableLayout
-              columns={columns}
-              data={data}
-              factories={muiTablePartFactories}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  const columns = React.useMemo(
+    () => [...options.sourceDataElemToColumnsMapper(sourceData[0])],
+    [options, sourceData]
   );
+  switch (options.layout) {
+    case "sorting":
+      return (
+        <SortingTableLayout
+          columns={columns}
+          data={sourceData}
+          factories={options.tablePartFactories}
+        />
+      );
+    default:
+      return (
+        <SimpleTableLayout
+          columns={columns}
+          data={sourceData}
+          factories={options.tablePartFactories}
+        />
+      );
+  }
 };
