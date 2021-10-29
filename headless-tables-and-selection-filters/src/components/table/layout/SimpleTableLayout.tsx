@@ -1,11 +1,11 @@
 import React from "react";
 import { Column, useTable } from "react-table";
-import { AvailableTableFactories } from "../config/interfaces";
+import { ContainerComponentsDictionary } from "../flavour/interfaces";
 
 export type SimpleTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
-  factories: AvailableTableFactories;
+  containerCompDict: ContainerComponentsDictionary;
 };
 
 export const SimpleTableLayout: <TSourceDataElem extends object>(
@@ -13,26 +13,26 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
 ) => JSX.Element = <TSourceDataElem extends object>(
   props: SimpleTableLayoutProps<TSourceDataElem>
 ) => {
-  const { columns, data, factories } = props;
+  const { columns, data, containerCompDict } = props;
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable<TSourceDataElem>({
       columns,
       data,
     });
-  const Outmost = factories.outmostContainer.generateWidget;
-  const TableRoot = factories.table.generateWidget;
-  const TableHead = factories.head.generateWidget;
-  const TableHeaderRow = factories.headerRow.generateWidget;
-  const TableHeaderCell = factories.headerCell.generateWidget;
-  const TableRow = factories.row.generateWidget;
-  const TableCell = factories.cell.generateWidget;
-  const TableBody = factories.body.generateWidget;
+  const Outmost = containerCompDict.outmost;
+  const TableRoot = containerCompDict.table;
+  const TableHead = containerCompDict.head;
+  const TableHeaderRow = containerCompDict.headerRow;
+  const TableHeaderCell = containerCompDict.headerCell;
+  const TableRow = containerCompDict.bodyRow;
+  const TableCell = containerCompDict.bodyCell;
+  const TableBody = containerCompDict.body;
   return (
     <Outmost>
-      <TableRoot getTableProps={getTableProps}>
-        <TableHead headerGroups={headerGroups}>
+      <TableRoot {...getTableProps()}>
+        <TableHead>
           {headerGroups.map((headerGroup) => (
-            <TableHeaderRow headerGroup={headerGroup}>
+            <TableHeaderRow>
               {headerGroup.headers.map((columnHG) => (
                 <TableHeaderCell headerGroup={columnHG}>
                   {columnHG.render("Header")}
@@ -41,11 +41,11 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
             </TableHeaderRow>
           ))}
         </TableHead>
-        <TableBody getTableBodyProps={getTableBodyProps} rows={rows}>
+        <TableBody {...getTableBodyProps()}>
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow row={row}>
+              <TableRow>
                 {row.cells.map((cell) => {
                   return (
                     <TableCell cell={cell}>{cell.render("Cell")}</TableCell>

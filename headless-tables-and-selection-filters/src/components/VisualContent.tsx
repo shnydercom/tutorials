@@ -1,11 +1,11 @@
 import React from "react";
 import { GetJediHeroQuery, useGetJediHeroQuery } from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
-import { AvailableTableLayouts } from "./table/config/interfaces";
-import { defaultTablePartFactories } from "./table/flavour/default/DefaultTablePartFactories";
+import { AvailableTableLayouts } from "./table/helpers/interfaces";
 import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
 import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
-import { TableViewer } from "./table/TableViewer";
+import { BatteriesIncludedTable } from "./table/helpers/BatteriesIncludedTable";
+import { DefaultAllContainerCompsDict } from "./table/flavour";
 
 export const VisualContent = () => {
   const jediHeroResult = useGetJediHeroQuery();
@@ -16,7 +16,7 @@ export const VisualContent = () => {
       rowArrayAccessor: (query: GetJediHeroQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
-      tablePartFactories: defaultTablePartFactories,
+      containerCompDict: DefaultAllContainerCompsDict,
       layout: "sorting" as AvailableTableLayouts,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
     }),
@@ -38,7 +38,7 @@ export const VisualContent = () => {
   return (
     <div>
       <JSONViewer objectToDisplay={jediHeroResult.data} />
-      <TableViewer
+      <BatteriesIncludedTable
         rawData={jediHeroResult.data}
         options={jediTableOptionsMemo}
       />

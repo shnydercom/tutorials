@@ -67,13 +67,13 @@ import {
         // feature set, this is a safe default.
         Record<string, any> {}
   
-    export interface Hooks<D extends object = {}>
+    export interface Hooks<D extends object >
       extends UseExpandedHooks<D>,
         UseGroupByHooks<D>,
         UseRowSelectHooks<D>,
         UseSortByHooks<D> {}
   
-    export interface TableInstance<D extends object = {}>
+    export interface TableInstance<D extends object >
       extends UseColumnOrderInstanceProps<D>,
         UseExpandedInstanceProps<D>,
         UseFiltersInstanceProps<D>,
@@ -84,7 +84,7 @@ import {
         UseRowStateInstanceProps<D>,
         UseSortByInstanceProps<D> {}
   
-    export interface TableState<D extends object = {}>
+    export interface TableState<D extends object >
       extends UseColumnOrderState<D>,
         UseExpandedState<D>,
         UseFiltersState<D>,
@@ -98,7 +98,7 @@ import {
       hideLastRowWhenExpanding?: boolean;
     }
   
-    export interface ColumnInterface<D extends object = {}>
+    export interface ColumnInterface<D extends object >
       extends UseFiltersColumnOptions<D>,
         UseGlobalFiltersColumnOptions<D>,
         UseGroupByColumnOptions<D>,
@@ -110,17 +110,17 @@ import {
       Footer?: ReactNode;
     }
   
-    export interface ColumnInstance<D extends object = {}>
+    export interface ColumnInstance<D extends object >
       extends UseFiltersColumnProps<D>,
         UseGroupByColumnProps<D>,
         UseResizeColumnsColumnProps<D>,
         UseSortByColumnProps<D> {}
   
-    export interface Cell<D extends object = {}, V = any>
+    export interface Cell<D extends object , V = any>
       extends UseGroupByCellProps<D>,
         UseRowStateCellProps<D> {}
   
-    export interface Row<D extends object = {}>
+    export interface Row<D extends object >
       extends UseExpandedRowProps<D>,
         UseGroupByRowProps<D>,
         UseRowSelectRowProps<D>,

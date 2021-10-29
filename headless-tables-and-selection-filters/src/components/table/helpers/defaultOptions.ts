@@ -1,20 +1,20 @@
-import { defaultTablePartFactories } from "../flavour/default/DefaultTablePartFactories";
+import { DefaultAllContainerCompsDict } from "../flavour";
 import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToColumn";
-import { TableViewerOptions } from "./interfaces";
+import { BatteriesIncludedTableOptions } from "./interfaces";
 
-export function createDefaultTableViewerOptions<
+export function createDefaultBatteriesIncludedTableOptions<
   TTableRawData extends object,
   TTableRawArrayElem extends object,
   TSourceDataElem extends object
 >() {
-  const rv: TableViewerOptions<
+  const rv: BatteriesIncludedTableOptions<
     TTableRawData,
     TTableRawArrayElem,
     TSourceDataElem
   > = {
     rowArrayAccessor: defaultRowAccessor,
     rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
-    tablePartFactories: defaultTablePartFactories,
+    containerCompDict: DefaultAllContainerCompsDict,
     layout: "simple",
     sourceDataToColumnsMapper: rawTableDataElemToColumn,
   };
