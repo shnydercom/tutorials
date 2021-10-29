@@ -1,6 +1,7 @@
 import React from "react";
 import { Column, useTable } from "react-table";
 import { ContainerComponentsDictionary } from "../flavour/interfaces";
+import { isString } from "../functionality/typeGuards";
 
 export type SimpleTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
@@ -14,31 +15,47 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
   props: SimpleTableLayoutProps<TSourceDataElem>
 ) => {
   const { columns, data, containerCompDict } = props;
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<TSourceDataElem>({
+  const TableHeaderCell = containerCompDict.headerCell;
+  const TableCell = containerCompDict.bodyCell;
+  const tableInstance = useTable<TSourceDataElem>(
+    {
       columns,
       data,
-    });
+      defaultColumn: {
+        Header: TableHeaderCell,
+        Cell: TableCell,
+      },
+    },
+  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = tableInstance;
   const Outmost = containerCompDict.outmost;
   const TableRoot = containerCompDict.table;
   const TableHead = containerCompDict.head;
   const TableHeaderRow = containerCompDict.headerRow;
-  const TableHeaderCell = containerCompDict.headerCell;
   const TableRow = containerCompDict.bodyRow;
-  const TableCell = containerCompDict.bodyCell;
   const TableBody = containerCompDict.body;
   return (
     <Outmost>
       <TableRoot {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
-            <TableHeaderRow>
-              {headerGroup.headers.map((columnHG) => (
-                <TableHeaderCell headerGroup={columnHG}>
+            <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((columnHG) => {
+              return isString(columnHG.Header) ? (
+                <TableHeaderCell {...tableInstance} column={columnHG}>
                   {columnHG.render("Header")}
                 </TableHeaderCell>
-              ))}
-            </TableHeaderRow>
+              ) : (
+                columnHG.render("Header")
+              );
+            })}
+          </TableHeaderRow>
           ))}
         </TableHead>
         <TableBody {...getTableBodyProps()}>
@@ -47,9 +64,7 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
             return (
               <TableRow>
                 {row.cells.map((cell) => {
-                  return (
-                    <TableCell cell={cell}>{cell.render("Cell")}</TableCell>
-                  );
+                  return cell.render("Cell");
                 })}
               </TableRow>
             );

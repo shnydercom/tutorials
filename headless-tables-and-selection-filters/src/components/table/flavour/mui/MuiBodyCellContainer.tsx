@@ -1,8 +1,11 @@
-
 import { CellRenderer } from "../interfaces";
-import { BasicCell } from "./cell-renderer/BasicCell";
+import { BasicCell } from "./bodycell-renderer/BasicCell";
 
-export const MuiBodyCellContainer: CellRenderer = ({ cell, children }) => {
-  const newProps = { ...cell.getCellProps(), children };
-  return <BasicCell {...newProps} />;
+export const MuiBodyCellContainer: CellRenderer = ({
+  cell,
+  value,
+  children,
+}) => {
+  const newProps = { ...cell.getCellProps() };
+  return <BasicCell {...newProps}>{children && value ? children : value || children}</BasicCell>;
 };

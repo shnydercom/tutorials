@@ -1,5 +1,5 @@
 import React from "react";
-import { Cell, HeaderGroup } from "react-table";
+import { Cell, CellProps, HeaderGroup, HeaderProps } from "react-table";
 
 export interface ContainerComponentsDictionary {
   outmost: React.FC;
@@ -12,14 +12,8 @@ export interface ContainerComponentsDictionary {
   bodyCell: CellRenderer;
 }
 
-export type CellRenderer = React.FC<
-  React.PropsWithChildren<{
-    cell: Cell<any>;
-  }>
->;
+export type CellRenderer = React.FC<React.PropsWithChildren<CellProps<any>>>;
 
 export type HeaderCellRenderer = React.FC<
-  React.PropsWithChildren<{
-    headerGroup: HeaderGroup<any>;
-  }>
+  React.PropsWithChildren<HeaderProps<any>>
 >;

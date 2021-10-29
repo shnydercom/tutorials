@@ -1,24 +1,39 @@
-import { BasicCell } from "./cell-renderer/BasicCell";
+import { BasicCell } from "./bodycell-renderer/BasicCell";
 import { HeaderCellRenderer } from "../interfaces";
-import { SorterCell } from "./cell-renderer/SorterCell";
+import { SorterCell } from "./headercell-renderer/SorterCell";
+import { HeaderProps } from "react-table";
 
-export const MuiHeaderCellContainer: HeaderCellRenderer = ({
-  headerGroup,
-  children,
-}) => {
-  const { isSorted, isSortedDesc } = headerGroup;
-  if (headerGroup.canSort) {
+export const MuiHeaderCellContainer: HeaderCellRenderer = (
+  props: React.PropsWithChildren<HeaderProps<{}>>
+) => {
+  const { value, children } = props;
+  const {
+    isSorted,
+    isSortedDesc,
+    canSort,
+    getSortByToggleProps,
+    getHeaderProps,
+  } = props.column;
+  if (canSort) {
     const newProps = {
-      ...headerGroup.getHeaderProps(headerGroup.getSortByToggleProps()),
+      ...getHeaderProps(getSortByToggleProps()),
       isSorted: !!isSorted,
       isSortedDesc: !!isSortedDesc,
       children,
     };
-    return <SorterCell {...newProps} />;
+    return (
+      <SorterCell {...newProps}>
+        {children && value ? children : value || children}
+      </SorterCell>
+    );
   }
   const newProps = {
-    ...headerGroup.getHeaderProps(),
+    ...getHeaderProps(),
     children,
   };
-  return <BasicCell {...newProps} />;
+  return (
+    <BasicCell {...newProps}>
+      {children && value ? children : value || children}
+    </BasicCell>
+  );
 };

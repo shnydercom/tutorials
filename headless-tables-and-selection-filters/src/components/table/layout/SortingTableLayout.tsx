@@ -1,11 +1,13 @@
 import React from "react";
 import { Column, useSortBy, useTable } from "react-table";
 import { ContainerComponentsDictionary } from "../flavour/interfaces";
+import { BasicCell } from "../flavour/mui/bodycell-renderer/BasicCell";
+import { isString } from "../functionality/typeGuards";
 
 export type SortingTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
-  containerCompDict:  ContainerComponentsDictionary;
+  containerCompDict: ContainerComponentsDictionary;
 };
 
 export const SortingTableLayout: <TSourceDataElem extends object>(
@@ -14,35 +16,47 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
   props: SortingTableLayoutProps<TSourceDataElem>
 ) => {
   const { columns, data, containerCompDict } = props;
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable<TSourceDataElem>(
-      {
-        columns,
-        data,
+  const TableHeaderCell = containerCompDict.headerCell;
+  const TableCell = containerCompDict.bodyCell;
+  const tableInstance = useTable<TSourceDataElem>(
+    {
+      columns,
+      data,
+      defaultColumn: {
+        Header: TableHeaderCell,
+        Cell: TableCell, //(props: any) => <TableCell {...props}/>,
       },
-      useSortBy
-    );
+    },
+    useSortBy
+  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = tableInstance;
   const Outmost = containerCompDict.outmost;
   const TableRoot = containerCompDict.table;
   const TableHead = containerCompDict.head;
   const TableHeaderRow = containerCompDict.headerRow;
-  const TableHeaderCell = containerCompDict.headerCell;
   const TableRow = containerCompDict.bodyRow;
-  const TableCell = containerCompDict.bodyCell;
   const TableBody = containerCompDict.body;
   return (
     <Outmost>
       <TableRoot {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
-            <TableHeaderRow
-              {...headerGroup.getHeaderGroupProps()}
-            >
-              {headerGroup.headers.map((columnHG) => (
-                <TableHeaderCell headerGroup={columnHG}>
-                  {columnHG.render("Header")}
-                </TableHeaderCell>
-              ))}
+            <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((columnHG) => {
+                return isString(columnHG.Header) ? (
+                  <TableHeaderCell {...tableInstance} column={columnHG}>
+                    {columnHG.render("Header")}
+                  </TableHeaderCell>
+                ) : (
+                  columnHG.render("Header")
+                );
+              })}
             </TableHeaderRow>
           ))}
         </TableHead>
@@ -52,9 +66,7 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
             return (
               <TableRow>
                 {row.cells.map((cell) => {
-                  return (
-                    <TableCell cell={cell}>{cell.render("Cell")}</TableCell>
-                  );
+                  return cell.render("Cell");
                 })}
               </TableRow>
             );
