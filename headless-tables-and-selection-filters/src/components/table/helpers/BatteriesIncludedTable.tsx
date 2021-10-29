@@ -63,7 +63,7 @@ export const BatteriesIncludedTable: <
   );
   // assign the declarative part
   const columns = React.useMemo<Column<TSourceDataElem>[]>(
-    () => [...options.sourceDataToColumnsMapper(sourceData)],
+    () => options.sourceDataToColumnsMapper(sourceData),
     [options, sourceData]
   )
   switch (options.layout) {
