@@ -1,5 +1,5 @@
 import React from "react";
-import { Cell, CellProps, HeaderGroup, HeaderProps } from "react-table";
+import { CellProps, HeaderProps } from "react-table";
 
 export interface ContainerComponentsDictionary {
   outmost: React.FC;

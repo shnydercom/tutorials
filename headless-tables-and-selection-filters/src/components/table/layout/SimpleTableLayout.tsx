@@ -1,4 +1,3 @@
-import React from "react";
 import { Column, useTable } from "react-table";
 import { ContainerComponentsDictionary } from "../flavour/interfaces";
 import { isString } from "../functionality/typeGuards";

@@ -1,7 +1,5 @@
-import React from "react";
 import { Column, useSortBy, useTable } from "react-table";
 import { ContainerComponentsDictionary } from "../flavour/interfaces";
-import { BasicCell } from "../flavour/mui/bodycell-renderer/BasicCell";
 import { isString } from "../functionality/typeGuards";
 
 export type SortingTableLayoutProps<TSourceDataElem extends object> = {
@@ -24,7 +22,7 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
       data,
       defaultColumn: {
         Header: TableHeaderCell,
-        Cell: TableCell, //(props: any) => <TableCell {...props}/>,
+        Cell: TableCell,
       },
     },
     useSortBy
