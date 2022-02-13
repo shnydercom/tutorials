@@ -17,7 +17,7 @@ export const VisualContent = () => {
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
       containerCompDict: DefaultAllContainerCompsDict,
-      layout: "sorting" as AvailableTableLayouts,
+      layout: "expandable" as AvailableTableLayouts,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
     }),
     []
