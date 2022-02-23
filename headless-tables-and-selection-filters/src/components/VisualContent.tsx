@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { GetJediHeroQuery, useGetJediHeroQuery } from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
-import { AvailableTableLayouts } from "./table/helpers/interfaces";
 import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
 import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
 import { BatteriesIncludedTable } from "./table/helpers/BatteriesIncludedTable";
-import { DefaultAllContainerCompsDict } from "./table/flavour";
+import {
+  DefaultAllContainerCompsDict,
+  MuiAllContainerCompsDict,
+} from "./table/flavour";
+import {
+  TableControlOptionsAsJSON,
+  VisualControlsForTableOptions,
+} from "./VisualControlsForTableOptions";
 
 export const VisualContent = () => {
   const jediHeroResult = useGetJediHeroQuery();
+  const [tableControlOptions, setTableControlOptions] =
+    useState<TableControlOptionsAsJSON>({
+      flavour: "default",
+      layout: "simple",
+    });
 
   // preparing the TableViewerOptions
   const jediTableOptionsMemo = React.useMemo(
@@ -16,18 +27,23 @@ export const VisualContent = () => {
       rowArrayAccessor: (query: GetJediHeroQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
-      containerCompDict: DefaultAllContainerCompsDict,
-      layout: "expandable" as AvailableTableLayouts,
+      containerCompDict:
+        tableControlOptions.flavour === "mui"
+          ? MuiAllContainerCompsDict
+          : DefaultAllContainerCompsDict,
+      layout: tableControlOptions.layout,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
     }),
-    []
+    [tableControlOptions]
   );
   // some basic error handling
   if (jediHeroResult.error) {
     return <div>{jediHeroResult.error.message}</div>;
   }
   if (!jediHeroResult.data) {
-    return <div>{`no data to display`}</div>;
+    return (
+      <div>{`no data to display, have you started the graphql server?`}</div>
+    );
   }
   if (
     (jediHeroResult.data?.hero?.friendsConnection?.edges?.length ?? -1) <= 0
@@ -37,11 +53,18 @@ export const VisualContent = () => {
   // finally, displaying the data
   return (
     <div>
-      <JSONViewer objectToDisplay={jediHeroResult.data} />
+      <VisualControlsForTableOptions
+        controlOptions={tableControlOptions}
+        handleChange={setTableControlOptions}
+      />
       <BatteriesIncludedTable
         rawData={jediHeroResult.data}
         options={jediTableOptionsMemo}
       />
+      <div>
+        <h3>This is the data that we retrieved:</h3>
+        <JSONViewer objectToDisplay={jediHeroResult.data} />
+      </div>
     </div>
   );
 };
