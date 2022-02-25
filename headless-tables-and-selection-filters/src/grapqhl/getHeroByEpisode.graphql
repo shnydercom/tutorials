@@ -1,0 +1,41 @@
+query getJediHeroByEpisode($episode: Episode) {
+  hero(episode: $episode) {
+    id,
+    __typename,
+    name,
+    ...humanFields
+    ...droidFields
+    friendsConnection {
+      __typename,
+      totalCount,
+      edges {
+        __typename,
+        cursor,
+        node {
+          id,
+          __typename,
+          name,
+          ...humanFields
+        }
+      },
+      pageInfo {
+        __typename,
+        startCursor,
+        endCursor
+      }
+    }
+  }
+}
+fragment humanFields on  Human {
+  homePlanet
+  height
+  starships {
+    id
+    name
+    length
+  }
+}
+
+fragment droidFields on Droid {
+  primaryFunction
+}

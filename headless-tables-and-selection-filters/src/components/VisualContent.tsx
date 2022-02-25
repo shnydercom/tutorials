@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GetJediHeroQuery, useGetJediHeroQuery } from "../generated/graphql";
+import { Episode, GetJediHeroByEpisodeQuery, useGetJediHeroByEpisodeQuery } from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
 import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
 import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
@@ -14,17 +14,19 @@ import {
 } from "./VisualControlsForTableOptions";
 
 export const VisualContent = () => {
-  const jediHeroResult = useGetJediHeroQuery();
   const [tableControlOptions, setTableControlOptions] =
     useState<TableControlOptionsAsJSON>({
       flavour: "default",
       layout: "simple",
+      episodeToQuery: Episode.Newhope
     });
+
+  const jediHeroResult = useGetJediHeroByEpisodeQuery({ variables: { episode: tableControlOptions.episodeToQuery } });
 
   // preparing the TableViewerOptions
   const jediTableOptionsMemo = React.useMemo(
     () => ({
-      rowArrayAccessor: (query: GetJediHeroQuery) =>
+      rowArrayAccessor: (query: GetJediHeroByEpisodeQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
       containerCompDict:

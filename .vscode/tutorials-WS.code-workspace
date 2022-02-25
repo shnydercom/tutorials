@@ -1,0 +1,11 @@
+{
+	"folders": [{
+			"name": "Root",
+			"path": "./"
+		},
+		{
+			"name": "headless-tables",
+			"path": "./../headless-tables-and-selection-filters"
+		}
+	]
+}

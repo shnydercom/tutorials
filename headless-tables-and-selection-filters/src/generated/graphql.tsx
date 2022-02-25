@@ -268,18 +268,41 @@ export type SubscriptionReviewAddedArgs = {
   episode?: Maybe<Episode>;
 };
 
-export type GetJediHeroQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetJediHeroByEpisodeQueryVariables = Exact<{
+  episode?: Maybe<Episode>;
+}>;
 
 
-export type GetJediHeroQuery = { __typename?: 'Query', hero?: { __typename: 'Droid', id: string, name: string, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | { __typename: 'Human', id: string, name: string, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | null | undefined };
+export type GetJediHeroByEpisodeQuery = { __typename?: 'Query', hero?: { __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } }, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
+export type HumanFieldsFragment = { __typename?: 'Human', homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined };
 
-export const GetJediHeroDocument = gql`
-    query getJediHero {
-  hero(episode: JEDI) {
+export type DroidFieldsFragment = { __typename?: 'Droid', primaryFunction?: string | null | undefined };
+
+export const HumanFieldsFragmentDoc = gql`
+    fragment humanFields on Human {
+  homePlanet
+  height
+  starships {
+    id
+    name
+    length
+  }
+}
+    `;
+export const DroidFieldsFragmentDoc = gql`
+    fragment droidFields on Droid {
+  primaryFunction
+}
+    `;
+export const GetJediHeroByEpisodeDocument = gql`
+    query getJediHeroByEpisode($episode: Episode) {
+  hero(episode: $episode) {
     id
     __typename
     name
+    ...humanFields
+    ...droidFields
     friendsConnection {
       __typename
       totalCount
@@ -290,6 +313,7 @@ export const GetJediHeroDocument = gql`
           id
           __typename
           name
+          ...humanFields
         }
       }
       pageInfo {
@@ -300,31 +324,33 @@ export const GetJediHeroDocument = gql`
     }
   }
 }
-    `;
+    ${HumanFieldsFragmentDoc}
+${DroidFieldsFragmentDoc}`;
 
 /**
- * __useGetJediHeroQuery__
+ * __useGetJediHeroByEpisodeQuery__
  *
- * To run a query within a React component, call `useGetJediHeroQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetJediHeroQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetJediHeroByEpisodeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetJediHeroByEpisodeQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetJediHeroQuery({
+ * const { data, loading, error } = useGetJediHeroByEpisodeQuery({
  *   variables: {
+ *      episode: // value for 'episode'
  *   },
  * });
  */
-export function useGetJediHeroQuery(baseOptions?: Apollo.QueryHookOptions<GetJediHeroQuery, GetJediHeroQueryVariables>) {
+export function useGetJediHeroByEpisodeQuery(baseOptions?: Apollo.QueryHookOptions<GetJediHeroByEpisodeQuery, GetJediHeroByEpisodeQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetJediHeroQuery, GetJediHeroQueryVariables>(GetJediHeroDocument, options);
+        return Apollo.useQuery<GetJediHeroByEpisodeQuery, GetJediHeroByEpisodeQueryVariables>(GetJediHeroByEpisodeDocument, options);
       }
-export function useGetJediHeroLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetJediHeroQuery, GetJediHeroQueryVariables>) {
+export function useGetJediHeroByEpisodeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetJediHeroByEpisodeQuery, GetJediHeroByEpisodeQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetJediHeroQuery, GetJediHeroQueryVariables>(GetJediHeroDocument, options);
+          return Apollo.useLazyQuery<GetJediHeroByEpisodeQuery, GetJediHeroByEpisodeQueryVariables>(GetJediHeroByEpisodeDocument, options);
         }
-export type GetJediHeroQueryHookResult = ReturnType<typeof useGetJediHeroQuery>;
-export type GetJediHeroLazyQueryHookResult = ReturnType<typeof useGetJediHeroLazyQuery>;
-export type GetJediHeroQueryResult = Apollo.QueryResult<GetJediHeroQuery, GetJediHeroQueryVariables>;
+export type GetJediHeroByEpisodeQueryHookResult = ReturnType<typeof useGetJediHeroByEpisodeQuery>;
+export type GetJediHeroByEpisodeLazyQueryHookResult = ReturnType<typeof useGetJediHeroByEpisodeLazyQuery>;
+export type GetJediHeroByEpisodeQueryResult = Apollo.QueryResult<GetJediHeroByEpisodeQuery, GetJediHeroByEpisodeQueryVariables>;
