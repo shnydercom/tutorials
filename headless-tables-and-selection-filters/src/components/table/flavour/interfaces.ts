@@ -1,9 +1,7 @@
 import React from "react";
 import { CellProps, HeaderProps } from "react-table";
-import { AvailableFlavours } from "../helpers/interfaces";
 
-export interface ContainerComponentsDictionary {
-  flavour: AvailableFlavours;
+export interface ComponentCreatorFnsDictionary {
   outmost: React.FC;
   table: React.FC;
   head: React.FC;

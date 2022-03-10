@@ -1,6 +1,6 @@
 import React from "react";
 import { Column, useTable, useExpanded } from "react-table";
-import { ContainerComponentsDictionary } from "../flavour/interfaces";
+import { ComponentCreatorFnsDictionary } from "../flavour/interfaces";
 import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToColumn";
 import { isString } from "../functionality/typeGuards";
 import { BatteriesIncludedTable } from "../helpers/BatteriesIncludedTable";
@@ -9,7 +9,7 @@ import { defaultRawDataToSourceTransformator, defaultRowAccessor } from "../help
 export type ExpandableTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
-  containerCompDict: ContainerComponentsDictionary;
+  compCreatorDict: ComponentCreatorFnsDictionary;
 };
 
 export const ExpandableTableLayout: <TSourceDataElem extends object>(
@@ -17,9 +17,9 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
 ) => JSX.Element = <TSourceDataElem extends object>(
   props: ExpandableTableLayoutProps<TSourceDataElem>
 ) => {
-    const { columns, data, containerCompDict } = props;
-    const TableHeaderCell = containerCompDict.headerCell;
-    const TableCell = containerCompDict.bodyCell;
+    const { columns, data, compCreatorDict } = props;
+    const TableHeaderCell = compCreatorDict.headerCell;
+    const TableCell = compCreatorDict.bodyCell;
     const tableInstance = useTable<TSourceDataElem>(
       {
         columns,
@@ -41,12 +41,12 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
       prepareRow,
       visibleColumns,
     } = tableInstance;
-    const Outmost = containerCompDict.outmost;
-    const TableRoot = containerCompDict.table;
-    const TableHead = containerCompDict.head;
-    const TableHeaderRow = containerCompDict.headerRow;
-    const TableRow = containerCompDict.bodyRow;
-    const TableBody = containerCompDict.body;
+    const Outmost = compCreatorDict.outmost;
+    const TableRoot = compCreatorDict.table;
+    const TableHead = compCreatorDict.head;
+    const TableHeaderRow = compCreatorDict.headerRow;
+    const TableRow = compCreatorDict.bodyRow;
+    const TableBody = compCreatorDict.body;
     return (
       <Outmost>
         <TableRoot {...getTableProps()}>
@@ -83,7 +83,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                             sourceDataToColumnsMapper: rawTableDataElemToColumn,
                             rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
                             rowArrayAccessor: defaultRowAccessor,
-                            containerCompDict,
+                            compCreatorDict,
                             layout: "simple"
                           }
                         } />

@@ -1,11 +1,11 @@
 import { Column, useTable } from "react-table";
-import { ContainerComponentsDictionary } from "../flavour/interfaces";
+import { ComponentCreatorFnsDictionary } from "../flavour/interfaces";
 import { isString } from "../functionality/typeGuards";
 
 export type SimpleTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
-  containerCompDict: ContainerComponentsDictionary;
+  compCreatorDict: ComponentCreatorFnsDictionary;
 };
 
 export const SimpleTableLayout: <TSourceDataElem extends object>(
@@ -13,9 +13,9 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
 ) => JSX.Element = <TSourceDataElem extends object>(
   props: SimpleTableLayoutProps<TSourceDataElem>
 ) => {
-  const { columns, data, containerCompDict } = props;
-  const TableHeaderCell = containerCompDict.headerCell;
-  const TableCell = containerCompDict.bodyCell;
+  const { columns, data, compCreatorDict } = props;
+  const TableHeaderCell = compCreatorDict.headerCell;
+  const TableCell = compCreatorDict.bodyCell;
   const tableInstance = useTable<TSourceDataElem>(
     {
       columns,
@@ -33,12 +33,12 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
     rows,
     prepareRow,
   } = tableInstance;
-  const Outmost = containerCompDict.outmost;
-  const TableRoot = containerCompDict.table;
-  const TableHead = containerCompDict.head;
-  const TableHeaderRow = containerCompDict.headerRow;
-  const TableRow = containerCompDict.bodyRow;
-  const TableBody = containerCompDict.body;
+  const Outmost = compCreatorDict.outmost;
+  const TableRoot = compCreatorDict.table;
+  const TableHead = compCreatorDict.head;
+  const TableHeaderRow = compCreatorDict.headerRow;
+  const TableRow = compCreatorDict.bodyRow;
+  const TableBody = compCreatorDict.body;
   return (
     <Outmost>
       <TableRoot {...getTableProps()}>

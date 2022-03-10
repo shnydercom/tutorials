@@ -73,7 +73,7 @@ export const BatteriesIncludedTable: <
           <SortingTableLayout
             columns={columns}
             data={sourceData}
-            containerCompDict={options.containerCompDict}
+            compCreatorDict={options.compCreatorDict}
           />
         );
       case "expandable":
@@ -81,14 +81,14 @@ export const BatteriesIncludedTable: <
           <ExpandableTableLayout
             columns={columns}
             data={sourceData}
-            containerCompDict={options.containerCompDict} />
+            compCreatorDict={options.compCreatorDict} />
         )
       default:
         return (
           <SimpleTableLayout
             columns={columns}
             data={sourceData}
-            containerCompDict={options.containerCompDict}
+            compCreatorDict={options.compCreatorDict}
           />
         );
     }

@@ -1,20 +1,19 @@
-import { ContainerComponentsDictionary } from "../interfaces";
+import { ComponentCreatorFnsDictionary } from "../interfaces";
 import MuiTableContainer from "@mui/material/TableContainer";
 import MuiTable from "@mui/material/Table";
 import MuiTableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableRow from "@mui/material/TableRow";
-import { MuiHeaderCellContainer } from "./MuiHeaderCellContainer";
-import { MuiBodyCellContainer } from "./MuiBodyCellContainer";
+import { MuiHeaderCellCreatorFn } from "./MuiHeaderCellCreatorFn";
+import { MuiBodyCellCreatorFn } from "./MuiBodyCellCreatorFn";
 
-export const MuiAllContainerCompsDict: ContainerComponentsDictionary = {
-  flavour: "mui",
+export const MuiComponentCreatorFnsDictionary: ComponentCreatorFnsDictionary = {
   outmost: MuiTableContainer,
   table: MuiTable,
   head: MuiTableHead,
   headerRow: TableRow,
-  headerCell: MuiHeaderCellContainer,
+  headerCell: MuiHeaderCellCreatorFn,
   body: TableBody,
   bodyRow: TableRow,
-  bodyCell: MuiBodyCellContainer,
+  bodyCell: MuiBodyCellCreatorFn,
 } 

@@ -1,9 +1,9 @@
-import { BasicCell } from "./bodycell-renderer/BasicCell";
+import { BasicCell } from "./cell-renderer/BasicCell";
 import { HeaderCellRenderer } from "../interfaces";
 import { SorterCell } from "./headercell-renderer/SorterCell";
 import { HeaderProps } from "react-table";
 
-export const MuiHeaderCellContainer: HeaderCellRenderer = (
+export const DefaultHeaderCellCreatorFn: HeaderCellRenderer = (
   props: React.PropsWithChildren<HeaderProps<{}>>
 ) => {
   const { value, children } = props;

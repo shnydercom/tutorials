@@ -1,9 +1,9 @@
-import { BasicCell } from "./cell-renderer/BasicCell";
+import { BasicCell } from "./bodycell-renderer/BasicCell";
 import { HeaderCellRenderer } from "../interfaces";
-import { SorterCell } from "./cell-renderer/SorterCell";
+import { SorterCell } from "./headercell-renderer/SorterCell";
 import { HeaderProps } from "react-table";
 
-export const DefaultHeaderCellContainer: HeaderCellRenderer = (
+export const MuiHeaderCellCreatorFn: HeaderCellRenderer = (
   props: React.PropsWithChildren<HeaderProps<{}>>
 ) => {
   const { value, children } = props;
@@ -13,6 +13,7 @@ export const DefaultHeaderCellContainer: HeaderCellRenderer = (
     canSort,
     getSortByToggleProps,
     getHeaderProps,
+    id
   } = props.column;
   if (canSort) {
     const newProps = {

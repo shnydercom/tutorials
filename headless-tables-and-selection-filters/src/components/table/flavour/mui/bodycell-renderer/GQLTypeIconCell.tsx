@@ -16,9 +16,9 @@ function getIconComp(input: StarWarsTechnicalTypes) {
     case StarWarsTechnicalTypes.Droid:
       return Android;
     case StarWarsTechnicalTypes.Human:
-      return RunCircle;
+      return EmojiPeople;
     case StarWarsTechnicalTypes.Starship:
-      return PrecisionManufacturing
+      return FlightTakeoff
     default:
       break;
   }
@@ -35,6 +35,7 @@ export const GQLTypeIconCell = (
   const IconComponent = useMemo(() => getIconComp(props.value), [props.value])
   return <MuiTableCell {...props}>
     <IconComponent/>
+    <small>{props.children}</small>
   </MuiTableCell>;
 };
 /*Android;

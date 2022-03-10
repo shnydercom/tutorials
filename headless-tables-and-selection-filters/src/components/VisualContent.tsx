@@ -5,8 +5,8 @@ import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
 import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
 import { BatteriesIncludedTable } from "./table/helpers/BatteriesIncludedTable";
 import {
-  DefaultAllContainerCompsDict,
-  MuiAllContainerCompsDict,
+  DefaultComponentCreatorFnsDict,
+  MuiComponentCreatorFnsDictionary
 } from "./table/flavour";
 import {
   TableControlOptionsAsJSON,
@@ -29,10 +29,10 @@ export const VisualContent = () => {
       rowArrayAccessor: (query: GetJediHeroByEpisodeQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
-      containerCompDict:
+      compCreatorDict:
         tableControlOptions.flavour === "mui"
-          ? MuiAllContainerCompsDict
-          : DefaultAllContainerCompsDict,
+          ? MuiComponentCreatorFnsDictionary
+          : DefaultComponentCreatorFnsDict,
       layout: tableControlOptions.layout,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
     }),

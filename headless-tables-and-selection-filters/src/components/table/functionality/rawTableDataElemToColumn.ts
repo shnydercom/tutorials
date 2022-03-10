@@ -29,8 +29,7 @@ export function rawTableDataElemToStarWarsColumn<TTableRawArrayElem extends obje
       if (Object.prototype.hasOwnProperty.call(exampleSourceRow, field)) {
         rv.push({
           Header: columnName,
-          accessor: field as keyof TTableRawArrayElem,
-          //...(field === "__typename" && {Cell:  }) //TODO: add cell type dynamically
+          accessor: field as keyof TTableRawArrayElem
         });
       }
     });

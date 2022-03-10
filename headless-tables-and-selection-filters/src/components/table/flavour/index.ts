@@ -1,2 +1,2 @@
-export { DefaultAllContainerCompsDict } from "./default/DefaultAllContainerCompsDict";
-export { MuiAllContainerCompsDict } from "./mui/MuiAllContainerCompsDict";
+export { DefaultComponentCreatorFnsDict } from "./default/DefaultComponentCreatorFnsDict";
+export { MuiComponentCreatorFnsDictionary } from "./mui/MuiComponentCreatorFnsDict";
