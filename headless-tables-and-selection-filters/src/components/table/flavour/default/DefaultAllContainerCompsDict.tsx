@@ -3,6 +3,7 @@ import { DefaultHeaderCellContainer } from "./DefaultHeaderCellContainer";
 import { DefaultBodyCellContainer } from "./DefaultBodyCellContainer";
 
 export const DefaultAllContainerCompsDict: ContainerComponentsDictionary = {
+  flavour: "defaulthtml",
   outmost: (props: React.PropsWithChildren<{}>) => <div {...props}></div>,
   table: (props: React.PropsWithChildren<{}>) => <table {...props}></table>,
   head: (props: React.PropsWithChildren<{}>) => <thead {...props}></thead>,

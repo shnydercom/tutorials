@@ -16,7 +16,7 @@ import {
 export const VisualContent = () => {
   const [tableControlOptions, setTableControlOptions] =
     useState<TableControlOptionsAsJSON>({
-      flavour: "default",
+      flavour: "defaulthtml",
       layout: "simple",
       episodeToQuery: Episode.Newhope
     });

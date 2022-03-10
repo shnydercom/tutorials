@@ -2,6 +2,7 @@ import { Column } from "react-table";
 import { ContainerComponentsDictionary } from "../flavour/interfaces";
 
 export type AvailableTableLayouts = "simple" | "sorting" | "expandable";
+export type AvailableFlavours = "defaulthtml" | "mui";
 
 export interface SourceDataToColumnsMapper<TSourceDataElem extends object> {
   (sourceData: TSourceDataElem[]): Column<TSourceDataElem>[];

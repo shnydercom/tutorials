@@ -8,6 +8,7 @@ import { MuiHeaderCellContainer } from "./MuiHeaderCellContainer";
 import { MuiBodyCellContainer } from "./MuiBodyCellContainer";
 
 export const MuiAllContainerCompsDict: ContainerComponentsDictionary = {
+  flavour: "mui",
   outmost: MuiTableContainer,
   table: MuiTable,
   head: MuiTableHead,
