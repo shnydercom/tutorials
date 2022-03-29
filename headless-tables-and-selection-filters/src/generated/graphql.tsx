@@ -287,6 +287,7 @@ export const HumanFieldsFragmentDoc = gql`
     id
     name
     length
+    __typename
   }
 }
     `;
@@ -324,7 +325,7 @@ export const GetJediHeroByEpisodeDocument = gql`
     }
   }
 }
-    ${HumanFieldsFragmentDoc}
+${HumanFieldsFragmentDoc}
 ${DroidFieldsFragmentDoc}`;
 
 /**

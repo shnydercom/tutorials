@@ -54,6 +54,7 @@ export const BatteriesIncludedTable: <
 ) => {
     const { rawData, options = createDefaultBatteriesIncludedTableOptions() } =
       props;
+
     // assign the dynamic data handling
     const sourceData = React.useMemo<TSourceDataElem[]>(
       () =>
@@ -62,11 +63,13 @@ export const BatteriesIncludedTable: <
           .map(options.rawDataToSourceTransformator),
       [options, rawData]
     );
+
     // assign the declarative part
     const columns = React.useMemo<Column<TSourceDataElem>[]>(
       () => options.sourceDataToColumnsMapper(sourceData),
       [options, sourceData]
-    )
+    );
+
     switch (options.layout) {
       case "sorting":
         return (

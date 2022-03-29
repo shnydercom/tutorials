@@ -18,7 +18,7 @@ export interface SourceDataToColumnsMapper<TSourceDataElem extends object> {
 export interface BatteriesIncludedTableOptions<
   TTableRawData extends object,
   TTableRawArrayElem extends object,
-  TSourceDataElem extends object
+  TSourceDataElem extends object,
 > {
   rowArrayAccessor: (
     value: TTableRawData

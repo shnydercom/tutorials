@@ -20,7 +20,6 @@ export const VisualContent = () => {
       layout: "simple",
       episodeToQuery: Episode.Newhope
     });
-
   const jediHeroResult = useGetJediHeroByEpisodeQuery({ variables: { episode: tableControlOptions.episodeToQuery } });
 
   // preparing the TableViewerOptions
@@ -52,7 +51,7 @@ export const VisualContent = () => {
   ) {
     return <div>{`not the right data to display`}</div>;
   }
-  // finally, displaying the data
+  // finally, displaying the data  
   return (
     <div>
       <VisualControlsForTableOptions

@@ -33,6 +33,7 @@ export const SimpleTableLayout: <TSourceDataElem extends object>(
     rows,
     prepareRow,
   } = tableInstance;
+
   const Outmost = compCreatorDict.outmost;
   const TableRoot = compCreatorDict.table;
   const TableHead = compCreatorDict.head;

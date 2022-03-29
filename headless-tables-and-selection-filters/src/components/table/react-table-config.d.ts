@@ -51,7 +51,6 @@ import { ReactNode } from "react";
 
 declare module "react-table" {
   // take this file as-is, or comment out the sections that don't apply to your plugin configuration
-
   export interface TableOptions<D extends object>
     extends UseExpandedOptions<D>,
       UseFiltersOptions<D>,
@@ -122,6 +121,7 @@ declare module "react-table" {
 
   export interface Row<D extends object = {}>
     extends UseExpandedRowProps<D>,
+      getToggleRowExpandedProps<D>,
       UseGroupByRowProps<D>,
       UseRowSelectRowProps<D>,
       UseRowStateRowProps<D> {
