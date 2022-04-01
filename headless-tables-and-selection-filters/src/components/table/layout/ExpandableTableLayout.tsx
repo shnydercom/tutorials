@@ -5,6 +5,7 @@ import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToCol
 import { isString } from "../functionality/typeGuards";
 import { BatteriesIncludedTable } from "../helpers/BatteriesIncludedTable";
 import { defaultRawDataToSourceTransformator, defaultRowAccessor } from "../helpers/defaultOptions";
+import IconButton from '@mui/material/IconButton';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -97,20 +98,25 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                               const isClickedOnExpandedSubItem =
                                 expandedSubItem.id === row.id;
                               if (!isClickedOnExpandedSubItem) {
-                                toggleRowExpanded([expandedRow.id], false);
+                                // toggleRowExpanded([expandedRow.id], false);
                               }
                             }
                           } else {
-                            toggleRowExpanded([expandedRow.id], false);
+                            // toggleRowExpanded([expandedRow.id], false);
                           }
                         }
                         row.toggleRowExpanded();
                       }}>
+                        <IconButton
+                          aria-label="expand row"
+                          size="small"
+                        >
                         {row.isExpanded ? (
                           <KeyboardArrowUpIcon />
                         ) : (
                           <KeyboardArrowDownIcon />
                         )}
+                        </IconButton>
                       </span> : ""}
                     </td>
                     {row.cells.map((cell) => {
