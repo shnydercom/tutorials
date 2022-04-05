@@ -15,7 +15,19 @@ query getJediHeroByEpisode($episode: Episode) {
           id,
           __typename,
           name,
+          ...humanFields,
+          friendsConnection {
+      __typename,
+      totalCount,
+      edges {
+        __typename,
+        cursor,
+        node {
+          id,
+          __typename,
+          name,
           ...humanFields
+          }}}
         }
       },
       pageInfo {

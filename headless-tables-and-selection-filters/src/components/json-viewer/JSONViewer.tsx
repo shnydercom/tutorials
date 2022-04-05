@@ -7,5 +7,5 @@ export const JSONViewer = (objectToDisplay: any) => {
       ? `full error: ${error}`
       : "an error occured without error details";
   }
-  return <div>{displayText}</div>;
+  return <div className="jsonviewer">{displayText}</div>;
 };
