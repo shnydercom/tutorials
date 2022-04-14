@@ -6,8 +6,8 @@ import { isString } from "../functionality/typeGuards";
 import { BatteriesIncludedTable } from "../helpers/BatteriesIncludedTable";
 import { defaultRawDataToSourceTransformator, defaultRowAccessor } from "../helpers/defaultOptions";
 import IconButton from '@mui/material/IconButton';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 export type ExpandableTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
@@ -20,7 +20,8 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
 ) => JSX.Element = <TSourceDataElem extends object>(
   props: ExpandableTableLayoutProps<TSourceDataElem>,
 ) => {
-    const { columns, data, compCreatorDict } = props;
+    // @ts-ignore: Unreachable code error
+    const { columns, data, compCreatorDict, flavour } = props;
     const TableHeaderCell = compCreatorDict.headerCell;
     const TableCell = compCreatorDict.bodyCell;
 
@@ -56,6 +57,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
     const TableRow = compCreatorDict.bodyRow;
     const TableBody = compCreatorDict.body;
     const expandedKey = Object.keys(data[0]).find((aKey) => Array.isArray((data[0] as any)[aKey]));
+
     return (
       <Outmost>
         <TableRoot {...getTableProps()}>
@@ -112,9 +114,9 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                           size="small"
                         >
                         {row.isExpanded ? (
-                          <KeyboardArrowUpIcon />
+                          flavour === 'defaulthtml' ? <span>🔽</span> : <ArrowUpwardIcon fontSize="small" />
                         ) : (
-                          <KeyboardArrowDownIcon />
+                          flavour === 'defaulthtml' ? <span>🔼</span> : <ArrowDownwardIcon fontSize="small" />
                         )}
                         </IconButton>
                       </span> : ""}

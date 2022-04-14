@@ -52,7 +52,8 @@ export const BatteriesIncludedTable: <
     TSourceDataElem
   >
 ) => {
-    const { rawData, options = createDefaultBatteriesIncludedTableOptions() } =
+   // @ts-ignore: Unreachable code error
+    const { rawData, options = createDefaultBatteriesIncludedTableOptions(), flavour } =
       props;
 
     // assign the dynamic data handling
@@ -65,11 +66,21 @@ export const BatteriesIncludedTable: <
     );
 
     // assign the declarative part
-    const columns = React.useMemo<Column<TSourceDataElem>[]>(
+    let columns = React.useMemo<Column<TSourceDataElem>[]>(
       () => options.sourceDataToColumnsMapper(sourceData),
       [options, sourceData]
     );
 
+    if (options.layout === 'expandable') {
+      // @ts-ignore: Unreachable code error
+      columns.splice(0, 0, {
+        Header: ' ',
+        accessor: '' as keyof TTableRawArrayElem,
+      });
+    };
+
+    console.log("options", options);
+    
     switch (options.layout) {
       case "sorting":
         return (
@@ -84,7 +95,9 @@ export const BatteriesIncludedTable: <
           <ExpandableTableLayout
             columns={columns}
             data={sourceData}
-            compCreatorDict={options.compCreatorDict} />
+            compCreatorDict={options.compCreatorDict} 
+            // @ts-ignore: Unreachable code error
+            flavour={flavour} />
         )
       default:
         return (

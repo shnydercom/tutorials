@@ -7,11 +7,6 @@ export function rawTableDataElemToColumn<TTableRawArrayElem extends object>(
   const rv: Column<TTableRawArrayElem>[] = [];
   if (sourceData && sourceData.length > 0) {
     const exampleSourceRow = sourceData[0];
-    rv.push({
-      Header: ' ',
-      accessor: '' as keyof TTableRawArrayElem,
-    });
-    
     fieldColumnNameMap.forEach((columnName, field) => {
       if (Object.prototype.hasOwnProperty.call(exampleSourceRow, field)) {
         rv.push({
