@@ -62,7 +62,6 @@ export const VisualContent = () => {
       <BatteriesIncludedTable
         rawData={jediHeroResult.data}
         options={jediTableOptionsMemo}
-        // @ts-ignore: Unreachable code error
         flavour={tableControlOptions.flavour}
       />
       <div>

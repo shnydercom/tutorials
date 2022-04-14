@@ -1,32 +1,60 @@
 query getJediHeroByEpisode($episode: Episode) {
   hero(episode: $episode) {
-    id,
-    __typename,
-    name,
+    id
+    __typename
+    name
     ...humanFields
     ...droidFields
     friendsConnection {
-      __typename,
-      totalCount,
+      __typename
+      totalCount
       edges {
-        __typename,
-        cursor,
+        __typename
+        cursor
         node {
-          id,
-          __typename,
-          name,
+          id
+          __typename
+          name
           ...humanFields
+          friendsConnection {
+            __typename
+            totalCount
+            edges {
+              __typename
+              cursor
+              node {
+                id
+                __typename
+                name
+                ...humanFields
+                friendsConnection {
+                  __typename
+                  totalCount
+                  edges {
+                    __typename
+                    cursor
+                    node {
+                      id
+                      __typename
+                      name
+                      ...humanFields
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
-      },
+      }
       pageInfo {
-        __typename,
-        startCursor,
+        __typename
+        startCursor
         endCursor
       }
     }
   }
 }
-fragment humanFields on  Human {
+fragment humanFields on Human {
   homePlanet
   height
   starships {

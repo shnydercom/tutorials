@@ -18,6 +18,7 @@ export interface BatteriesIncludedTableProps<
   TSourceDataElem extends object
   > {
   rawData: TTableRawData;
+  flavour: string;
   options?: BatteriesIncludedTableOptions<
     TTableRawData,
     TTableRawArrayElem,
@@ -70,16 +71,6 @@ export const BatteriesIncludedTable: <
       () => options.sourceDataToColumnsMapper(sourceData),
       [options, sourceData]
     );
-
-    if (options.layout === 'expandable') {
-      // @ts-ignore: Unreachable code error
-      columns.splice(0, 0, {
-        Header: ' ',
-        accessor: '' as keyof TTableRawArrayElem,
-      });
-    };
-
-    console.log("options", options);
     
     switch (options.layout) {
       case "sorting":
@@ -95,9 +86,9 @@ export const BatteriesIncludedTable: <
           <ExpandableTableLayout
             columns={columns}
             data={sourceData}
-            compCreatorDict={options.compCreatorDict} 
-            // @ts-ignore: Unreachable code error
-            flavour={flavour} />
+            compCreatorDict={options.compCreatorDict}
+            flavour={flavour}
+          />
         )
       default:
         return (

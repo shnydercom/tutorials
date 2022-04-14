@@ -13,6 +13,7 @@ export type ExpandableTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
   compCreatorDict: ComponentCreatorFnsDictionary;
+  flavour: string;
 };
 
 export const ExpandableTableLayout: <TSourceDataElem extends object>(
@@ -20,7 +21,6 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
 ) => JSX.Element = <TSourceDataElem extends object>(
   props: ExpandableTableLayoutProps<TSourceDataElem>,
 ) => {
-    // @ts-ignore: Unreachable code error
     const { columns, data, compCreatorDict, flavour } = props;
     const TableHeaderCell = compCreatorDict.headerCell;
     const TableCell = compCreatorDict.bodyCell;
@@ -35,7 +35,6 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
         },
         //find an array on the row to use for automatic expansion
         expandSubRows: true,
-        // manualExpandedKey: Object.keys(data[0]).find((aKey) => Array.isArray((data[0] as any)[aKey]))
       },
       useExpanded
     );
@@ -45,7 +44,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
       headerGroups,
       rows,
       prepareRow,
-      toggleRowExpanded,
+      // toggleRowExpanded,
       rowsById,
       visibleColumns,
     } = tableInstance;
@@ -57,6 +56,14 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
     const TableRow = compCreatorDict.bodyRow;
     const TableBody = compCreatorDict.body;
     const expandedKey = Object.keys(data[0]).find((aKey) => Array.isArray((data[0] as any)[aKey]));
+
+    if (columns && columns.length > 0 && expandedKey !== undefined) {
+      // @ts-ignore: Unreachable code error
+      columns.splice(0, 0, {
+        Header: ' ',
+        accessor: ''
+      });
+    };
 
     return (
       <Outmost>
@@ -80,13 +87,12 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
             {rows.map((row, i : any) => {
               prepareRow(row);
               return (
-                <React.Fragment key={`react-table-${i}`}>
+                <React.Fragment>
                   <TableRow {...row.getRowProps()}>
-                    <td className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root">
-                    { // @ts-ignore: Unreachable code error
+                    {expandedKey !== undefined ? <td className="MuiTableCell-root MuiTableCell-body MuiTableCell-sizeMedium css-1ex1afd-MuiTableCell-root">
+                    {  // @ts-ignore: Unreachable code error
                        rowsById[i].original[expandedKey] !== undefined && rowsById[i].original[expandedKey].length > 0 ? <span {...row.getToggleRowExpandedProps()} onClick={() => {
                         const expandedRow = rows.find((row) => row.isExpanded);
-                       
                         if (expandedRow) {
                           const isSubItemOfRow = Boolean(
                             expandedRow && row.id.split(".")[0] === expandedRow.id
@@ -120,7 +126,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                         )}
                         </IconButton>
                       </span> : ""}
-                    </td>
+                    </td> : ""}
                     {row.cells.map((cell) => {
                      if (cell.value !== undefined) {
                       return cell.render("Cell");
@@ -130,7 +136,8 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                   {row.isExpanded ? (
                     <tr className="child-table">
                       <td colSpan={visibleColumns.length}>
-                        <BatteriesIncludedTable rawData={row.original} options={
+                        <BatteriesIncludedTable 
+                        rawData={row.original} flavour={flavour}  options={
                           {
                             sourceDataToColumnsMapper: rawTableDataElemToColumn,
                             rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
