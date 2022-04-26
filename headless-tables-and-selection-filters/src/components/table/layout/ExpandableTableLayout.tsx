@@ -25,6 +25,8 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
     const TableHeaderCell = compCreatorDict.headerCell;
     const TableCell = compCreatorDict.bodyCell;
 
+    console.log("props", props);
+
     const tableInstance = useTable<TSourceDataElem>(
       {
         columns,
@@ -136,16 +138,18 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                   {row.isExpanded ? (
                     <tr className="child-table">
                       <td colSpan={visibleColumns.length}>
-                        <BatteriesIncludedTable 
-                        rawData={row.original} flavour={flavour}  options={
-                          {
-                            sourceDataToColumnsMapper: rawTableDataElemToColumn,
-                            rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
-                            rowArrayAccessor: defaultRowAccessor,
-                            compCreatorDict,
-                            layout: "expandable"
-                          }
-                        } />
+                        <BatteriesIncludedTable
+                          rawData={row.original} options={
+                            {
+                              sourceDataToColumnsMapper: rawTableDataElemToColumn,
+                              rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
+                              rowArrayAccessor: defaultRowAccessor,
+                              compCreatorDict,
+                              layout: "expandable",
+                              // @ts-ignore: Unreachable code error
+                              flavour
+                            }
+                          } />
                       </td>
                     </tr>
                   ) : null}

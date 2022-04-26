@@ -32,6 +32,7 @@ export const VisualContent = () => {
         tableControlOptions.flavour === "mui"
           ? MuiComponentCreatorFnsDictionary
           : DefaultComponentCreatorFnsDict,
+      flavour: tableControlOptions.flavour,
       layout: tableControlOptions.layout,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
     }),
@@ -52,7 +53,6 @@ export const VisualContent = () => {
     return <div>{`not the right data to display`}</div>;
   }
   // finally, displaying the data  
-
   return (
     <div>
       <VisualControlsForTableOptions
@@ -62,7 +62,6 @@ export const VisualContent = () => {
       <BatteriesIncludedTable
         rawData={jediHeroResult.data}
         options={jediTableOptionsMemo}
-        flavour={tableControlOptions.flavour}
       />
       <div>
         <h3>This is the data that we retrieved:</h3>

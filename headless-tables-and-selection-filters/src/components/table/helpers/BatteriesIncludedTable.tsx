@@ -18,7 +18,6 @@ export interface BatteriesIncludedTableProps<
   TSourceDataElem extends object
   > {
   rawData: TTableRawData;
-  flavour: string;
   options?: BatteriesIncludedTableOptions<
     TTableRawData,
     TTableRawArrayElem,
@@ -53,10 +52,8 @@ export const BatteriesIncludedTable: <
     TSourceDataElem
   >
 ) => {
-   // @ts-ignore: Unreachable code error
-    const { rawData, options = createDefaultBatteriesIncludedTableOptions(), flavour } =
+    const { rawData, options = createDefaultBatteriesIncludedTableOptions() } =
       props;
-
     // assign the dynamic data handling
     const sourceData = React.useMemo<TSourceDataElem[]>(
       () =>
@@ -87,7 +84,8 @@ export const BatteriesIncludedTable: <
             columns={columns}
             data={sourceData}
             compCreatorDict={options.compCreatorDict}
-            flavour={flavour}
+            // @ts-ignore: Unreachable code error
+            flavour={options.flavour}
           />
         )
       default:
