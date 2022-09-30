@@ -122,6 +122,7 @@ declare module "react-table" {
 
   export interface Row<D extends object = {}>
     extends UseExpandedRowProps<D>,
+      getToggleRowExpandedProps<D>,
       UseGroupByRowProps<D>,
       UseRowSelectRowProps<D>,
       UseRowStateRowProps<D> {
