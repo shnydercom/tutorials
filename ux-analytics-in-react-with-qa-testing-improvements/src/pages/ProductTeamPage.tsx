@@ -23,8 +23,8 @@ export const ProductTeamPage = () => {
         its interpretation will help you build better UIs
         <h2>The Product/Service perspective</h2>
         We want to include non-technical people in our teams, who mostly see the
-        pages like the users do. With this "product perspective" we can inspect the invisible side of the
-        page we're testing
+        pages like the users do. With this "product perspective" we can inspect
+        the invisible side of the page we're testing
         <ul>
           <li>
             <i data-qa-id="highlighted element">(s)</i> are the ones which
@@ -41,10 +41,16 @@ export const ProductTeamPage = () => {
             testing
           </li>
         </ul>
+        Below you can scroll all the way down to the button, which is also
+        highlighted.
       </div>
       <div className="userpage-wrapper">
         <UserPage logDOMeventCallback={emptyCallback} />
       </div>
+      <p>
+      🕺 And that's it, hope this tutorial was helpful! Please give feedback or{" "}
+        <a href="https://dev.to/shnydercom">connect on dev.to</a> 🧙
+      </p>
     </div>
   );
 };
