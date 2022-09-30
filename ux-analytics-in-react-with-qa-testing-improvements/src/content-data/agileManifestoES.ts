@@ -41,5 +41,5 @@ export const AGILE_MANIFESTO_ES: AgileManifestoContent = {
         "Jeff Sutherland",
         "Dave Thomas"
     ],
-    copyrightStatement: "© 2001, los autores mencionados mediante esta nota se autoriza la copia y distribución de esta declaración a través de cualquier medio pero sólo de forma íntegra."
+    copyrightStatement: "© 2001, los autores mencionados. Mediante esta nota se autoriza la copia y distribución de esta declaración a través de cualquier medio pero sólo de forma íntegra."
 }

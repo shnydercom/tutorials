@@ -30,8 +30,10 @@ function UserPage(props: UserPageProps) {
       <DividerHR onVisibilityChanged={onHRVisible} elementId="end-of-german" />
       <button
         data-qa-id="the-end-button"
-        onClick={(e) =>
+        onClick={(e) => {
+          console.log("well, so this button... it doesn't really do anything")
           logDOMeventCallback("on_click", e.currentTarget.value, e.currentTarget)
+        }
         }
       >
         <strong>This clickable element marks the end.</strong>
