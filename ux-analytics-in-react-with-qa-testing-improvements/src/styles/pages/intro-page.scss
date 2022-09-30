@@ -1,0 +1,17 @@
+@import "../colors.scss";
+.intro-page {
+  background-color: #e2e2e2;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  .how-to {
+    margin-top: 18px;
+    width: 500px;
+    align-self: center;
+    text-align: start;
+    ul {
+      list-style-type: circle;
+    }
+  }
+}

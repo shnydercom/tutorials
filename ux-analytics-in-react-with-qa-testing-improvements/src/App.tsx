@@ -4,7 +4,7 @@ import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { ProductTeamPage } from "./pages/ProductTeamPage";
 import UserPage from "./pages/UserPage";
 import { logDOMevent } from "./analytics/UXEventLoggingAPI";
-import { WelcomePage } from "./pages/WelcomePage";
+import { IntroPage } from "./pages/IntroPage";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <CRAAppHeader />
         <Switch>
           <Route path="/" exact={true}>
-            <WelcomePage />
+            <IntroPage />
           </Route>
           <Route path="/userpage">
             <UserPage logDOMeventCallback={logDOMevent} />
