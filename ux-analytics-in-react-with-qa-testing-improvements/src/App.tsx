@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { CRAAppHeader } from "./components/CRAAppHeader";
-import { DataNerdPage } from "./pages/DataNerdPage";
+import { AnalyticsPage } from "./pages/AnalyticsPage";
 import { ProductTeamPage } from "./pages/ProductTeamPage";
 import UserPage from "./pages/UserPage";
+import { logDOMevent } from "./analytics/UXEventLoggingAPI";
 import { WelcomePage } from "./pages/WelcomePage";
 
 function App() {
@@ -11,17 +12,17 @@ function App() {
       <div className="App">
         <CRAAppHeader />
         <Switch>
+          <Route path="/" exact={true}>
+            <WelcomePage />
+          </Route>
           <Route path="/userpage">
-            <UserPage />
+            <UserPage logDOMeventCallback={logDOMevent} />
           </Route>
           <Route path="/analytics">
-            <DataNerdPage />
+            <AnalyticsPage />
           </Route>
           <Route path="/mixed">
             <ProductTeamPage />
-          </Route>
-          <Route path="/">
-            <WelcomePage />
           </Route>
         </Switch>
       </div>

@@ -1,4 +1,4 @@
-import { AgileManifestoValueProclamation } from "../../data/AgileManifestoInterfaces";
+import { AgileManifestoValueProclamation } from "../../content-data/AgileManifestoInterfaces";
 
 export interface AgileManifestoValueProclamationsAsListProps {
   content: AgileManifestoValueProclamation[];

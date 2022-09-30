@@ -28,7 +28,7 @@ export const UXEventSequenceVisualizer = (
             ID.
           </li>
           <li>
-            Opening the page in a different browser or re-opening in private
+            Opening the user's page in a different browser or re-opening in private
             mode will create a new session
           </li>
         </ul>

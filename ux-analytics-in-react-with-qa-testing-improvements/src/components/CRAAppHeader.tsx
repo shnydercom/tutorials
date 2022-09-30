@@ -5,30 +5,30 @@ export const CRAAppHeader = () => {
     <header className="App-header">
       <img src={logo} className="App-logo" alt="logo" />
       <p>
-        This app is based on <code>create-react-app</code>
+        ...just another <br /> <code>create-react-app</code>
+        <br />
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
       </p>
-      &nbsp;
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn React
-      </a>
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">Intro/Readme</Link>
           </li>
           <li>
-            <Link to="/userpage">For the Users</Link>
+            <Link to="/userpage">First: Users create usage-data</Link>
           </li>
           <li>
-            <Link to="/analytics">For Data Nerds</Link>
+            <Link to="/analytics">Then: Analysts check every detail</Link>
           </li>
           <li>
-            <Link to="/mixed">For the Product Team</Link>
+            <Link to="/mixed">Finally: Make informed Product decisions</Link>
           </li>
         </ul>
       </nav>
