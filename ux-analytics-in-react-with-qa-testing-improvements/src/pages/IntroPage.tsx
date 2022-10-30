@@ -24,7 +24,7 @@ export const IntroPage = () => {
         unique on a page. Commonly the attribute "data-qa-id" is used, or at
         least it's the one that gives you stackoverflow answers. "data-cy" is
         used in the case of cypress, and others are possible as well.
-        <h2>HTML5's "data-qa-id" attributes</h2>
+        <h2 data-qa-id="this-is-for-quality-assurance">HTML5's "data-qa-id" attributes</h2>
         Good news: You can reuse your Quality Assurance testing for usage
         analysis.
         <p>

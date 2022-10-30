@@ -42,7 +42,7 @@ interface TooltipData {
   color: string;
 }
 
-interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent { }
+interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent {}
 
 interface ChartScales {
   timeScale: ScaleLinear<number, number, never>;
@@ -110,7 +110,7 @@ function createRelativeScalesFromEventSeries(
   };
 }
 
-const eventTypeColors = ["rgb(4 58 123)", "rgb(228 2 2)", "rgb(7 227 255)"];
+const eventTypeColors = ["rgb(4 58 123)", "rgb(228 2 2)", "rgb(180 230 237)", "rgb(251 204 14)"];
 
 const colorScale = scaleOrdinal<UXEventType, string>({
   domain: UXEventTypeKeys,
@@ -162,7 +162,7 @@ export const HorizontalEventTimeline = withTooltip<
     }, [pastUXEvents]);
 
     return (
-      <div>
+      <div style={{ position: "relative", width: _styling.width }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -181,7 +181,7 @@ export const HorizontalEventTimeline = withTooltip<
             rx={14}
           />
           {scales && (
-            <Group top={_styling.margin.top} left={_styling.margin.left}>
+            <Group top={_styling.margin.top+16} left={_styling.margin.left}>
               <BarStackHorizontal<PastUXEventKeyed, UXEventType>
                 data={data}
                 keys={UXEventTypeKeys}
@@ -257,30 +257,29 @@ export const HorizontalEventTimeline = withTooltip<
             </Group>
           )}
         </svg>
-        <div
+        <LegendOrdinal
           style={{
             position: "absolute",
             top: _styling.margin.top / 2 + 10,
+            width: _styling.width,
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            fontSize: "14px",
+          }}
+          scale={colorScale}
+          direction="row"
+          labelMargin="0 15px 0 0"
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: _styling.margin.top / 2 + 20,
             width: "100%",
             display: "flex",
             justifyContent: "center",
             fontSize: "14px",
           }}
-        >
-          <LegendOrdinal
-            scale={colorScale}
-            direction="row"
-            labelMargin="0 15px 0 0"
-          />
-        </div>
-        <div style={{
-          position: "absolute",
-          bottom: _styling.margin.top / 2 + 20,
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          fontSize: "14px",
-        }}
         >
           <strong>{"Session Time"}</strong>
         </div>
@@ -310,5 +309,6 @@ export const HorizontalEventTimeline = withTooltip<
         )}
       </div>
     );
-  }
+  },
+  { style: { display: "flex", justifyContent: "center" } }
 );
