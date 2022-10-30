@@ -14,11 +14,11 @@ import {
   UXEventTypeKeys,
 } from "../../analytics/UXEventInterfaces";
 
-type ChartKey = "relativeTime";
-const chartKey: ChartKey = "relativeTime";
+type ChartKey = "relativeTime" | "indexInDataSet";
 
 interface HorizontalEventTimelineProps {
   pastUXEvents: PastUXEvent[];
+  chartKey?: ChartKey;
   styling?: HorizontalEventTimelineStyling;
 }
 
@@ -42,10 +42,13 @@ interface TooltipData {
   color: string;
 }
 
-interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent {}
+interface PastUXEventKeyed extends Record<UXEventType, number>, PastUXEvent {
+  indexInDataSet: number;
+}
 
 interface ChartScales {
   timeScale: ScaleLinear<number, number, never>;
+  interactionsScale: ScaleLinear<number, number, never>;
   sIDScale: ScaleBand<string>;
   relativeTimeMax: number;
 }
@@ -74,16 +77,38 @@ const formatSessionID = (pastUXEvent: PastUXEvent) => {
 };
 
 function modifySeriesBy(
+  chartKey: ChartKey,
   eventSeries: PastUXEvent[],
   timeOffset: number,
   timeScaleFactor: number,
   explicitEventTypes: UXEventType[]
 ) {
+  //modify interaction scale
+  eventSeries.reduce<{ [s: string]: number }>(
+    (prev, cur) => {
+      if (prev.hasOwnProperty(cur.sessionID)) {
+        prev[cur.sessionID]++;
+      } else {
+        prev[cur.sessionID] = 1;
+      }
+      (cur as PastUXEventKeyed).indexInDataSet = prev[cur.sessionID];
+      return prev;
+    },
+    {}
+  );
+  //modify time scale
   eventSeries.forEach((pUXe) => {
     explicitEventTypes.forEach((evType) => {
       if (pUXe.eventType === evType) {
-        (pUXe as PastUXEventKeyed)[evType] =
-          (pUXe.relativeTime + timeOffset) * timeScaleFactor;
+        if (chartKey === "relativeTime") {
+          (pUXe as PastUXEventKeyed)[evType] =
+            (pUXe.relativeTime + timeOffset) * timeScaleFactor;
+        }
+        if (chartKey === "indexInDataSet") {
+          (pUXe as PastUXEventKeyed)[evType] = (
+            pUXe as PastUXEventKeyed
+          ).indexInDataSet;
+        }
       }
     });
   });
@@ -95,8 +120,25 @@ function createRelativeScalesFromEventSeries(
   const relativeTimeMax = Math.max(
     ...eventSeries.map((pUXe) => pUXe.relativeTime)
   );
+  const interactionsDict = eventSeries.reduce<{ [s: string]: number }>(
+    (prev, cur) => {
+      if (prev.hasOwnProperty(cur.sessionID)) {
+        prev[cur.sessionID]++;
+      } else {
+        prev[cur.sessionID] = 1;
+      }
+      return prev;
+    },
+    {}
+  );
+  const interactionsMax = Math.max(...Object.values(interactionsDict));
+  console.log(interactionsDict)
   const timeScale = scaleLinear<number>({
     domain: [0, relativeTimeMax * SCALE_BASE],
+    nice: true,
+  });
+  const interactionsScale = scaleLinear<number>({
+    domain: [0, interactionsMax],
     nice: true,
   });
   const sIDScale = scaleBand<string>({
@@ -104,13 +146,19 @@ function createRelativeScalesFromEventSeries(
     padding: 0.2,
   });
   return {
+    interactionsScale,
     timeScale,
     sIDScale,
     relativeTimeMax,
   };
 }
 
-const eventTypeColors = ["rgb(4 58 123)", "rgb(228 2 2)", "rgb(180 230 237)", "rgb(251 204 14)"];
+const eventTypeColors = [
+  "rgb(4 58 123)",
+  "rgb(228 2 2)",
+  "rgb(180 230 237)",
+  "rgb(251 204 14)",
+];
 
 const colorScale = scaleOrdinal<UXEventType, string>({
   domain: UXEventTypeKeys,
@@ -134,6 +182,7 @@ export const HorizontalEventTimeline = withTooltip<
   TooltipData
 >(
   ({
+    chartKey = "relativeTime",
     styling,
     pastUXEvents,
     tooltipOpen,
@@ -154,12 +203,19 @@ export const HorizontalEventTimeline = withTooltip<
       // create a deep copy of the data to relativize the timeStamps
       const pastUXEventsKeyed = JSON.parse(JSON.stringify(pastUXEvents));
       const _scales = createRelativeScalesFromEventSeries(pastUXEventsKeyed);
-      modifySeriesBy(pastUXEventsKeyed, 0, SCALE_BASE, UXEventTypeKeys);
+      modifySeriesBy(
+        chartKey,
+        pastUXEventsKeyed,
+        0,
+        SCALE_BASE,
+        UXEventTypeKeys
+      );
+      _scales.interactionsScale.rangeRound([0, xMax]);
       _scales.timeScale.rangeRound([0, xMax]);
       _scales.sIDScale.rangeRound([yMax, 0]);
       setScales(_scales);
       setPastUXEventsKeyed(pastUXEventsKeyed);
-    }, [pastUXEvents]);
+    }, [pastUXEvents, chartKey]);
 
     return (
       <div style={{ position: "relative", width: _styling.width }}>
@@ -181,14 +237,18 @@ export const HorizontalEventTimeline = withTooltip<
             rx={14}
           />
           {scales && (
-            <Group top={_styling.margin.top+16} left={_styling.margin.left}>
+            <Group top={_styling.margin.top + 16} left={_styling.margin.left}>
               <BarStackHorizontal<PastUXEventKeyed, UXEventType>
                 data={data}
                 keys={UXEventTypeKeys}
                 height={yMax}
                 y={formatSessionID}
                 x={chartKey}
-                xScale={scales.timeScale}
+                xScale={
+                  chartKey === "relativeTime"
+                    ? scales.timeScale
+                    : scales.interactionsScale
+                }
                 yScale={scales.sIDScale}
                 color={colorScale}
               >
@@ -245,7 +305,11 @@ export const HorizontalEventTimeline = withTooltip<
               />
               <AxisBottom
                 top={yMax}
-                scale={scales.timeScale}
+                scale={
+                  chartKey === "relativeTime"
+                    ? scales.timeScale
+                    : scales.interactionsScale
+                }
                 stroke={_styling.axisColor}
                 tickStroke={_styling.axisColor}
                 tickLabelProps={() => ({
@@ -303,6 +367,11 @@ export const HorizontalEventTimeline = withTooltip<
               <small>
                 Date and Time of event:{" "}
                 {formatDate(new Date(tooltipData.bar.data.timeStamp))}
+              </small>
+            </div>
+            <div>
+              <small>
+                Index in session: {tooltipData.bar.data.indexInDataSet}
               </small>
             </div>
           </Tooltip>
