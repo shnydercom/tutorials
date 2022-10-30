@@ -35,3 +35,5 @@ export function logDOMevent(
   };
   logBeacon(uxEvent, logUrl);
 }
+
+export type logDOMeventCallbackType = typeof logDOMevent;

@@ -1,9 +1,11 @@
 @import "./colors.scss";
 .manifesto {
   width: 100%;
+
   > * {
-    padding: 0 60px;
-    height: 30vh;
+    padding: 8px 60px;
+    min-height: 33vh;
+    height: calc(fit-content + 16px);
   }
   > :nth-child(1) {
     background-color: $bg1;
@@ -41,7 +43,8 @@
     flex: 1;
     justify-content: center;
     align-items: center;
-    padding: 6px;
+    padding: 16px;
+    height: 33vh;
   }
   header {
     display: flex;

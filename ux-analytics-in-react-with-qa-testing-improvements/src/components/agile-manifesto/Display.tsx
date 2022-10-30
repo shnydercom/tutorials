@@ -1,4 +1,4 @@
-import { AgileManifestoContent } from "../../data/AgileManifestoInterfaces";
+import { AgileManifestoContent } from "../../content-data/AgileManifestoInterfaces";
 import { AgileManifestoAuthorNamesAsList } from "./AuthorsNamesAsList";
 import { AgileManifestoValueProclamationsAsCards } from "./ValueProclamationsAsCards";
 import { AgileManifestoValueProclamationsAsList } from "./ValueProclamationsAsList";

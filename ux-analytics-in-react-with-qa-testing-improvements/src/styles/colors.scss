@@ -1,11 +1,22 @@
-$bg1: rgba(#fff, .1);
-$bg2: rgba(#fff, .2);
-$bg3: rgba(#fff, .3);
-$bg4: rgba(#fff, .4);
-$bg5: rgba(#fff, .5);
+$bg1: rgba(#fff, 0.4);
+$bg2: rgba(#fff, 0.3);
+$bg3: rgba(#fff, 0.2);
+$bg4: rgba(#fff, 0.1);
+$bg5: rgba(#fff, 0);
 
-$bgblue: #00001f;
-$bggreen: #004000; 
-$bgred: #270000;
-$bgyellow: #292900;
-$bgturqoise: #022f2f;
+// scss variables help ensure consistency at compile-time
+// css variables enable flexibility and scopes at runtime
+$basebgcolor_a: var(--base-bgcolor-a);
+$basebgcolor_b: var(--base-bgcolor-b);
+$basebgcolor_c: var(--base-bgcolor-c);
+$basebgcolor_d: var(--base-bgcolor-d);
+$basebgcolor_e: var(--base-bgcolor-e);
+
+//assigning colors to the css variables
+:root {
+  --base-bgcolor-a: #00001f;
+  --base-bgcolor-b: #004000;
+  --base-bgcolor-c: #270000;
+  --base-bgcolor-d: #292900;
+  --base-bgcolor-e: #022f2f;
+}

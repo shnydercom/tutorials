@@ -1,3 +1,40 @@
+# UX analytics in react with QA testing improvements
+
+A tutorial around this code can be found here:
+
+- youtube-intro
+- dev.to-post
+- shnyder.com repost
+
+# Welcome
+
+Working in a team to build a product? Maybe with non-technical people - or technical people who are not developers?
+
+You probably...
+
+- ...need testing at some point
+- ...need to explain how a page works, or why it doesn't
+- ...want to have usage data for that argument
+- ...want to avoid extra work
+  So we'll take a common task you need to do for testing. That task is _adding custom attributes_. It's independent of the library, be it jest, puppeteer, cypress, selenium or others, because it works with html attributes. In HTML5, you can add custom attributes, and testing libraries use that for identifying elements which aren't necessarily unique on a page. Commonly the attribute "data-qa-id" is used, or at least it's the one that gives you stackoverflow answers. "data-cy" is used in the case of cypress, and others are possible as well.
+
+# HTML5's "data-qa-id" attributes
+
+Good news: You can reuse your Quality Assurance testing for usage analysis.
+
+In this tutorial, we'll look at a page for users.
+The page contains nothing but the agile manifesto in different languages and a button at the end.
+
+We'll see
+
+- how to fire events when the user scrolls and clicks
+- How the resulting usage data can be displayed in a chart
+- how we can give our non-technical colleagues an overview which elements on a page are responsible
+
+Even if you're not doing browser-based testing yet, by including these attributes you'll make life easier for a future tester-colleague. In the meantime you'll have a couple of reusable functions for learning more about your users.
+
+---
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

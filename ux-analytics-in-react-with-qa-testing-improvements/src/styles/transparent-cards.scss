@@ -1,7 +1,8 @@
 .cards-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+  align-content: center;
   flex-wrap: wrap;
   @media screen and (max-width: 768px) {
       height: unset;
@@ -9,11 +10,11 @@
 }
 
 .transparent-card {
-  background: $bg1;
+  background: $bg4;
   padding: 16px;
   margin: 8px;
   border-radius: 8px;
-  min-width: 100px;
+  min-width: 380px;
 }
 
 .elevated-text {

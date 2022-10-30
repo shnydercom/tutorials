@@ -1,0 +1,43 @@
+.product-team {
+  padding: 20px;
+  background-color: #e2e2e2;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  .how-to {
+    margin: 18px 0;
+    width: 500px;
+    align-self: center;
+    text-align: start;
+    ul {
+      list-style-type: circle;
+    }
+    i {
+      line-height: 37px;
+      font-size: 13px;
+    }
+    [data-qa-id]::before {
+      content: attr(data-qa-id);
+      background: white;
+      color: #282c34;
+      padding: 2px;
+      margin-right: 6px;
+      border: 6px solid #61dafb;
+      border-radius: 3px;
+      box-shadow: 0px 0px 8px 5px #3a3a3a;
+    }
+  }
+}
+
+.userpage-wrapper [data-qa-id]::before {
+  content: attr(data-qa-id);
+  position: absolute;
+  height: fit-content;
+  background: white;
+  color: #282c34;
+  padding: 6px;
+  border: 6px solid #61dafb;
+  border-radius: 3px;
+  box-shadow: 0px 0px 8px 5px #3a3a3a;
+  white-space: nowrap;
+}

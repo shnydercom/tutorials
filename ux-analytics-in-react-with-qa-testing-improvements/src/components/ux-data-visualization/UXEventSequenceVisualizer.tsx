@@ -28,8 +28,27 @@ export const UXEventSequenceVisualizer = (
             ID.
           </li>
           <li>
-            Opening the page in a different browser or re-opening in private
-            mode will create a new session
+            Opening the user's page in a different browser or re-opening in
+            private mode will create a new session
+          </li>
+        </ul>
+      </div>
+      <HorizontalEventTimeline
+        pastUXEvents={props.pastUXEvents}
+        chartKey={"indexInDataSet"}
+      />
+      <div className="how-to">
+        <strong>This chart shows the same UX-events, but in sequence</strong>
+        <ul>
+          <li>
+            It can be more interesting to know in which order events are
+            triggered.
+          </li>
+          <li>Sessions can include long times when the user stays idle</li>
+          <li>
+            over-firing of events can be analyzed. E.g. the{" "}
+            <i>is_visible_changed_to</i> event fires for each HR-element when it is
+            removed from the DOM
           </li>
         </ul>
       </div>

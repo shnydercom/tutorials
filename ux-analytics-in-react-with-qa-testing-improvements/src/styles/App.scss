@@ -1,7 +1,6 @@
 .App {
   text-align: center;
   height: 100vh;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
 }
@@ -28,6 +27,37 @@
   color: white;
   :visited {
     color: white;
+  }
+  .cra-rotator {
+    width: 340px;
+  }
+  nav {
+    ul {
+      width: 340px;
+      list-style-type: none;
+      li {
+        text-align: start;
+        a {
+          transition: all 0.3s;
+          text-decoration: none;
+          padding-right: 0.5em;
+          &:hover {
+            background: white;
+            color: black;
+          }
+          &.other {
+            padding-left: 1em;
+          }
+          &.current {
+            &::before {
+              content: "> "
+            }
+            background: white;
+            color: black;
+          }
+        }
+      }
+    }
   }
 }
 

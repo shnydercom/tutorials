@@ -4,8 +4,10 @@
 @import "./display.scss";
 @import "./transparent-cards.scss";
 @import "./semantic-elements.scss";
-@import "./UserPage.scss";
-@import "./DataNerdPage.scss";
+@import "./pages/intro-page.scss";
+@import "./pages/user-page.scss";
+@import "./pages/analytics-page.scss";
+@import "./pages/product-team-page.scss";
 
 body {
   margin: 0;

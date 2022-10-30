@@ -1,0 +1,52 @@
+@import "../colors.scss";
+.user-page {
+  position: relative;
+  text-align: center;
+  overflow-y: auto;
+  background-color: #8c97ad;
+  color: white;
+  > :nth-child(1) {
+    background-color: $basebgcolor_e;
+  }
+  > :nth-child(3) {
+    background-color: $basebgcolor_b;
+  }
+  > :nth-child(5) {
+    background-color: $basebgcolor_d;
+  }
+  > :nth-child(7) {
+    background-color: $basebgcolor_c;
+  }
+  > :nth-child(9) {
+    background-color: $basebgcolor_a;
+  }
+  .toggle-textbutton {
+    margin: 16px;
+    padding: 16px;
+    border: solid 0px;
+    border-radius: 8px;
+    background-color: $basebgcolor_a;
+    color: white;
+    &:hover {
+      background-color: $basebgcolor_b;
+    }
+    &:active {
+      background-color: $basebgcolor_a;
+    }
+  }
+  .toggle-iconbutton {
+    position: absolute;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    top: 16px;
+    right: 16px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    color: white;
+    background: #272727;
+    font-size: 16px;
+  }
+}
