@@ -9,6 +9,9 @@ export const ProductTeamPage = () => {
         Questions like...
         <ul>
           <li>
+            "Do people actually scroll, or do they think it's a static page?"
+          </li>
+          <li>
             "which language do we put first, which is most important for our
             users?"
           </li>
@@ -48,8 +51,8 @@ export const ProductTeamPage = () => {
         <UserPage logDOMeventCallback={emptyCallback} />
       </div>
       <p>
-      🕺 And that's it, I hope this tutorial was helpful! Please give feedback and{" "}
-        <a href="https://dev.to/shnydercom">find me on dev.to</a> 🧙
+        🕺 And that's it, I hope this tutorial was helpful! Please give feedback
+        and <a href="https://dev.to/shnydercom">find me on dev.to</a> 🧙
       </p>
     </div>
   );
