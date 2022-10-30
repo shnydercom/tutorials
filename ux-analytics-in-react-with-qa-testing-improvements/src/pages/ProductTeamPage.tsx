@@ -51,8 +51,11 @@ export const ProductTeamPage = () => {
         <UserPage logDOMeventCallback={emptyCallback} />
       </div>
       <p>
-        🕺 And that's it, I hope this tutorial was helpful! Please give feedback
-        and <a href="https://dev.to/shnydercom">find me on dev.to</a> 🧙
+        🕺 And that's it, I hope this tutorial was helpful! Please give feedback{" "}
+        <a href="https://github.com/shnydercom/tutorials/tree/main/ux-analytics-in-react-with-qa-testing-improvements">
+          on github 
+        </a>
+        {" "}or <a href="https://dev.to/shnydercom">find me on dev.to</a> 🧙
       </p>
     </div>
   );
