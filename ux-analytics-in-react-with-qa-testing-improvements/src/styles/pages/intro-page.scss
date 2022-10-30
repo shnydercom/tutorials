@@ -1,6 +1,7 @@
 @import "../colors.scss";
 .intro-page {
   background-color: #e2e2e2;
+  overflow-y: auto;
   padding: 20px;
   flex: 1;
   display: flex;
