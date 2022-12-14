@@ -215,6 +215,7 @@ export const HorizontalEventTimeline = withTooltip<
       _scales.sIDScale.rangeRound([yMax, 0]);
       setScales(_scales);
       setPastUXEventsKeyed(pastUXEventsKeyed);
+      // eslint-disable-next-line
     }, [pastUXEvents, chartKey]);
 
     return (

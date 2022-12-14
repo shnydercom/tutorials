@@ -6,7 +6,7 @@ import { AGILE_MANIFESTO_FR as FR } from "../content-data/agileManifestoFR";
 import { AGILE_MANIFESTO_DE as DE } from "../content-data/agileManifestoDE";
 import { logDOMeventCallbackType } from "../analytics/UXEventLoggingAPI";
 import { DividerHR } from "./../components/semantic-html/DividerHR";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface UserPageProps {
   logDOMeventCallback: logDOMeventCallbackType;
