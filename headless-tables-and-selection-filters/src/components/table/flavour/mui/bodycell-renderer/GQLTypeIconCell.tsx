@@ -1,11 +1,7 @@
 import {
   Android,
   EmojiPeople,
-  Flight,
   FlightTakeoff,
-  Hiking,
-  PrecisionManufacturing,
-  RunCircle,
 } from "@mui/icons-material";
 import MuiTableCell, { TableCellProps } from "@mui/material/TableCell";
 import { useMemo } from "react";

@@ -1,12 +1,17 @@
 import React, { useState } from "react";
-import { Episode, GetJediHeroByEpisodeQuery, useGetJediHeroByEpisodeQuery } from "../generated/graphql";
+import {
+  Episode,
+  GetJediHeroByEpisodeQuery,
+  useGetJediHeroByEpisodeQuery,
+} from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
 import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
 import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
 import { BatteriesIncludedTable } from "./table/helpers/BatteriesIncludedTable";
 import {
   DefaultComponentCreatorFnsDict,
-  MuiComponentCreatorFnsDictionary
+  MuiComponentCreatorFnsDictionary,
+  XRComponentCreatorFnsDict,
 } from "./table/flavour";
 import {
   TableControlOptionsAsJSON,
@@ -18,26 +23,39 @@ export const VisualContent = () => {
     useState<TableControlOptionsAsJSON>({
       flavour: "defaulthtml",
       layout: "simple",
-      episodeToQuery: Episode.Newhope
+      episodeToQuery: Episode.Newhope,
     });
 
-  const jediHeroResult = useGetJediHeroByEpisodeQuery({ variables: { episode: tableControlOptions.episodeToQuery } });
+  const jediHeroResult = useGetJediHeroByEpisodeQuery({
+    variables: { episode: tableControlOptions.episodeToQuery },
+  });
 
   // preparing the TableViewerOptions
-  const jediTableOptionsMemo = React.useMemo(
-    () => ({
+  const jediTableOptionsMemo = React.useMemo(() => {
+    let compCreatorDict;
+    switch (tableControlOptions.flavour) {
+      case "defaulthtml":
+        compCreatorDict = DefaultComponentCreatorFnsDict;
+        break;
+      case "mui":
+        compCreatorDict = MuiComponentCreatorFnsDictionary;
+        break;
+      case "xr":
+        compCreatorDict = XRComponentCreatorFnsDict;
+        break;
+      default:
+        compCreatorDict = DefaultComponentCreatorFnsDict;
+        break;
+    }
+    return {
       rowArrayAccessor: (query: GetJediHeroByEpisodeQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
-      compCreatorDict:
-        tableControlOptions.flavour === "mui"
-          ? MuiComponentCreatorFnsDictionary
-          : DefaultComponentCreatorFnsDict,
+      compCreatorDict,
       layout: tableControlOptions.layout,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
-    }),
-    [tableControlOptions]
-  );
+    };
+  }, [tableControlOptions]);
   // some basic error handling
   if (jediHeroResult.error) {
     return <div>{jediHeroResult.error.message}</div>;

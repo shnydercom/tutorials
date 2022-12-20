@@ -33,6 +33,7 @@ export const VisualControlsForTableOptions = (props: {
       >
         <MenuItem value={"defaulthtml"}>Default HTML flavour</MenuItem>
         <MenuItem value={"mui"}>Material UI flavour</MenuItem>
+        <MenuItem value={"xr"}>XR flavour</MenuItem>
       </Select>
       <Select
         labelId="select-layout-label"

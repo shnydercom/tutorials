@@ -3,7 +3,7 @@ import { ComponentCreatorFnsDictionary } from "../flavour/interfaces";
 
 //this is a summary of all the identifiers that are used to set the behaviour, design and data of the table
 export type AvailableTableLayouts = "simple" | "sorting" | "expandable";
-export type AvailableFlavours = "defaulthtml" | "mui";
+export type AvailableFlavours = "defaulthtml" | "mui" | "xr";
 export enum AvailableColumnIds {
   "cursor" = "cursor",
   "id" = "id",
