@@ -17,7 +17,7 @@ export const VisualControlsForTableOptions = (props: {
   handleChange: (v: TableControlOptionsAsJSON) => void;
 }) => {
   return (
-    <div>
+    <div className="visual-controls-for-table-options">
       <Select
         labelId="select-flavour-label"
         id="select-flavour"

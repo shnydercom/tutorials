@@ -17,6 +17,7 @@ import {
   TableControlOptionsAsJSON,
   VisualControlsForTableOptions,
 } from "./VisualControlsForTableOptions";
+import { Card } from "./card/Card";
 
 export const VisualContent = () => {
   const [tableControlOptions, setTableControlOptions] =
@@ -28,6 +29,7 @@ export const VisualContent = () => {
 
   const jediHeroResult = useGetJediHeroByEpisodeQuery({
     variables: { episode: tableControlOptions.episodeToQuery },
+    refetchWritePolicy: "overwrite"
   });
 
   // preparing the TableViewerOptions
@@ -72,19 +74,21 @@ export const VisualContent = () => {
   }
   // finally, displaying the data
   return (
-    <div>
+    <div className="visual-content">
       <VisualControlsForTableOptions
         controlOptions={tableControlOptions}
         handleChange={setTableControlOptions}
       />
-      <BatteriesIncludedTable
-        rawData={jediHeroResult.data}
-        options={jediTableOptionsMemo}
-      />
-      <div>
+      <Card>
+        <BatteriesIncludedTable
+          rawData={jediHeroResult.data}
+          options={jediTableOptionsMemo}
+        />
+      </Card>
+      <Card>
         <h3>This is the data that we retrieved:</h3>
         <JSONViewer objectToDisplay={jediHeroResult.data} />
-      </div>
+      </Card>
     </div>
   );
 };

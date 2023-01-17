@@ -23,7 +23,7 @@ export const XROutmostRenderer: React.FC<React.PropsWithChildren<{}>> = (
       ) : (
         <>
           <ARButton onError={(e) => console.error(e)} />
-          <Canvas>
+          <Canvas className="xr-canvas">
             <XR>
               <ambientLight intensity={0.5} />
               <pointLight position={[5, 5, 5]} />
