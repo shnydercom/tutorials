@@ -67,7 +67,7 @@ table.defaulthtmlstyle {
 .visual-content {
   display: flex;
   flex-direction: column;
-  >* {
+  > * {
     margin-top: 24px;
   }
 }
@@ -75,7 +75,7 @@ table.defaulthtmlstyle {
 .visual-controls-for-table-options {
   display: flex;
   flex-direction: row;
-  >* {
+  > * {
     margin-right: 12px;
   }
 }
@@ -94,9 +94,24 @@ table.defaulthtmlstyle {
   white-space: pre-wrap;
   overflow: auto;
   background: rgb(19, 19, 19);
-  color:rgb(0, 206, 93)
+  color: rgb(0, 206, 93);
 }
 
 .xr-canvas {
   min-height: 512px;
+}
+
+/* to be assigned to the body, outside of React's tree.
+   The AR-camera will be drawn at the lowest point in the view stack, 
+   so elements on top need to be see-through --> remove their background*/
+.remove-background {
+  #root {
+    background: none;
+  }
+  .json-viewer {
+    background: #13131355;
+  }
+  .card {
+    background: #e9e9e955;
+  }
 }
