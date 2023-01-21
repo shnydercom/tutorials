@@ -1,19 +1,11 @@
 import { Column } from "react-table";
 
-//this is a summary of all the identifiers that are used to set the behaviour, design and data of the table
-
-export enum AvailableColumnIds {
-  "cursor" = "cursor",
-  "id" = "id",
-  "__typename" = "__typename",
-  "name" = "name",
-}
 
 export interface SourceDataToColumnsMapper<TSourceDataElem extends object> {
   (sourceData: TSourceDataElem[]): Column<TSourceDataElem>[];
 }
 
-export interface BatteriesIncludedTableOptions<
+export interface RelaySpecExplorationTableOptions<
   TTableRawData extends object,
   TTableRawArrayElem extends object,
   TSourceDataElem extends object

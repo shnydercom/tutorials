@@ -1,13 +1,10 @@
 import React from "react";
 import { Column, useTable, useExpanded } from "react-table";
+import { defaultRawDataToSourceTransformator, defaultRowAccessor } from "../../subgraph-auto-display/accessing-relay-graph-functionality/defaultOptions";
+import { rawTableDataElemToColumn } from "../../subgraph-auto-display/accessing-relay-graph-functionality/rawTableDataElemToColumn";
+import { RelaySpecExplorationTable } from "../../subgraph-auto-display/RelaySpecExplorationTable";
 import { useFlavour } from "../flavour/useFlavour";
-import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToColumn";
-import { isString } from "../functionality/typeGuards";
-import { BatteriesIncludedTable } from "../helpers/BatteriesIncludedTable";
-import {
-  defaultRawDataToSourceTransformator,
-  defaultRowAccessor,
-} from "../helpers/defaultOptions";
+import { isString } from "../non-visual-functionality/typeGuards";
 
 export type ExpandableTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
@@ -84,7 +81,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                 {row.isExpanded ? (
                   <tr>
                     <td colSpan={visibleColumns.length}>
-                      <BatteriesIncludedTable
+                      <RelaySpecExplorationTable
                         rawData={row.original}
                         options={{
                           sourceDataToColumnsMapper: rawTableDataElemToColumn,

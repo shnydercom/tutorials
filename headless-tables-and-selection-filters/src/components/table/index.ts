@@ -1,2 +1,2 @@
-export * from "./layout/SimpleTableLayout";
-export * from "./layout/SortingTableLayout";
+export * from "./flavour";
+export * from "./layout";

@@ -1,6 +1,6 @@
 import { Column, useSortBy, useTable } from "react-table";
 import { useFlavour } from "../flavour/useFlavour";
-import { isString } from "../functionality/typeGuards";
+import { isString } from "../non-visual-functionality/typeGuards";
 
 export type SortingTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;

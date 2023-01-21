@@ -1,12 +1,12 @@
-import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToColumn";
-import { BatteriesIncludedTableOptions } from "./interfaces";
+import { rawTableDataElemToColumn } from "./rawTableDataElemToColumn";
+import { RelaySpecExplorationTableOptions } from "./interfaces";
 
-export function createDefaultBatteriesIncludedTableOptions<
+export function createDefaultRelaySpecExplorationTableOptions<
   TTableRawData extends object,
   TTableRawArrayElem extends object,
   TSourceDataElem extends object
 >() {
-  const rv: BatteriesIncludedTableOptions<
+  const rv: RelaySpecExplorationTableOptions<
     TTableRawData,
     TTableRawArrayElem,
     TSourceDataElem

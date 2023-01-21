@@ -5,9 +5,6 @@ import {
   useGetJediHeroByEpisodeQuery,
 } from "../generated/graphql";
 import { JSONViewer } from "./json-viewer/JSONViewer";
-import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
-import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
-import { BatteriesIncludedTable } from "./table/helpers/BatteriesIncludedTable";
 import {
   TableControlOptionsAsJSON,
   VisualControlsForTableOptions,
@@ -15,6 +12,9 @@ import {
 import { Card } from "./card/Card";
 import { FlavourContextProvider } from "./table/flavour/FlavourContext";
 import { TableLayoutContextProvider } from "./table/layout/TableLayoutContext";
+import { RelaySpecExplorationTable } from "./subgraph-auto-display/RelaySpecExplorationTable";
+import { createDefaultRelaySpecExplorationTableOptions } from "./subgraph-auto-display/accessing-relay-graph-functionality/defaultOptions";
+import { flattenRelayEdge } from "./subgraph-auto-display/accessing-relay-graph-functionality/flattenRelayEdge";
 
 export const VisualContent = () => {
   const [tableControlOptions, setTableControlOptions] =
@@ -31,19 +31,19 @@ export const VisualContent = () => {
 
   // preparing the TableViewerOptions
   const jediTableOptionsMemo = React.useMemo(() => {
+    const defaultOptions = createDefaultRelaySpecExplorationTableOptions();
     return {
+      ...defaultOptions,
       rowArrayAccessor: (query: GetJediHeroByEpisodeQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
-      layout: tableControlOptions.layout,
-      sourceDataToColumnsMapper: rawTableDataElemToColumn,
     };
   }, [tableControlOptions]);
   // some basic error handling
   if (jediHeroResult.error) {
     return <div>{jediHeroResult.error.message}</div>;
   }
-  if (!jediHeroResult.data) {
+  if (!jediHeroResult.data && !jediHeroResult.loading) {
     return (
       <div>{`no data to display, have you started the graphql server?`}</div>
     );
@@ -62,11 +62,16 @@ export const VisualContent = () => {
       />
       <Card>
         <FlavourContextProvider flavourName={tableControlOptions.flavour}>
-          <TableLayoutContextProvider tableLayoutName={tableControlOptions.layout} >
-            <BatteriesIncludedTable
-              rawData={jediHeroResult.data}
-              options={jediTableOptionsMemo}
-            />
+          <TableLayoutContextProvider
+            tableLayoutName={tableControlOptions.layout}
+          >
+            {jediHeroResult.loading && <div>{`...loading...`}</div>}
+            {jediHeroResult.data && (
+              <RelaySpecExplorationTable
+                rawData={jediHeroResult.data}
+                options={jediTableOptionsMemo}
+              />
+            )}
           </TableLayoutContextProvider>
         </FlavourContextProvider>
       </Card>

@@ -1,6 +1,6 @@
+import { AvailableColumnIds } from "../../domain-information";
 import { CellRenderer } from "../interfaces";
 import { BasicCell } from "./bodycell-renderer/BasicCell";
-import {AvailableColumnIds} from "./../../helpers/interfaces";
 import { GQLTypeIconCell } from "./bodycell-renderer/GQLTypeIconCell";
 
 export const MuiBodyCellCreatorFn: CellRenderer = ({

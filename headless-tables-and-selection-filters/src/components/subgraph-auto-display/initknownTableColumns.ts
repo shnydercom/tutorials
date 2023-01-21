@@ -1,4 +1,4 @@
-import { fieldColumnNameMap } from "../functionality/fieldToColumnName";
+import { fieldColumnNameMap } from "./accessing-relay-graph-functionality/fieldToColumnName";
 
 export const initKnownTableColumns = (includeTechnical?: boolean) => {
   // these are all technical column names for fields on the rows

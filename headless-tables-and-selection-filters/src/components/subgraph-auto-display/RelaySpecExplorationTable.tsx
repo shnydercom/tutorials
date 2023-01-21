@@ -1,22 +1,22 @@
 import React from "react";
-import { createDefaultBatteriesIncludedTableOptions } from "./defaultOptions";
+import { createDefaultRelaySpecExplorationTableOptions } from "./accessing-relay-graph-functionality/defaultOptions";
 
 //initialize the known Columns
 import { initKnownTableColumns } from "./initknownTableColumns";
-import { BatteriesIncludedTableOptions } from "./interfaces";
+import { RelaySpecExplorationTableOptions } from "./accessing-relay-graph-functionality/interfaces";
 import { Column } from "react-table";
-import { useTableLayout } from "../layout/useTableLayout";
+import { useTableLayout } from "../table";
 
 //setup config
 initKnownTableColumns(true);
 
-export interface BatteriesIncludedTableProps<
+export interface RelaySpecExplorationTableProps<
   TTableRawData extends object,
   TTableRawArrayElem extends object,
   TSourceDataElem extends object
 > {
   rawData: TTableRawData;
-  options?: BatteriesIncludedTableOptions<
+  options?: RelaySpecExplorationTableOptions<
     TTableRawData,
     TTableRawArrayElem,
     TSourceDataElem
@@ -24,16 +24,16 @@ export interface BatteriesIncludedTableProps<
 }
 
 /**
- * component to display arbitrary tables from source data
- * @param props BatteriesIncludedTableOptions
+ * component to display arbitrary tables from sub-graphs defined in the relay spec
+ * @param props RelaySpecExplorationTableOptions
  * @returns
  */
-export const BatteriesIncludedTable: <
+export const RelaySpecExplorationTable: <
   TTableRawData extends object,
   TTableRawArrayElem extends object,
   TSourceDataElem extends object
 >(
-  props: BatteriesIncludedTableProps<
+  props: RelaySpecExplorationTableProps<
     TTableRawData,
     TTableRawArrayElem,
     TSourceDataElem
@@ -43,13 +43,13 @@ export const BatteriesIncludedTable: <
   TTableRawArrayElem extends object,
   TSourceDataElem extends object
 >(
-  props: BatteriesIncludedTableProps<
+  props: RelaySpecExplorationTableProps<
     TTableRawData,
     TTableRawArrayElem,
     TSourceDataElem
   >
 ) => {
-  const { rawData, options = createDefaultBatteriesIncludedTableOptions() } =
+  const { rawData, options = createDefaultRelaySpecExplorationTableOptions() } =
     props;
   const { TableLayout } = useTableLayout();
   // assign the dynamic data handling

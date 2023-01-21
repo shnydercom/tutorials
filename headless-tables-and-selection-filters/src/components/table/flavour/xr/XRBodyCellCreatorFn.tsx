@@ -1,5 +1,5 @@
 
-import { AvailableColumnIds } from "../../helpers/interfaces";
+import { AvailableColumnIds } from "../../domain-information";
 import { CellRenderer } from "../interfaces";
 import { BasicCell } from "./cell-renderer/BasicCell";
 import { GQLTypeIconCell } from "./cell-renderer/GQLTypeIconCell";

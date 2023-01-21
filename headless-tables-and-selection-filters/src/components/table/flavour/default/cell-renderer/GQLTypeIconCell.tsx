@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { StarWarsTechnicalTypes } from "../../../../../starwarsDataSourceInterfaces";
+import { StarWarsTechnicalTypes } from "../../../domain-information";
 
 function getIconComp(input: StarWarsTechnicalTypes) {
   switch (input) {
