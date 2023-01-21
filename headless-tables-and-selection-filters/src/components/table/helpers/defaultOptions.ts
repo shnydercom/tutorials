@@ -13,7 +13,6 @@ export function createDefaultBatteriesIncludedTableOptions<
   > = {
     rowArrayAccessor: defaultRowAccessor,
     rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
-    layout: "simple",
     sourceDataToColumnsMapper: rawTableDataElemToColumn,
   };
   return rv;

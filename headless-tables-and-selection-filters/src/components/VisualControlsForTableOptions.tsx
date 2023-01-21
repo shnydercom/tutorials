@@ -1,12 +1,12 @@
 import { MenuItem, Select } from "@mui/material";
 import { Episode } from "../generated/graphql";
 import { FlavourName } from "./table/flavour/interfaces";
-import { AvailableTableLayouts } from "./table/helpers/interfaces";
+import { TableLayoutName } from "./table/layout/interfaces";
 
 export interface TableControlOptionsAsJSON {
-  layout: AvailableTableLayouts;
+  layout: TableLayoutName;
   flavour: FlavourName;
-  episodeToQuery: Episode
+  episodeToQuery: Episode;
 }
 
 /**
@@ -44,7 +44,7 @@ export const VisualControlsForTableOptions = (props: {
         onChange={(e) => {
           const returnedOptions = {
             ...props.controlOptions,
-            layout: e.target.value as AvailableTableLayouts,
+            layout: e.target.value as TableLayoutName,
           };
           props.handleChange(returnedOptions);
         }}
@@ -82,7 +82,6 @@ export const VisualControlsForTableOptions = (props: {
           Star Wars Episode VI: Return of the Jedi, released in 1983.
         </MenuItem>
       </Select>
-
     </div>
   );
 };

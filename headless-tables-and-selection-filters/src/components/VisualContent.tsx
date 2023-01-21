@@ -14,6 +14,7 @@ import {
 } from "./VisualControlsForTableOptions";
 import { Card } from "./card/Card";
 import { FlavourContextProvider } from "./table/flavour/FlavourContext";
+import { TableLayoutContextProvider } from "./table/layout/TableLayoutContext";
 
 export const VisualContent = () => {
   const [tableControlOptions, setTableControlOptions] =
@@ -60,11 +61,13 @@ export const VisualContent = () => {
         handleChange={setTableControlOptions}
       />
       <Card>
-        <FlavourContextProvider flavourName={tableControlOptions.flavour} >
-          <BatteriesIncludedTable
-            rawData={jediHeroResult.data}
-            options={jediTableOptionsMemo}
-          />
+        <FlavourContextProvider flavourName={tableControlOptions.flavour}>
+          <TableLayoutContextProvider tableLayoutName={tableControlOptions.layout} >
+            <BatteriesIncludedTable
+              rawData={jediHeroResult.data}
+              options={jediTableOptionsMemo}
+            />
+          </TableLayoutContextProvider>
         </FlavourContextProvider>
       </Card>
       <Card>

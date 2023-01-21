@@ -1,7 +1,7 @@
 import { Column } from "react-table";
 
 //this is a summary of all the identifiers that are used to set the behaviour, design and data of the table
-export type AvailableTableLayouts = "simple" | "sorting" | "expandable";
+
 export enum AvailableColumnIds {
   "cursor" = "cursor",
   "id" = "id",
@@ -24,6 +24,5 @@ export interface BatteriesIncludedTableOptions<
   rawDataToSourceTransformator: (
     input: TTableRawArrayElem | null | undefined
   ) => TSourceDataElem;
-  layout: AvailableTableLayouts;
   sourceDataToColumnsMapper: SourceDataToColumnsMapper<TSourceDataElem>;
 }

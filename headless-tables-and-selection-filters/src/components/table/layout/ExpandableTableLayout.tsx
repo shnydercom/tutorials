@@ -39,8 +39,8 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
         Cell: TableCell,
       },
       //find an array on the row to use for automatic expansion
-      manualExpandedKey: Object.keys(data[0]).find((aKey) =>
-        Array.isArray((data[0] as any)[aKey])
+      manualExpandedKey: data && data[0] && ( Object.keys(data[0]).find((aKey) =>
+        Array.isArray((data[0] as any)[aKey]) ) ?? undefined
       ),
     },
     useExpanded
@@ -75,7 +75,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <React.Fragment {...row.getRowProps()}>
+              <React.Fragment /*{...row.getRowProps()}*/>
                 <TableRow>
                   {row.cells.map((cell) => {
                     return cell.render("Cell");
@@ -91,7 +91,6 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
                           rawDataToSourceTransformator:
                             defaultRawDataToSourceTransformator,
                           rowArrayAccessor: defaultRowAccessor,
-                          layout: "simple",
                         }}
                       />
                     </td>
