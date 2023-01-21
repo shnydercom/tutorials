@@ -1,16 +1,22 @@
 import React from "react";
 import { CellProps, HeaderProps } from "react-table";
 
-export interface ComponentCreatorFnsDictionary {
-  outmost: React.FC;
-  table: React.FC;
-  head: React.FC;
-  headerRow: React.FC;
-  headerCell: HeaderCellRenderer;
-  body: React.FC;
-  bodyRow: React.FC;
-  bodyCell: CellRenderer;
+export interface FlavourComponentsDictionary {
+  Outmost: React.FC;
+  Table: React.FC;
+  Head: React.FC;
+  HeaderRow: React.FC;
+  HeaderCell: HeaderCellRenderer;
+  Body: React.FC;
+  BodyRow: React.FC;
+  BodyCell: CellRenderer;
 }
+
+export interface FlavourContextValue {
+  flavourName: FlavourName;
+}
+
+export type FlavourName = "default" | "mui" | "xr";
 
 export type CellRenderer = React.FC<React.PropsWithChildren<CellProps<any>>>;
 

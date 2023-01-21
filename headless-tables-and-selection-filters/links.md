@@ -29,3 +29,6 @@ https://github.com/projectstorm/react-diagrams/blob/master/packages/react-canvas
 # setting up types when using other hooks of react-table
 https://github.com/tannerlinsley/react-table/issues/1591
 https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-table/Readme.md
+
+# return react components from hook
+https://blog.bitsrc.io/new-react-design-pattern-return-component-from-hooks-79215c3eac00

@@ -1,10 +1,11 @@
 import { MenuItem, Select } from "@mui/material";
 import { Episode } from "../generated/graphql";
-import { AvailableFlavours, AvailableTableLayouts } from "./table/helpers/interfaces";
+import { FlavourName } from "./table/flavour/interfaces";
+import { AvailableTableLayouts } from "./table/helpers/interfaces";
 
 export interface TableControlOptionsAsJSON {
   layout: AvailableTableLayouts;
-  flavour: AvailableFlavours;
+  flavour: FlavourName;
   episodeToQuery: Episode
 }
 
@@ -26,12 +27,12 @@ export const VisualControlsForTableOptions = (props: {
         onChange={(e) => {
           const returnedOptions = {
             ...props.controlOptions,
-            flavour: e.target.value as AvailableFlavours,
+            flavour: e.target.value as FlavourName,
           };
           props.handleChange(returnedOptions);
         }}
       >
-        <MenuItem value={"defaulthtml"}>Default HTML flavour</MenuItem>
+        <MenuItem value={"default"}>Default HTML flavour</MenuItem>
         <MenuItem value={"mui"}>Material UI flavour</MenuItem>
         <MenuItem value={"xr"}>XR flavour</MenuItem>
       </Select>

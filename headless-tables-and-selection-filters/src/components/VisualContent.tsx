@@ -9,51 +9,31 @@ import { flattenRelayEdge } from "./table/functionality/flattenRelayEdge";
 import { rawTableDataElemToColumn } from "./table/functionality/rawTableDataElemToColumn";
 import { BatteriesIncludedTable } from "./table/helpers/BatteriesIncludedTable";
 import {
-  DefaultComponentCreatorFnsDict,
-  MuiComponentCreatorFnsDictionary,
-  XRComponentCreatorFnsDict,
-} from "./table/flavour";
-import {
   TableControlOptionsAsJSON,
   VisualControlsForTableOptions,
 } from "./VisualControlsForTableOptions";
 import { Card } from "./card/Card";
+import { FlavourContextProvider } from "./table/flavour/FlavourContext";
 
 export const VisualContent = () => {
   const [tableControlOptions, setTableControlOptions] =
     useState<TableControlOptionsAsJSON>({
-      flavour: "defaulthtml",
+      flavour: "default",
       layout: "simple",
       episodeToQuery: Episode.Newhope,
     });
 
   const jediHeroResult = useGetJediHeroByEpisodeQuery({
     variables: { episode: tableControlOptions.episodeToQuery },
-    refetchWritePolicy: "overwrite"
+    refetchWritePolicy: "overwrite",
   });
 
   // preparing the TableViewerOptions
   const jediTableOptionsMemo = React.useMemo(() => {
-    let compCreatorDict;
-    switch (tableControlOptions.flavour) {
-      case "defaulthtml":
-        compCreatorDict = DefaultComponentCreatorFnsDict;
-        break;
-      case "mui":
-        compCreatorDict = MuiComponentCreatorFnsDictionary;
-        break;
-      case "xr":
-        compCreatorDict = XRComponentCreatorFnsDict;
-        break;
-      default:
-        compCreatorDict = DefaultComponentCreatorFnsDict;
-        break;
-    }
     return {
       rowArrayAccessor: (query: GetJediHeroByEpisodeQuery) =>
         query?.hero?.friendsConnection?.edges ?? [],
       rawDataToSourceTransformator: flattenRelayEdge,
-      compCreatorDict,
       layout: tableControlOptions.layout,
       sourceDataToColumnsMapper: rawTableDataElemToColumn,
     };
@@ -80,10 +60,12 @@ export const VisualContent = () => {
         handleChange={setTableControlOptions}
       />
       <Card>
-        <BatteriesIncludedTable
-          rawData={jediHeroResult.data}
-          options={jediTableOptionsMemo}
-        />
+        <FlavourContextProvider flavourName={tableControlOptions.flavour} >
+          <BatteriesIncludedTable
+            rawData={jediHeroResult.data}
+            options={jediTableOptionsMemo}
+          />
+        </FlavourContextProvider>
       </Card>
       <Card>
         <h3>This is the data that we retrieved:</h3>

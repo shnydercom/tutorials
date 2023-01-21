@@ -1,11 +1,10 @@
 import { Column, useSortBy, useTable } from "react-table";
-import { ComponentCreatorFnsDictionary } from "../flavour/interfaces";
+import { useFlavour } from "../flavour/useFlavour";
 import { isString } from "../functionality/typeGuards";
 
 export type SortingTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
-  compCreatorDict: ComponentCreatorFnsDictionary;
 };
 
 export const SortingTableLayout: <TSourceDataElem extends object>(
@@ -13,9 +12,17 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
 ) => JSX.Element = <TSourceDataElem extends object>(
   props: SortingTableLayoutProps<TSourceDataElem>
 ) => {
-  const { columns, data, compCreatorDict } = props;
-  const TableHeaderCell = compCreatorDict.headerCell;
-  const TableCell = compCreatorDict.bodyCell;
+  const { columns, data } = props;
+  const {
+    Body: TableBody,
+    BodyCell: TableCell,
+    BodyRow: TableRow,
+    Head: TableHead,
+    HeaderCell: TableHeaderCell,
+    HeaderRow: TableHeaderRow,
+    Outmost,
+    Table: TableRoot,
+  } = useFlavour();
   const tableInstance = useTable<TSourceDataElem>(
     {
       columns,
@@ -34,12 +41,6 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
     rows,
     prepareRow,
   } = tableInstance;
-  const Outmost = compCreatorDict.outmost;
-  const TableRoot = compCreatorDict.table;
-  const TableHead = compCreatorDict.head;
-  const TableHeaderRow = compCreatorDict.headerRow;
-  const TableRow = compCreatorDict.bodyRow;
-  const TableBody = compCreatorDict.body;
   return (
     <Outmost>
       <TableRoot {...getTableProps()}>

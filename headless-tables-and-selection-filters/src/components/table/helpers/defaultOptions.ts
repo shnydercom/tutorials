@@ -1,4 +1,3 @@
-import { DefaultComponentCreatorFnsDict } from "../flavour";
 import { rawTableDataElemToColumn } from "../functionality/rawTableDataElemToColumn";
 import { BatteriesIncludedTableOptions } from "./interfaces";
 
@@ -14,7 +13,6 @@ export function createDefaultBatteriesIncludedTableOptions<
   > = {
     rowArrayAccessor: defaultRowAccessor,
     rawDataToSourceTransformator: defaultRawDataToSourceTransformator,
-    compCreatorDict: DefaultComponentCreatorFnsDict,
     layout: "simple",
     sourceDataToColumnsMapper: rawTableDataElemToColumn,
   };
