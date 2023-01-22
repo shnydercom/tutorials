@@ -34,12 +34,3 @@ export const GQLTypeIconCell = (
     <small>{props.children}</small>
   </MuiTableCell>;
 };
-/*Android;
-EmojiPeople;
-Flight;
-SmartToy;
-Satellite;
-RunCircle;
-PrecisionManufacturing;
-Hiking;
-FlightTakeoff;*/

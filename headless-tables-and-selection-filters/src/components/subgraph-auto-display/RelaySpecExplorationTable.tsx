@@ -6,6 +6,8 @@ import { initKnownTableColumns } from "./initknownTableColumns";
 import { RelaySpecExplorationTableOptions } from "./accessing-relay-graph-functionality/interfaces";
 import { Column } from "react-table";
 import { useTableLayout } from "../table";
+import { TableSubComponentContextProvider } from "../table/layout/TableSubComponentContext";
+import { ExpandedRelayRowSubComponent } from "./ExpandedRelayRowSubComponent";
 
 //setup config
 initKnownTableColumns(true);
@@ -65,5 +67,9 @@ export const RelaySpecExplorationTable: <
     () => options.sourceDataToColumnsMapper(sourceData),
     [options, sourceData]
   );
-  return <TableLayout columns={columns} data={sourceData} />;
+  return (
+    <TableSubComponentContextProvider SubComponent={ExpandedRelayRowSubComponent}>
+      <TableLayout columns={columns} data={sourceData} />
+    </TableSubComponentContextProvider>
+  );
 };

@@ -8,8 +8,9 @@ export const MuiBodyCellCreatorFn: CellRenderer = ({
   column,
   value,
   children,
+  colSpan
 }) => {
-  const newProps = { ...cell.getCellProps() };
+  const newProps = { ...cell.getCellProps(), colSpan };
   if(column.id === AvailableColumnIds.__typename){
     return <GQLTypeIconCell {...newProps} value={value}>{children && value ? children : value || children}</GQLTypeIconCell>;
   }

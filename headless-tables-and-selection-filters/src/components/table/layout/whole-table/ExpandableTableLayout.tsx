@@ -1,10 +1,8 @@
 import React from "react";
 import { Column, useTable, useExpanded } from "react-table";
-import { defaultRawDataToSourceTransformator, defaultRowAccessor } from "../../subgraph-auto-display/accessing-relay-graph-functionality/defaultOptions";
-import { rawTableDataElemToColumn } from "../../subgraph-auto-display/accessing-relay-graph-functionality/rawTableDataElemToColumn";
-import { RelaySpecExplorationTable } from "../../subgraph-auto-display/RelaySpecExplorationTable";
-import { useFlavour } from "../flavour/useFlavour";
-import { isString } from "../non-visual-functionality/typeGuards";
+import { useFlavour } from "../../flavour/useFlavour";
+import { isString } from "../../non-visual-functionality/typeGuards";
+import { useTableSubComponent } from "../useTableSubComponent";
 
 export type ExpandableTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
@@ -27,6 +25,7 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
     Outmost,
     Table: TableRoot,
   } = useFlavour();
+  const { SubComponent } = useTableSubComponent<TSourceDataElem>();
   const tableInstance = useTable<TSourceDataElem>(
     {
       columns,
@@ -36,9 +35,13 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
         Cell: TableCell,
       },
       //find an array on the row to use for automatic expansion
-      manualExpandedKey: data && data[0] && ( Object.keys(data[0]).find((aKey) =>
-        Array.isArray((data[0] as any)[aKey]) ) ?? undefined
-      ),
+      manualExpandedKey:
+        data &&
+        data[0] &&
+        (Object.keys(data[0]).find((aKey) =>
+          Array.isArray((data[0] as any)[aKey])
+        ) ??
+          undefined),
     },
     useExpanded
   );
@@ -48,7 +51,6 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
     headerGroups,
     rows,
     prepareRow,
-    visibleColumns,
   } = tableInstance;
   return (
     <Outmost>
@@ -58,7 +60,11 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
             <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((columnHG) => {
                 return isString(columnHG.Header) ? (
-                  <TableHeaderCell {...tableInstance} column={columnHG}>
+                  <TableHeaderCell
+                    {...tableInstance}
+                    column={columnHG}
+                    key={columnHG.id}
+                  >
                     {columnHG.render("Header")}
                   </TableHeaderCell>
                 ) : (
@@ -72,26 +78,16 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <React.Fragment /*{...row.getRowProps()}*/>
-                <TableRow>
+              <React.Fragment key={`${row.id}-frag`}>
+                <TableRow key={row.id}>
                   {row.cells.map((cell) => {
-                    return cell.render("Cell");
+                    return cell.render("Cell", {
+                      key: cell.getCellProps().key,
+                    });
                   })}
                 </TableRow>
                 {row.isExpanded ? (
-                  <tr>
-                    <td colSpan={visibleColumns.length}>
-                      <RelaySpecExplorationTable
-                        rawData={row.original}
-                        options={{
-                          sourceDataToColumnsMapper: rawTableDataElemToColumn,
-                          rawDataToSourceTransformator:
-                            defaultRawDataToSourceTransformator,
-                          rowArrayAccessor: defaultRowAccessor,
-                        }}
-                      />
-                    </td>
-                  </tr>
+                  <SubComponent row={row} key={`${row.id}-subc`} />
                 ) : null}
               </React.Fragment>
             );

@@ -1,16 +1,16 @@
-import { Column, useSortBy, useTable } from "react-table";
-import { useFlavour } from "../flavour/useFlavour";
-import { isString } from "../non-visual-functionality/typeGuards";
+import { Column, useTable } from "react-table";
+import { useFlavour } from "../../flavour/useFlavour";
+import { isString } from "../../non-visual-functionality/typeGuards";
 
-export type SortingTableLayoutProps<TSourceDataElem extends object> = {
+export type SimpleTableLayoutProps<TSourceDataElem extends object> = {
   columns: ReadonlyArray<Column<TSourceDataElem>>;
   data: readonly TSourceDataElem[];
 };
 
-export const SortingTableLayout: <TSourceDataElem extends object>(
-  props: SortingTableLayoutProps<TSourceDataElem>
+export const SimpleTableLayout: <TSourceDataElem extends object>(
+  props: SimpleTableLayoutProps<TSourceDataElem>
 ) => JSX.Element = <TSourceDataElem extends object>(
-  props: SortingTableLayoutProps<TSourceDataElem>
+  props: SimpleTableLayoutProps<TSourceDataElem>
 ) => {
   const { columns, data } = props;
   const {
@@ -23,24 +23,16 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
     Outmost,
     Table: TableRoot,
   } = useFlavour();
-  const tableInstance = useTable<TSourceDataElem>(
-    {
-      columns,
-      data,
-      defaultColumn: {
-        Header: TableHeaderCell,
-        Cell: TableCell,
-      },
+  const tableInstance = useTable<TSourceDataElem>({
+    columns,
+    data,
+    defaultColumn: {
+      Header: TableHeaderCell,
+      Cell: TableCell,
     },
-    useSortBy
-  );
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = tableInstance;
+  });
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    tableInstance;
   return (
     <Outmost>
       <TableRoot {...getTableProps()}>
@@ -49,7 +41,11 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
             <TableHeaderRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((columnHG) => {
                 return isString(columnHG.Header) ? (
-                  <TableHeaderCell {...tableInstance} column={columnHG}>
+                  <TableHeaderCell
+                    {...tableInstance}
+                    column={columnHG}
+                    key={columnHG.id}
+                  >
                     {columnHG.render("Header")}
                   </TableHeaderCell>
                 ) : (
@@ -63,9 +59,11 @@ export const SortingTableLayout: <TSourceDataElem extends object>(
           {rows.map((row, i) => {
             prepareRow(row);
             return (
-              <TableRow>
+              <TableRow key={row.id}>
                 {row.cells.map((cell) => {
-                  return cell.render("Cell");
+                  return cell.render("Cell", {
+                    key: cell.getCellProps().key,
+                  });
                 })}
               </TableRow>
             );

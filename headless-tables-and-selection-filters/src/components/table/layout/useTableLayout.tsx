@@ -1,9 +1,9 @@
 import React from "react";
-import { ExpandableTableLayout } from "./ExpandableTableLayout";
 import { TableLayoutComponent } from "./interfaces";
-import { SimpleTableLayout } from "./SimpleTableLayout";
-import { SortingTableLayout } from "./SortingTableLayout";
+import { SimpleTableLayout } from "./whole-table/SimpleTableLayout";
 import { TableLayoutContext } from "./TableLayoutContext";
+import { SortingTableLayout } from "./whole-table/SortingTableLayout";
+import { ExpandableTableLayout } from "./whole-table/ExpandableTableLayout";
 
 export const useTableLayout: () => TableLayoutComponent = () => {
   const { tableLayoutName } = React.useContext(TableLayoutContext);
