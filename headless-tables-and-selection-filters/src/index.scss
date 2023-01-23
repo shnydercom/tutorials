@@ -75,7 +75,7 @@ table.defaulthtmlstyle {
 .visual-controls-for-table-options {
   display: flex;
   flex-direction: row;
-  > * {
+  > *, >.MuiTextField-root {
     margin-right: 12px;
   }
 }

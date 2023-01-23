@@ -20,11 +20,12 @@ export const VisualControlsForTableOptions = (props: {
 }) => {
   return (
     <div className="visual-controls-for-table-options">
-      <Select
-        labelId="select-flavour-label"
+      <TextField
+        //labelId="select-flavour-label"
+        select
         id="select-flavour"
         value={props.controlOptions.flavour}
-        label="Choose which visual components should be used"
+        label="Choose UI style"
         onChange={(e) => {
           const returnedOptions = {
             ...props.controlOptions,
@@ -36,9 +37,10 @@ export const VisualControlsForTableOptions = (props: {
         <MenuItem value={"default"}>Default HTML flavour</MenuItem>
         <MenuItem value={"mui"}>Material UI flavour</MenuItem>
         <MenuItem value={"xr"}>XR flavour</MenuItem>
-      </Select>
-      <Select
-        labelId="select-layout-label"
+      </TextField>
+      <TextField
+        //labelId="select-layout-label"
+        select
         id="select-layout"
         value={props.controlOptions.layout}
         label="Choose the table layout and UX"
@@ -59,8 +61,8 @@ export const VisualControlsForTableOptions = (props: {
         <MenuItem value={"expandable"}>
           A table that lets you open and close sub-elements
         </MenuItem>
-      </Select>
-      <TextField label="search and filter" variant="outlined"
+      </TextField>
+      <TextField label="search and filter data" variant="outlined"
       placeholder="no filter, retrieving all"
       onChange={(e) => {
         const returnedOptions = {
