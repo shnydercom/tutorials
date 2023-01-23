@@ -4,7 +4,7 @@ export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -273,26 +273,56 @@ export type GetJediHeroByEpisodeQueryVariables = Exact<{
 }>;
 
 
-export type GetJediHeroByEpisodeQuery = { __typename?: 'Query', hero?: { __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } }, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined } | null | undefined };
+export type GetJediHeroByEpisodeQuery = { __typename?: 'Query', hero?: { __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } }, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | null | undefined };
 
-export type HumanFieldsFragment = { __typename?: 'Human', homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined } | null | undefined> | null | undefined };
+type CharacterFields_Droid_Fragment = { __typename?: 'Droid', id: string, name: string, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined } };
+
+type CharacterFields_Human_Fragment = { __typename?: 'Human', id: string, name: string, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined } };
+
+export type CharacterFieldsFragment = CharacterFields_Droid_Fragment | CharacterFields_Human_Fragment;
+
+export type HumanFieldsFragment = { __typename?: 'Human', homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined };
 
 export type DroidFieldsFragment = { __typename?: 'Droid', primaryFunction?: string | null | undefined };
 
+export type StarshipFieldsFragment = { __typename?: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined };
+
+export type StarwarsSearchQueryVariables = Exact<{
+  searchValue: Scalars['String'];
+}>;
+
+
+export type StarwarsSearchQuery = { __typename?: 'Query', search?: Array<{ __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined }, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | { __typename: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined };
+
+export const CharacterFieldsFragmentDoc = gql`
+    fragment characterFields on Character {
+  id
+  name
+  friendsConnection {
+    totalCount
+  }
+}
+    `;
 export const HumanFieldsFragmentDoc = gql`
     fragment humanFields on Human {
   homePlanet
   height
   starships {
     id
-    name
-    length
   }
 }
     `;
 export const DroidFieldsFragmentDoc = gql`
     fragment droidFields on Droid {
   primaryFunction
+}
+    `;
+export const StarshipFieldsFragmentDoc = gql`
+    fragment starshipFields on Starship {
+  id
+  name
+  length
+  coordinates
 }
     `;
 export const GetJediHeroByEpisodeDocument = gql`
@@ -354,3 +384,45 @@ export function useGetJediHeroByEpisodeLazyQuery(baseOptions?: Apollo.LazyQueryH
 export type GetJediHeroByEpisodeQueryHookResult = ReturnType<typeof useGetJediHeroByEpisodeQuery>;
 export type GetJediHeroByEpisodeLazyQueryHookResult = ReturnType<typeof useGetJediHeroByEpisodeLazyQuery>;
 export type GetJediHeroByEpisodeQueryResult = Apollo.QueryResult<GetJediHeroByEpisodeQuery, GetJediHeroByEpisodeQueryVariables>;
+export const StarwarsSearchDocument = gql`
+    query starwarsSearch($searchValue: String!) {
+  search(text: $searchValue) {
+    __typename
+    ...characterFields
+    ...humanFields
+    ...droidFields
+    ...starshipFields
+  }
+}
+    ${CharacterFieldsFragmentDoc}
+${HumanFieldsFragmentDoc}
+${DroidFieldsFragmentDoc}
+${StarshipFieldsFragmentDoc}`;
+
+/**
+ * __useStarwarsSearchQuery__
+ *
+ * To run a query within a React component, call `useStarwarsSearchQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStarwarsSearchQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStarwarsSearchQuery({
+ *   variables: {
+ *      searchValue: // value for 'searchValue'
+ *   },
+ * });
+ */
+export function useStarwarsSearchQuery(baseOptions: Apollo.QueryHookOptions<StarwarsSearchQuery, StarwarsSearchQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<StarwarsSearchQuery, StarwarsSearchQueryVariables>(StarwarsSearchDocument, options);
+      }
+export function useStarwarsSearchLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<StarwarsSearchQuery, StarwarsSearchQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<StarwarsSearchQuery, StarwarsSearchQueryVariables>(StarwarsSearchDocument, options);
+        }
+export type StarwarsSearchQueryHookResult = ReturnType<typeof useStarwarsSearchQuery>;
+export type StarwarsSearchLazyQueryHookResult = ReturnType<typeof useStarwarsSearchLazyQuery>;
+export type StarwarsSearchQueryResult = Apollo.QueryResult<StarwarsSearchQuery, StarwarsSearchQueryVariables>;

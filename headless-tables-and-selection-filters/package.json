@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.4.16",
+    "@apollo/client": "^3.7.4",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.4",
-    "@mui/material": "^5.0.4",
+    "@mui/material": "^5.11.15",
     "@react-three/drei": "^9.47.1",
     "@react-three/fiber": "^8.9.1",
     "@react-three/xr": "^5.1.1",
@@ -19,6 +19,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/three": "^0.146.0",
+    "dotenv": "^16.0.3",
     "downshift": "^6.1.7",
     "graphql": "^15.6.1",
     "http-proxy-middleware": "^2.0.6",
@@ -37,7 +38,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serveGQL": "starwars-test-graphql-server",
-    "genGQLCode": "graphql-codegen --config codegen.yml"
+    "genGQLCode": "graphql-codegen --config codegen.yml",
+    "genApolloConfig": "node ./src/apollo-config/generatePossibleTypes.js"
   },
   "eslintConfig": {
     "extends": [
@@ -61,7 +63,7 @@
     "@graphql-codegen/cli": "2.2.1",
     "@graphql-codegen/typescript": "2.2.4",
     "@graphql-codegen/typescript-operations": "2.1.8",
-    "@graphql-codegen/typescript-react-apollo": "3.1.6",
+    "@graphql-codegen/typescript-react-apollo": "3.3.7",
     "@types/react-table": "^7.7.7",
     "starwars-test-graphql-server": "^0.2.0-alpha3"
   }

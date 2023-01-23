@@ -26,16 +26,3 @@ query getJediHeroByEpisode($episode: Episode) {
     }
   }
 }
-fragment humanFields on  Human {
-  homePlanet
-  height
-  starships {
-    id
-    name
-    length
-  }
-}
-
-fragment droidFields on Droid {
-  primaryFunction
-}

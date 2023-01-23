@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@mui/material";
+import { TextField, MenuItem, Select } from "@mui/material";
 import { Episode } from "../generated/graphql";
 import { FlavourName } from "./table/flavour/interfaces";
 import { TableLayoutName } from "./table/layout/interfaces";
@@ -7,6 +7,7 @@ export interface TableControlOptionsAsJSON {
   layout: TableLayoutName;
   flavour: FlavourName;
   episodeToQuery: Episode;
+  searchValue: string;
 }
 
 /**
@@ -59,29 +60,15 @@ export const VisualControlsForTableOptions = (props: {
           A table that lets you open and close sub-elements
         </MenuItem>
       </Select>
-      <Select
-        labelId="select-episode-label"
-        id="select-episode"
-        value={props.controlOptions.episodeToQuery}
-        label="Choose the original Star Wars Episode to query"
-        onChange={(e) => {
-          const returnedOptions = {
-            ...props.controlOptions,
-            episodeToQuery: e.target.value as Episode,
-          };
-          props.handleChange(returnedOptions);
-        }}
-      >
-        <MenuItem value={Episode.Newhope}>
-          Star Wars Episode IV: A New Hope, released in 1977.
-        </MenuItem>
-        <MenuItem value={Episode.Empire}>
-          Star Wars Episode V: The Empire Strikes Back, released in 1980.
-        </MenuItem>
-        <MenuItem value={Episode.Jedi}>
-          Star Wars Episode VI: Return of the Jedi, released in 1983.
-        </MenuItem>
-      </Select>
+      <TextField label="search and filter" variant="outlined"
+      placeholder="no filter, retrieving all"
+      onChange={(e) => {
+        const returnedOptions = {
+          ...props.controlOptions,
+          searchValue: e.target.value as string,
+        };
+        props.handleChange(returnedOptions);
+      }}/>
     </div>
   );
 };

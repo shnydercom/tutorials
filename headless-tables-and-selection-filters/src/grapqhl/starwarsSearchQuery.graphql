@@ -1,36 +1,9 @@
-query mySearch($searchVal: String!) {
-  search(text: $searchVal) {
+query starwarsSearch($searchValue: String!) {
+  search(text: $searchValue) {
     __typename
+    ...characterFields
     ...humanFields
     ...droidFields
-    ...allFields
     ...starshipFields
   }
-}
-
-fragment allFields on Character {
-  id
-  name
-  friendsConnection {
-    totalCount
-  }
-}
-
-fragment humanFields on Human {
-  homePlanet
-  height
-  starships {
-    id
-  }
-}
-
-fragment droidFields on Droid {
-  primaryFunction
-}
-
-fragment starshipFields on Starship {
-  id
-  name
-  length
-  coordinates
 }
