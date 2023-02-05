@@ -273,7 +273,7 @@ export type GetJediHeroByEpisodeQueryVariables = Exact<{
 }>;
 
 
-export type GetJediHeroByEpisodeQuery = { __typename?: 'Query', hero?: { __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } }, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | null | undefined };
+export type GetJediHeroByEpisodeQuery = { __typename?: 'Query', hero?: { __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename: 'FriendsConnection', totalCount?: number | null | undefined, edges?: Array<{ __typename: 'FriendsEdge', cursor: string, node?: { __typename: 'Droid', id: string, name: string } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined> | null | undefined, pageInfo: { __typename: 'PageInfo', startCursor?: string | null | undefined, endCursor?: string | null | undefined } }, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined } | null | undefined };
 
 type CharacterFields_Droid_Fragment = { __typename?: 'Droid', id: string, name: string, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined } };
 
@@ -281,7 +281,7 @@ type CharacterFields_Human_Fragment = { __typename?: 'Human', id: string, name: 
 
 export type CharacterFieldsFragment = CharacterFields_Droid_Fragment | CharacterFields_Human_Fragment;
 
-export type HumanFieldsFragment = { __typename?: 'Human', homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined };
+export type HumanFieldsFragment = { __typename?: 'Human', homePlanet?: string | null | undefined, height?: number | null | undefined, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined };
 
 export type DroidFieldsFragment = { __typename?: 'Droid', primaryFunction?: string | null | undefined };
 
@@ -292,7 +292,7 @@ export type StarwarsSearchQueryVariables = Exact<{
 }>;
 
 
-export type StarwarsSearchQuery = { __typename?: 'Query', search?: Array<{ __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined }, starships?: Array<{ __typename?: 'Starship', id: string } | null | undefined> | null | undefined } | { __typename: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined };
+export type StarwarsSearchQuery = { __typename?: 'Query', search?: Array<{ __typename: 'Droid', id: string, name: string, primaryFunction?: string | null | undefined, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined } } | { __typename: 'Human', id: string, name: string, homePlanet?: string | null | undefined, height?: number | null | undefined, friendsConnection: { __typename?: 'FriendsConnection', totalCount?: number | null | undefined }, starships?: Array<{ __typename?: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined } | { __typename: 'Starship', id: string, name: string, length?: number | null | undefined, coordinates?: Array<Array<number>> | null | undefined } | null | undefined> | null | undefined };
 
 export const CharacterFieldsFragmentDoc = gql`
     fragment characterFields on Character {
@@ -303,26 +303,26 @@ export const CharacterFieldsFragmentDoc = gql`
   }
 }
     `;
-export const HumanFieldsFragmentDoc = gql`
-    fragment humanFields on Human {
-  homePlanet
-  height
-  starships {
-    id
-  }
-}
-    `;
-export const DroidFieldsFragmentDoc = gql`
-    fragment droidFields on Droid {
-  primaryFunction
-}
-    `;
 export const StarshipFieldsFragmentDoc = gql`
     fragment starshipFields on Starship {
   id
   name
   length
   coordinates
+}
+    `;
+export const HumanFieldsFragmentDoc = gql`
+    fragment humanFields on Human {
+  homePlanet
+  height
+  starships {
+    ...starshipFields
+  }
+}
+    ${StarshipFieldsFragmentDoc}`;
+export const DroidFieldsFragmentDoc = gql`
+    fragment droidFields on Droid {
+  primaryFunction
 }
     `;
 export const GetJediHeroByEpisodeDocument = gql`

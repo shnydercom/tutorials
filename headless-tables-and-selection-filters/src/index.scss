@@ -124,3 +124,14 @@ table.defaulthtmlstyle {
   padding: 6px;
   margin: 6px;
 }
+
+.starship {
+  margin: 0px;
+  transition: max-height 1s ease-in-out;
+  overflow: hidden;
+  max-height: 1.5em;
+  border-top: 2px solid darkgrey;
+  &:hover {
+    max-height: 200px;
+  }
+}

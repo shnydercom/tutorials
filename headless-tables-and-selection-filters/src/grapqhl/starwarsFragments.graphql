@@ -10,7 +10,7 @@ fragment humanFields on Human {
   homePlanet
   height
   starships {
-    id
+    ...starshipFields
   }
 }
 

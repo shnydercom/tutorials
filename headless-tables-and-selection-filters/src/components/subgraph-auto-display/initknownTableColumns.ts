@@ -8,4 +8,8 @@ export const initKnownTableColumns = (includeTechnical?: boolean) => {
     fieldColumnNameMap.set("__typename", "Technical Type");
   }
   fieldColumnNameMap.set("name", "Name");
+  fieldColumnNameMap.set("height", "Height");
+  fieldColumnNameMap.set("homePlanet", "Home planet");
+  fieldColumnNameMap.set("friendsConnection", "Friends");
+  fieldColumnNameMap.set("starships", "Starships");
 };

@@ -14,7 +14,7 @@ export const SorterCell = ({
       <MuiTableCell {...handDown}>
         <TableSortLabel
           active={isSorted}
-          direction={isSortedDesc ? "desc" : "asc"}
+          direction={!isSortedDesc ? "desc" : "asc"}
         >
           {children}
         </TableSortLabel>

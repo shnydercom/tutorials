@@ -10,7 +10,7 @@ export const SorterCell = ({
   return (
     <td {...handDown}>
       {children}
-      <span>{isSorted ? (isSortedDesc ? " 🔽" : " 🔼") : ""}</span>
+      <span>{isSorted ? (isSortedDesc ? " 🔼" : " 🔽") : ""}</span>
     </td>
   );
 };
