@@ -1,4 +1,4 @@
-import { Starship } from "../../../../../generated/graphql";
+import { Starship } from "../../../generated/graphql";
 
 export function isStarship(input: unknown): input is Starship {
   if (!input) return false;

@@ -1,4 +1,5 @@
-import { AvailableColumnIds } from "../../domain-information";
+import { AvailableColumnIds, RelayConnectionKeyword } from "../../domain-information";
+import GQLConnectionRenderer from "../default/cell-renderer/GQLConnectionRenderer";
 import { CellRenderer } from "../interfaces";
 import { ArrayCell } from "./bodycell-renderer/ArrayCell";
 import { BasicCell } from "./bodycell-renderer/BasicCell";
@@ -17,6 +18,13 @@ export const MuiBodyCellCreatorFn: CellRenderer = ({
       <GQLTypeIconCell {...newProps} value={value}>
         {children && value ? children : value || children}
       </GQLTypeIconCell>
+    );
+  }
+  if (column.id.endsWith(RelayConnectionKeyword)) {
+    return (
+      <BasicCell {...newProps}>
+        {value ? <GQLConnectionRenderer value={value} /> : null}
+      </BasicCell>
     );
   }
   if (Array.isArray(value)) {

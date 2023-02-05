@@ -27,7 +27,6 @@ export const VisualContent = () => {
   const searchResult = useStarwarsSearchQuery({
     variables: { searchValue: tableControlOptions.searchValue }
   });
-  console.log(searchResult)
   // preparing the TableViewerOptions
   const searchTableOptionsMemo = React.useMemo(() => {
     const defaultOptions = createDefaultRelaySpecExplorationTableOptions();

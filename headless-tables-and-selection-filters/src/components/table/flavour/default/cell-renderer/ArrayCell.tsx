@@ -17,8 +17,8 @@ export const ArrayCell = (props: React.PropsWithChildren<ArrayCellProps>) => {
     <td {...remainingProps}>
       <span>{cellText}</span>
       {value.length
-        ? value.map((arrayElem) => {
-            return <GQLTypeRenderer value={arrayElem} />;
+        ? value.map((arrayElem, idx) => {
+            return <GQLTypeRenderer key={`gqlt-${idx}`} value={arrayElem} />;
           })
         : null}
     </td>
