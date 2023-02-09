@@ -26,7 +26,7 @@ export const DefaultBodyCellCreatorFn: CellRenderer = ({
   if (column.id.endsWith(RelayConnectionKeyword)) {
     return (
       <BasicCell {...newProps}>
-        {value ? <GQLConnectionRenderer value={value} /> : null}
+        {value ? <GQLConnectionRenderer value={value} cell={cell} /> : null}
       </BasicCell>
     );
   }

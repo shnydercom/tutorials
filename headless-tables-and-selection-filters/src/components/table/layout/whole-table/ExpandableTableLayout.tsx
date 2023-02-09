@@ -35,13 +35,13 @@ export const ExpandableTableLayout: <TSourceDataElem extends object>(
         Cell: TableCell,
       },
       //find an array on the row to use for automatic expansion
-      manualExpandedKey:
+      /*manualExpandedKey:
         data &&
         data[0] &&
         (Object.keys(data[0]).find((aKey) =>
           Array.isArray((data[0] as any)[aKey])
         ) ??
-          undefined),
+          undefined),*/
     },
     useExpanded
   );
