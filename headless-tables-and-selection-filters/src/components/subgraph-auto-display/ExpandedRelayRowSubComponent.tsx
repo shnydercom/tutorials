@@ -24,9 +24,8 @@ export const ExpandedRelayRowSubComponent: TableSubComponentType = ({
           {row.cells[0].render("Cell", {
             //we can use "cells" as the API states that those are only the visible cells: https://react-table-v7.tanstack.com/docs/api/useTable#row-properties
             colSpan: numberOfCells,
-            coloasdöladf: "asdf",
             //table DOM nesting rules needs to be observed, so our content goes into a cell in a row
-            children: <JSONViewer>{row.original}</JSONViewer>,
+            children: <JSONViewer objectToDisplay={row.original}/>,
           })}
         </>
       )}

@@ -1,7 +1,10 @@
-export const JSONViewer = (objectToDisplay: any) => {
+export interface JSONViewerProps {
+  objectToDisplay: unknown
+}
+export const JSONViewer = (props: JSONViewerProps) => {
   let displayText: string = "no object to display";
   try {
-    displayText = JSON.stringify(objectToDisplay, null, 2);
+    displayText = JSON.stringify(props.objectToDisplay, null, 2);
   } catch (error) {
     displayText = error
       ? `full error: ${error}`
